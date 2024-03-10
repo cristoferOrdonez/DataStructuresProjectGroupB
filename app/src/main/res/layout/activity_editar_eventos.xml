@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/textViewTituloEditarEventos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/cian_titulo_evento_pagina_principal"
+        android:fontFamily="casual"
+        android:padding="10dp"
+        android:text="Edita tu Evento"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold|italic" />
+
+    <EditText
+        android:id="@+id/nombreEvento"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:background="@drawable/edittext_border"
+        android:hint="Nombre del evento"
+        android:textColorHint="#757575"
+        android:layout_marginTop="40dp"/>
+
+    <EditText
+        android:id="@+id/fechaEvento"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:background="@drawable/edittext_border"
+        android:hint="Fecha del evento"
+        android:textColorHint="#757575"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/ubicacionEvento"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:background="@drawable/edittext_border"
+        android:hint="Ubicación"
+        android:textColorHint="#757575"
+        android:layout_marginTop="20dp"/>
+
+    <Spinner
+        android:id="@+id/localidadEvento"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:background="@drawable/edittext_border"
+        android:autofillHints="Localidad"
+        android:entries="@array/localidadValues"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/costoEvento"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:background="@drawable/edittext_border"
+        android:hint="Costo"
+        android:textColorHint="#757575"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/horarioEvento"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:background="@drawable/edittext_border"
+        android:hint="Horario"
+        android:textColorHint="#757575"
+        android:layout_marginTop="20dp"/>
+
+    <Spinner
+        android:id="@+id/categoriaEvento"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:background="@drawable/edittext_border"
+        android:layout_marginTop="20dp"/>
+
+    <EditText
+        android:id="@+id/descripcionEvento"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:background="@drawable/edittext_border"
+        android:hint="Descripción general"
+        android:textColorHint="#757575"
+        android:layout_marginTop="20dp"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="505dp"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+        <Button
+            android:id="@+id/button_cancelar"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="25dp"/>
+
+        <Button
+            android:id="@+id/button_aceptar"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Aceptar"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="25dp"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="55dp" />
+
+</LinearLayout>
