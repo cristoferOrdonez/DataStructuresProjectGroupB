@@ -18,15 +18,9 @@ public class PaginaPrincipal extends AppCompatActivity {
         botonCuenta=findViewById(R.id.botonCuentaPaginaPrincipal);
         botonEventos=findViewById(R.id.botonEventosPaginaPrincipal);
 
-
-
-
-
         botonDescubrir.setOnClickListener(view -> cambiarADescubrir());
         botonCuenta.setOnClickListener(view -> cambiarACuenta());
         botonEventos.setOnClickListener(view -> cambiarAEventos());
-
-
 
     }
 
