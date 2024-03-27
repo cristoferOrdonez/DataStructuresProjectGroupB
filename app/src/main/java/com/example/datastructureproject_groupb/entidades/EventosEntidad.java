@@ -18,7 +18,6 @@ public class EventosEntidad {
 
     int categoriaEvento;
     String descripcionEvento;
-
     public EventosEntidad(int id,String nombreEvento,Date fechaEvento,String ubicacionEvento, int localidadEvento, int costoEvento,    int categoriaEvento,String descripcionEvento){
         this.id=id;
         this.nombreEvento=nombreEvento;

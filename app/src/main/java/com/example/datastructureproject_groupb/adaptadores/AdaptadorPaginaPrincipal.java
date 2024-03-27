@@ -25,29 +25,24 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
     @NonNull
     @Override
     public EventoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        /*
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lista_item_meta, null, false);
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_eventos_pagina_principal, null, false);
 
         return new EventoViewHolder(view);
-         */
-
-        return null;
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull EventoViewHolder holder, int position) {
 
-        /*
-        String fechaMetaString = listaMetas.get(position).getFechaMeta();
+        EventosEntidad evento = listaEventos.get(position);
 
-        holder.viewNombreMeta.setText(listaMetas.get(position).getNombreMeta());
-        holder.viewFechaMeta.setText(MetodosComunes.obtenerPrefijoMes(Integer.parseInt(fechaMetaString.substring(0, 2))) + " " + fechaMetaString.substring(3));
-        holder.viewMontoMeta.setText("Monto Total:  " + listaMetas.get(position).getMontoTotalFormateado() + "  COP");
-        holder.viewMontoMensual.setText("Monto Mensual:  " + listaMetas.get(position).getMontoMensualFormateado() + "  COP"); // Nueva línea
-
-
-         */
+        holder.textViewTituloEvento.setText(evento.getNombreEvento());
+        holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEvento().getDay() + "/" + (evento.getFechaEvento().getMonth() + 1) + "/" + evento.getFechaEvento().getYear());
+        //holder.textViewHorarioEvento
+        holder.textViewLugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
+        holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEvento());
+        holder.textViewTipoEvento.setText("Tipo: " + evento.getCategoriaEvento());
 
 
     }
@@ -60,30 +55,17 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
 
     public class EventoViewHolder extends RecyclerView.ViewHolder {
 
-        TextView viewNombreMeta, viewFechaMeta,viewMontoMensual, viewMontoMeta;
+        TextView textViewTituloEvento, textViewFechaEvento,textViewHorarioEvento, textViewLugarEvento, textViewCostoEvento, textViewTipoEvento;
 
         public EventoViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            /*
-            viewNombreMeta=itemView.findViewById(R.id.viewNombreMeta);
-            viewFechaMeta=itemView.findViewById(R.id.viewFechaMeta);
-            viewMontoMeta=itemView.findViewById(R.id.viewMontoMeta);
-            viewMontoMensual =itemView.findViewById(R.id.viewMontoMensual);
-
-            itemView.setOnClickListener(view -> {
-
-                Context context = view.getContext();
-                Intent intent =new Intent(context, VerMeta.class );
-                intent.putExtra("ID", listaMetas.get(getAdapterPosition()).getId());
-                intent.putExtra("correoElectronico", correoElectronico); // Pasa el correo electrónico con el Intent
-                context.startActivity(intent);
-                ((Activity)context).finishAffinity();
-
-            });
-
-             */
-
+            textViewTituloEvento = itemView.findViewById(R.id.textViewTituloEventoPaginaPrincipal);
+            textViewFechaEvento = itemView.findViewById(R.id.textViewFechaEventoPaginaPrincipal);
+            textViewHorarioEvento = itemView.findViewById(R.id.textViewHorarioEventoPaginaPrincipal);
+            textViewLugarEvento = itemView.findViewById(R.id.textViewLugarEventoPaginaPrincipal);
+            textViewCostoEvento = itemView.findViewById(R.id.textViewCostoEventoPaginaPrincipal);
+            textViewTipoEvento = itemView.findViewById(R.id.textViewTipoEventoPaginaPrincipal);
 
         }
     }
