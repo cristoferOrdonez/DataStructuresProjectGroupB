@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,48 +19,67 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datastructureproject_groupb.db.DbUsuarios;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CrearCuentaUsuario extends AppCompatActivity {
     EditText EdadRegistroUsuario,NombreRegistroUsuario, ApellidoRegistroUsuario, CorreoRegistroUsuario, ConfirmarContrasenaRegistroUsuario, ContrasenaRegistroUsuario;
-    AutoCompleteTextView autoCompleteTextViewLocalidadRegistroUsuario,autoCompleteTextViewInteresesRegistroUsuario;
+    Spinner spinnerLocalidadRegistroUsuario,spinnerInteresesRegistroUsuario;
     Button cancelarRegistroUsuario, registrasrseRegistroUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_usuario);
+
         NombreRegistroUsuario=findViewById(R.id.textViewNombreRegistroUsuario);
         ApellidoRegistroUsuario=findViewById(R.id.textViewApellidoRegistroUsuario);
         CorreoRegistroUsuario=findViewById(R.id.textViewCorreoRegistroUsuario);
         ConfirmarContrasenaRegistroUsuario=findViewById(R.id.textViewConfirmarContrasenaRegistroUsuario);
         ContrasenaRegistroUsuario=findViewById(R.id.textViewContrasenaRegistroUsuario);
         EdadRegistroUsuario=findViewById(R.id.editTextEdadRegistroUsuario);
-        autoCompleteTextViewInteresesRegistroUsuario=findViewById(R.id.autoCompleteTextViewInteresesRegistroUsuario);
-        autoCompleteTextViewLocalidadRegistroUsuario=findViewById(R.id.autoCompleteTextViewLocalidadRegistroUsuario);
+        spinnerInteresesRegistroUsuario=findViewById(R.id.spinnerInteresesRegistroUsuario);
+        spinnerLocalidadRegistroUsuario=findViewById(R.id.spinnerLocalidadRegistroUsuario);
         cancelarRegistroUsuario=findViewById(R.id.botonCancelarRegistroUsuario);
         registrasrseRegistroUsuario=findViewById(R.id.botonRegistratseRegistroUsuario);
 
+        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, localidades) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                textView.setTextColor(getResources().getColor(R.color.black));
+                return view;
+            }
+        };
+        localidadesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerLocalidadRegistroUsuario.setAdapter(localidadesAdapter);
 
+        ArrayAdapter<String> interesesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, intereses) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                textView.setTextColor(getResources().getColor(R.color.black));
+                return view;
+            }
+        };
+        interesesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerInteresesRegistroUsuario.setAdapter(interesesAdapter);
+
+        String localidadPreseleccionada = "Usaquén"; // Por ejemplo, preseleccionamos "Usaquén"
+        int index = Arrays.asList(localidades).indexOf(localidadPreseleccionada);
+        spinnerLocalidadRegistroUsuario.setSelection(index);
+
+
+        String InteresPreseleccionada = "Musica"; // Por ejemplo, preseleccionamos "Usaquén"
+        int index2 = Arrays.asList(intereses).indexOf(InteresPreseleccionada);
+        spinnerInteresesRegistroUsuario.setSelection(index2);
 
         cancelarRegistroUsuario.setOnClickListener(view -> cambiarAPaginaPrincipal());
         registrasrseRegistroUsuario.setOnClickListener(view -> registrarseComoUsuario());
-
-
-
-        autoCompleteTextViewLocalidadRegistroUsuario.setOnClickListener(view->mostrarLocalidades());
-        autoCompleteTextViewInteresesRegistroUsuario.setOnClickListener(view->mostrarIntereses());
-
-
-
-
-
-
-
-
-
     }
     private static final String [] localidades= new String[]{ "Virtual","Usaquén", "Chapinero", "Santa Fe", "San Cristóbal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibón", "Engativá", "Suba", "Barrios Unidos", "Teusaquillo", "Los Mártires", "Antonio Nariño", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolívar", "Sumapaz"   };
     private static final String [] intereses= new String[]{"Musica", "Talleres",     };
@@ -68,31 +90,39 @@ public class CrearCuentaUsuario extends AppCompatActivity {
         startActivity(miIntent);
         finishAffinity();
     }
-    public void registrarseComoUsuario(){
-        VerificarInformacionRegistro(new View(this));
-    }
     public void mostrarLocalidades() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Seleccionar Localidad");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, localidades);
-        builder.setAdapter(adapter, (dialog, which) -> {
-            String selectedLocalidad = localidades[which];
-            autoCompleteTextViewLocalidadRegistroUsuario.setText(selectedLocalidad);
+        spinnerLocalidadRegistroUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedLocalidad = parent.getItemAtPosition(position).toString();
+                // Puedes hacer algo con la localidad seleccionada si es necesario
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Este método se llama cuando no se ha seleccionado ningún elemento
+            }
         });
-        builder.show();
     }
 
     public void mostrarIntereses() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Seleccionar Intereses");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, intereses);
-        builder.setAdapter(adapter, (dialog, which) -> {
-            String selectedInteres = intereses[which];
-            autoCompleteTextViewInteresesRegistroUsuario.setText(selectedInteres);
-        });
+        spinnerInteresesRegistroUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedInteres = parent.getItemAtPosition(position).toString();
+                // Puedes hacer algo con el interés seleccionado si es necesario
+            }
 
-        builder.show();
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Este método se llama cuando no se ha seleccionado ningún elemento
+            }
+        });
     }
+    public void registrarseComoUsuario(){
+        VerificarInformacionRegistro(new View(this));
+    }
+
     public void VerificarInformacionRegistro(View view) {
 
         boolean flag = true;
@@ -111,14 +141,15 @@ public class CrearCuentaUsuario extends AppCompatActivity {
             flag=false;
             Toast.makeText(this, "Ingrese una edad válida", Toast.LENGTH_SHORT).show();
         }
-        if(autoCompleteTextViewLocalidadRegistroUsuario.getText().toString().trim().equals("")) {
-            mensajeError += "Selecione una Localidad\n";
+        if(spinnerLocalidadRegistroUsuario.getSelectedItem() == null || spinnerLocalidadRegistroUsuario.getSelectedItem().toString().trim().equals("")) {
+            mensajeError += "Seleccione una Localidad\n";
             flag = false;
         }
-        if(autoCompleteTextViewInteresesRegistroUsuario.getText().toString().trim().equals("") ) {
-            mensajeError += "Selecione un Interes\n";
+        if(spinnerInteresesRegistroUsuario.getSelectedItem() == null || spinnerInteresesRegistroUsuario.getSelectedItem().toString().trim().equals("")) {
+            mensajeError += "Seleccione un Interes\n";
             flag = false;
         }
+
 
         if(EdadRegistroUsuario.getText().toString().trim().equals("") || Integer.parseInt(EdadRegistroUsuario.getText().toString().trim()) > 150) {
             mensajeError += "No ha ingresado una edad valida\n";
@@ -206,6 +237,7 @@ public class CrearCuentaUsuario extends AppCompatActivity {
         return repeticion;
 
     }
+
 
 
 
