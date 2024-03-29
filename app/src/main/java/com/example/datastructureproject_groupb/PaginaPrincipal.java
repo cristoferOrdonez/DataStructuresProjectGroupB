@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaPrincipal;
 import com.example.datastructureproject_groupb.entidades.EventosEntidad;
 
@@ -38,8 +39,8 @@ public class PaginaPrincipal extends AppCompatActivity {
 
         listaEventos.setLayoutManager(new LinearLayoutManager(this));
 
-        ArrayList<EventosEntidad> arregloDePrueba = new ArrayList<>();
-        arregloDePrueba.add(new EventosEntidad(0, "Evento1", new Date(1, 2, 3), "Unal", 100, 1000, 1, "eventazo"));
+        StaticUnsortedList<EventosEntidad> arregloDePrueba = new StaticUnsortedList<>(10);
+        arregloDePrueba.insert(new EventosEntidad(0, "Evento1", new Date(2024, 2, 3), "Unal", 100, 1000, "12:00pm - 4:00pm", 1984, "eventazo"));
 
         AdaptadorPaginaPrincipal adapter=new AdaptadorPaginaPrincipal(arregloDePrueba, correoElectronico);
         listaEventos.setAdapter(adapter);

@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.entidades.EventosEntidad;
 
@@ -15,10 +16,10 @@ import java.util.ArrayList;
 
 public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPaginaPrincipal.EventoViewHolder> {
 
-    ArrayList<EventosEntidad> listaEventos;
+    StaticUnsortedList<EventosEntidad> listaEventos;
     String correoElectronico;
 
-    public AdaptadorPaginaPrincipal(ArrayList<EventosEntidad> listaEventos, String correoElectronico) {
+    public AdaptadorPaginaPrincipal(StaticUnsortedList<EventosEntidad> listaEventos, String correoElectronico) {
         this.listaEventos = listaEventos;
         this.correoElectronico = correoElectronico;
     }
@@ -38,10 +39,10 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
         EventosEntidad evento = listaEventos.get(position);
 
         holder.textViewTituloEvento.setText(evento.getNombreEvento());
-        holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEvento().getDay() + "/" + (evento.getFechaEvento().getMonth() + 1) + "/" + evento.getFechaEvento().getYear());
-        //holder.textViewHorarioEvento
+        holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEvento().getDate() + "/" + evento.getFechaEvento().getMonth() + "/" + evento.getFechaEvento().getYear());
+        holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
         holder.textViewLugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
-        holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEvento());
+        holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
         holder.textViewTipoEvento.setText("Tipo: " + evento.getCategoriaEvento());
 
 

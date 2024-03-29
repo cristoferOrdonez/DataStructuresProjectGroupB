@@ -44,15 +44,17 @@ public class DbArt extends SQLiteOpenHelper {
                 "contrasenaArtista TEXT NOT NULL)");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_EVENTOS + "(" +
-                "idEvento INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "nombreEvento TEXT NOT NULL, " +
-                "fechaEvento DATE NOT NULL, " +
-                "ubicacionEvento TEXT NOT NULL, " +
-                "localidadEvento INTEGER NOT NULL, " +
-                "costoEvento INTEGER NOT NULL, " +
-                "horarioEvento TIME NOT NULL, " +
-                "categoriaEvento INTEGER NOT NULL, " +
-                "descripcionEvento TEXT NOT NULL)");
+                "idEvento INTEGER PRIMARY KEY AUTOINCREMENT, " + //0
+                "nombreEvento TEXT NOT NULL, " + //1
+                "AnoEvento INTEGER NOT NULL, " + //2
+                "mesEvento INTEGER NOT NULL, " + //3
+                "diaEvento INTEGER NOT NULL, " + //4
+                "ubicacionEvento TEXT NOT NULL, " + //5
+                "localidadEvento INTEGER NOT NULL, " + //6
+                "costoEvento INTEGER NOT NULL, " + //7
+                "horarioEvento TEXT NOT NULL, " + //8
+                "categoriaEvento INTEGER NOT NULL, " + //9
+                "descripcionEvento TEXT NOT NULL)"); //10
 
 
 
