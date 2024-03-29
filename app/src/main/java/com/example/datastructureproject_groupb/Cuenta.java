@@ -178,6 +178,10 @@ public class Cuenta extends AppCompatActivity {
 
     }
     public void cambiarARegistroExpositor() {
+        Intent miIntent = new Intent(this, com.example.datastructureproject_groupb.CrearCuentaExpositor.class);
+        //miIntent.putExtra("correoElectronico",correoElectronicoS);
+        startActivity(miIntent);
+        finishAffinity();
 
 
     }
