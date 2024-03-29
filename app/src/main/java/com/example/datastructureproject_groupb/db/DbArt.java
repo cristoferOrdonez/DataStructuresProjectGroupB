@@ -32,15 +32,16 @@ public class DbArt extends SQLiteOpenHelper {
                 "apellidosUsuario TEXT NOT NULL, " +
                 "edadUsuario INTEGER NOT NULL, " +
                 "correoUsuarioUsuarios TEXT NOT NULL," +
+                "contrasenaUsuario TEXT NOT NULL,"+
                 "localidadUsuario INTEGER NOT NULL," +
-                "interesesUsuario INTEGER NOT NULL," +
-                "contrasenaUsuario TEXT NOT NULL)");
+                "interesesUsuario INTEGER NOT NULL)" );
 
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_ARTISTAS + "(" +
                 "idArista INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "nombresArtista TEXT NOT NULL, " +
                 "correoArtista TEXT NOT NULL," +
                 "tipoDeEventoArtista INTEGER NOT NULL," +
+                "localidadEventoArtista INTEGER NOT NULL," +
                 "contrasenaArtista TEXT NOT NULL)");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_EVENTOS + "(" +

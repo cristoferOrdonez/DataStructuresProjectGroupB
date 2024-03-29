@@ -13,22 +13,32 @@
         android:theme="@style/Theme.DataStructureProjectGroupB"
         tools:targetApi="31">
         <activity
-            android:name=".Cuenta"
+            android:name=".CrearCuentaUsuario"
+            android:exported="false"
+            android:label="@string/title_activity_crear_cuenta_usuario"
             android:screenOrientation="portrait"
-            android:exported="false" />
-        <activity
-            android:name=".Eventos"
-            android:screenOrientation="portrait"
-            android:exported="false" />
-        <activity
-            android:name=".Descubrir"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:theme="@style/Theme.DataStructureProjectGroupB" />
 
         <activity
+            android:name=".Cuenta"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CrearCuentaExpositor"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Eventos"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Descubrir"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".PaginaPrincipal"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
