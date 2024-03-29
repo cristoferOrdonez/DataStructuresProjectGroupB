@@ -18,14 +18,18 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.datastructureproject_groupb.db.DbExpositor;
 import com.example.datastructureproject_groupb.db.DbUsuarios;
+import com.example.datastructureproject_groupb.entidades.Artistas;
 import com.example.datastructureproject_groupb.entidades.Usuarios;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Cuenta extends AppCompatActivity {
     Button botonPaginaPrincipal, botonEventos, botonDescubrir, botonAcceder, botonCrearCuentaUsuario, botonCrearCuentaExpositor;
-    EditText editTextcorreoElectronico, editTextcontrasena;
+    EditText CorreoElectronicoAcceder, ContrasenaAcceder;
 
 
 
@@ -40,14 +44,13 @@ public class Cuenta extends AppCompatActivity {
         botonCrearCuentaUsuario=findViewById(R.id.botonCrearCuentaUsuario);
         botonCrearCuentaExpositor=findViewById(R.id.botonCrearCuentaExpositor);
 
-        editTextcorreoElectronico=findViewById(R.id.editTextCorreo);
-        editTextcontrasena=findViewById(R.id.editTextContrasena);
+        CorreoElectronicoAcceder=findViewById(R.id.editTextCorreo);
+        ContrasenaAcceder=findViewById(R.id.editTextContrasena);
 
 
         botonPaginaPrincipal.setOnClickListener(view -> cambiarAPaginaPrincipal());
         botonEventos.setOnClickListener(view -> cambiarAEventos());
         botonDescubrir.setOnClickListener(view -> cambiarADescubrir());
-        botonAcceder.setOnClickListener(view -> acceder(new View(this)));
         botonCrearCuentaUsuario.setOnClickListener(view -> cambiarARegistroUsuario());
         botonCrearCuentaExpositor.setOnClickListener(view -> cambiarARegistroExpositor());
 
@@ -61,27 +64,47 @@ public class Cuenta extends AppCompatActivity {
 
 
 
-    public void acceder(View view) {
+    public void acceder(View view, String correoElectronicoS, String tipoUsuario) {
 
+        Intent miIntent = new Intent(this, PaginaPrincipal.class);
+        miIntent.putExtra("correoElectronico",correoElectronicoS);
+        miIntent.putExtra("tipoUsuario", tipoUsuario);
+        if(tipoUsuario=="Usuario")
+            Toast.makeText(this, "Ingreso correctamente como Usuario", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this, "Ingreso correctamente como Artista", Toast.LENGTH_SHORT).show();
+        startActivity(miIntent);
+        finishAffinity();
+
+
+    }
+
+    public void revisar(View view){
         DbUsuarios dbUsuarios = new DbUsuarios(this);
+        DbExpositor dbExpositor = new DbExpositor(this);
+        String tipoUsuario = "Invitado";
 
-        if(verificarExistencia(dbUsuarios.obtenerCorreosElectronicos())){
-
-            Usuarios usuario = dbUsuarios.verUsuario(editTextcorreoElectronico.getText().toString().toLowerCase());
-
-            if(editTextcontrasena.getText().toString().equals(usuario.getContrasena())){
-
-                Intent intent = new Intent(this, PaginaPrincipal.class);
-                intent.putExtra("correoElectronico", usuario.getCorreoElectronico());
-                startActivity(intent);
-                finishAffinity();
-
-            } else {
-
-                Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
-
+        int opcion = verificarExistencia(dbUsuarios.obtenerCorreosElectronicos(), dbExpositor.obtenerCorreosElectronicosExpositores());
+        if(opcion>-1){
+            if(opcion==0){
+                Usuarios usuario = dbUsuarios.verUsuario(CorreoElectronicoAcceder.getText().toString().toLowerCase());
+                if(ContrasenaAcceder.getText().toString().equals(usuario.getContrasena())){
+                    tipoUsuario = "Usuario";
+                    acceder(view, CorreoElectronicoAcceder.getText().toString(), tipoUsuario);
+                } else {
+                    Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                }
             }
 
+            else if(opcion==1){
+                Artistas usuario = dbExpositor.verUsuarioExpositor(CorreoElectronicoAcceder.getText().toString().toLowerCase());
+                if(ContrasenaAcceder.getText().toString().equals(usuario.getContrasena())){
+                    tipoUsuario = "Artista";
+                    acceder(view, CorreoElectronicoAcceder.getText().toString(), tipoUsuario);
+                } else {
+                    Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                }
+            }
 
         } else {
 
@@ -89,24 +112,63 @@ public class Cuenta extends AppCompatActivity {
 
         }
 
+        dbUsuarios.close();
+        dbExpositor.close();
     }
 
-    public boolean verificarExistencia(List<String> correos){
+    public void VerificarInformacionAcceso (View view) {
 
-        boolean existencia = false;
+        boolean flag = true;
+        String mensajeError = "";
 
-        for(String correo : correos){
-
-            existencia = correo.equalsIgnoreCase(editTextcorreoElectronico.getText().toString());
-
-            if(existencia)
-                break;
-
+        if(CorreoElectronicoAcceder.getText().toString().trim().equals("")) {
+            mensajeError += "No ha ingresado un correo valido\n";
+            flag = false;
         }
 
-        return existencia;
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+
+        Matcher mather = pattern.matcher(CorreoElectronicoAcceder.getText().toString());
+
+        if(!mather.find()){
+            mensajeError += "No ha ingresado un correo electronico valido\n";
+            flag = false;
+        }
+        if(ContrasenaAcceder.getText().toString().length() < 8){
+            mensajeError += "Debe ingresar una contraseña de por lo menos 8 caracteres\n";
+            flag = false;
+        }
+        if(ContrasenaAcceder.getText().toString().contains(" ")){
+            mensajeError += "La contraseña no puede contener espacios en blanco\n";
+            flag = false;
+        }
+
+        if(flag)
+            revisar(view);
+        else
+            Toast.makeText(this, mensajeError, Toast.LENGTH_SHORT).show();
+    }
+
+    public int verificarExistencia(List<String> correosUsuario, List<String> correosArtista){
+
+        boolean existencia;
+
+        for(String correo : correosUsuario){
+
+            existencia = correo.equalsIgnoreCase(CorreoElectronicoAcceder.getText().toString());
+            if(existencia)
+                return 0;
+        }
+        for(String correo : correosArtista){
+            existencia = correo.equalsIgnoreCase(CorreoElectronicoAcceder.getText().toString());
+            if(existencia)
+                return 1;
+        }
+
+        return -1;
 
     }
+
 
 
     @Override
