@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.datastructureproject_groupb.db.DbExpositor;
 import com.example.datastructureproject_groupb.db.DbUsuarios;
 
 import java.util.Arrays;
@@ -197,9 +198,12 @@ public class CrearCuentaUsuario extends AppCompatActivity {
         int localidad=0;
         int interes=0;
 
+        DbExpositor dbExpositor = new DbExpositor(this);
         DbUsuarios dbUsuarios = new DbUsuarios(this);
 
-        if(!verificarRepeticion(dbUsuarios.obtenerCorreosElectronicos())){
+
+
+        if(!verificarRepeticion(dbExpositor.obtenerCorreosElectronicosExpositores()) && !verificarRepeticion(dbUsuarios.obtenerCorreosElectronicos())){
 
             long i = dbUsuarios.agregarUsuario(nombres, apellidos, edad, correoElectronicoR.toLowerCase(), contrasenaR, localidad, interes);
             Toast.makeText(this, "Se ha registrado como usuario exitosamente.", Toast.LENGTH_SHORT).show();

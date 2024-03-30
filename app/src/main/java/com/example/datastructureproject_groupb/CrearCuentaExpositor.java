@@ -196,12 +196,14 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         int interes=0;
 
         DbExpositor dbExpositor = new DbExpositor(this);
+        DbUsuarios dbUsuarios = new DbUsuarios(this);
 
-        if(!verificarRepeticion(dbExpositor.obtenerCorreosElectronicosExpositores())){
+
+
+        if(!verificarRepeticion(dbExpositor.obtenerCorreosElectronicosExpositores()) && !verificarRepeticion(dbUsuarios.obtenerCorreosElectronicos())){
 
             long i = dbExpositor.agregarExpositor(nombres, correoElectronicoR.toLowerCase(), contrasenaR, localidad, interes);
-            Toast.makeText(this, "Se ha registrado como usuario exitosamente.", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this, "Se ha registrado como expositor exitosamente.", Toast.LENGTH_SHORT).show();
             cambiarAPaginaPrincipal();
 
         } else {
