@@ -27,7 +27,7 @@ public class PaginaPrincipal extends AppCompatActivity {
     public static StackLinkedList<EventosEntidad> historialEventos;
     private Button botonDescubrir, botonCuenta, botonEventos;
     private ImageButton botonHistorial;
-    private String correoElectronico;
+    private String correoElectronico, tipoUsuario;
     private RecyclerView listaEventos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +40,14 @@ public class PaginaPrincipal extends AppCompatActivity {
         botonCuenta=findViewById(R.id.botonCuentaPaginaPrincipal);
         botonEventos=findViewById(R.id.botonEventosPaginaPrincipal);
 
+
         botonDescubrir.setOnClickListener(view -> cambiarADescubrir());
         botonCuenta.setOnClickListener(view -> cambiarACuenta());
         botonEventos.setOnClickListener(view -> cambiarAEventos());
 
         listaEventos = findViewById(R.id.recyclerViewEventosPaginaPrincipal);
         correoElectronico = getIntent().getStringExtra("correoElectronico");
+        tipoUsuario = getIntent().getStringExtra("tipoUsuario");
 
 
         listaEventos.setLayoutManager(new LinearLayoutManager(this));
