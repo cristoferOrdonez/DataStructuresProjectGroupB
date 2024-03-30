@@ -1,5 +1,8 @@
 package com.example.datastructureproject_groupb.adaptadores;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
+import com.example.datastructureproject_groupb.PaginaPrincipal;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.entidades.EventosEntidad;
 
@@ -15,10 +20,10 @@ import java.util.ArrayList;
 
 public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPaginaPrincipal.EventoViewHolder> {
 
-    ArrayList<EventosEntidad> listaEventos;
+    StaticUnsortedList<EventosEntidad> listaEventos;
     String correoElectronico;
 
-    public AdaptadorPaginaPrincipal(ArrayList<EventosEntidad> listaEventos, String correoElectronico) {
+    public AdaptadorPaginaPrincipal(StaticUnsortedList<EventosEntidad> listaEventos, String correoElectronico) {
         this.listaEventos = listaEventos;
         this.correoElectronico = correoElectronico;
     }
@@ -38,10 +43,10 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
         EventosEntidad evento = listaEventos.get(position);
 
         holder.textViewTituloEvento.setText(evento.getNombreEvento());
-        holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEvento().getDay() + "/" + (evento.getFechaEvento().getMonth() + 1) + "/" + evento.getFechaEvento().getYear());
-        //holder.textViewHorarioEvento
-        holder.textViewLugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
-        holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEvento());
+        holder.textViewFechaEvento.setText(evento.getFechaEventoString());
+        holder.textViewHorarioEvento.setText(evento.getHorarioEvento());
+        holder.textViewLugarEvento.setText(evento.getUbicacionEvento());
+        holder.textViewCostoEvento.setText(evento.getCostoEventoConFormato());
         holder.textViewTipoEvento.setText("Tipo: " + evento.getCategoriaEvento());
 
 
@@ -66,6 +71,38 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
             textViewLugarEvento = itemView.findViewById(R.id.textViewLugarEventoPaginaPrincipal);
             textViewCostoEvento = itemView.findViewById(R.id.textViewCostoEventoPaginaPrincipal);
             textViewTipoEvento = itemView.findViewById(R.id.textViewTipoEventoPaginaPrincipal);
+
+            itemView.setOnClickListener(v -> {
+
+                EventosEntidad evento = listaEventos.get(getAdapterPosition());
+
+                Activity activity = (Activity) v.getContext();
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                LayoutInflater inflater = activity.getLayoutInflater();
+                View view = inflater.inflate(R.layout.view_evento_presionado_pagina_principal, null);
+                TextView tituloEvento = view.findViewById(R.id.textViewTituloEventoPaginaPrincipal),
+                        fechaEvento = view.findViewById(R.id.textViewFechaEventoPaginaPrincipal),
+                        horarioEvento = view.findViewById(R.id.textViewHorarioEventoPaginaPrincipal),
+                        lugarEvento = view.findViewById(R.id.textViewLugarEventoPaginaPrincipal),
+                        costoEvento = view.findViewById(R.id.textViewCostoEventoPaginaPrincipal),
+                        tipoEvento = view.findViewById(R.id.textViewTipoEventoPaginaPrincipal),
+                        descripcionEvento = view.findViewById(R.id.textViewDescripcionEventoPaginaPrincipal);
+
+                tituloEvento.setText(evento.getNombreEvento());
+                fechaEvento.setText(evento.getFechaEventoString());
+                horarioEvento.setText(evento.getHorarioEvento());
+                lugarEvento.setText(evento.getUbicacionEvento());
+                costoEvento.setText(evento.getCostoEventoConFormato());
+                tipoEvento.setText("Tipo de evento: " + evento.getCategoriaEvento());
+                descripcionEvento.setText(evento.getDescripcionEvento());
+
+                builder.setView(view);
+
+                builder.show();
+
+                PaginaPrincipal.historialEventos.push(evento);
+
+            });
 
         }
     }
