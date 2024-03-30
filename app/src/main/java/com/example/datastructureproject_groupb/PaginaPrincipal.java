@@ -17,7 +17,7 @@ import java.util.Date;
 public class PaginaPrincipal extends AppCompatActivity {
 
     Button botonDescubrir, botonCuenta, botonEventos;
-    String correoElectronico;
+    String correoElectronico,tipoUsuario;
     RecyclerView listaEventos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +28,14 @@ public class PaginaPrincipal extends AppCompatActivity {
         botonCuenta=findViewById(R.id.botonCuentaPaginaPrincipal);
         botonEventos=findViewById(R.id.botonEventosPaginaPrincipal);
 
+
         botonDescubrir.setOnClickListener(view -> cambiarADescubrir());
         botonCuenta.setOnClickListener(view -> cambiarACuenta());
         botonEventos.setOnClickListener(view -> cambiarAEventos());
 
         listaEventos = findViewById(R.id.recyclerViewEventosPaginaPrincipal);
         correoElectronico = getIntent().getStringExtra("correoElectronico");
+        tipoUsuario = getIntent().getStringExtra("tipoUsuario");
 
 
         listaEventos.setLayoutManager(new LinearLayoutManager(this));

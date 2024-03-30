@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.datastructureproject_groupb.entidades.Artistas;
+import com.example.datastructureproject_groupb.entidades.Usuarios;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,5 +86,25 @@ public class DbExpositor extends DbArt {
         db.close();
 
         return correos;
+    }
+
+
+    public Artistas verUsuarioExpositor(String correoUsuario) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Artistas ArtistasInfo = null;
+        Cursor cursorArtistas;
+
+        cursorArtistas = db.rawQuery("SELECT * FROM " + TABLE_ARTISTAS + " WHERE correoArtista = ? LIMIT 1", new String[]{correoUsuario});
+
+        if (cursorArtistas.moveToFirst()) {
+            ArtistasInfo = new Artistas();
+            ArtistasInfo.setCorreoElectronico(cursorArtistas.getString(2));
+            ArtistasInfo.setContrasena(cursorArtistas.getString(5));
+        }
+        cursorArtistas.close();
+
+        db.close();
+
+        return ArtistasInfo;
     }
 }

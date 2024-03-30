@@ -18,7 +18,6 @@
             android:label="@string/title_activity_crear_cuenta_usuario"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.DataStructureProjectGroupB" />
-
         <activity
             android:name=".Cuenta"
             android:exported="false"
