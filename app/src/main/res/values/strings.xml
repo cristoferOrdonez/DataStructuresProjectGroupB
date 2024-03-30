@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Data Structure Project - Group B</string>
+    <string name="title_activity_crear_cuenta_usuario">activity_CrearCuentaUsuario</string>
+    <string name="title_activity_registro_usuario">activity_RegistroUsuario</string>
 </resources>

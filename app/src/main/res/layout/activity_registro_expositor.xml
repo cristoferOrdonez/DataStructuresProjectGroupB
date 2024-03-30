@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/textViewCorreoRegistroExpositor"
+        android:layout_width="203dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="92dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="Correo Electronico"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
+
+    <EditText
+        android:id="@+id/textViewConfirmarContrasenaRegistroExpositor"
+        android:layout_width="203dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="224dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="Confirmar Contraseña"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
+
+    <EditText
+        android:id="@+id/textViewContrasenaRegistroExpositor"
+        android:layout_width="203dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="156dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="Contraseña"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
+
+    <TextView
+        android:id="@+id/PlainTextRegistro"
+        android:layout_width="230dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Registrarse como expositor"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/textViewNombreRegistroExpositor"
+        android:layout_width="203dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="28dp"
+        android:hint="Nombre Organizacion"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="18sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
+
+    <Button
+        android:id="@+id/botonRegistratseRegistroExpositor"
+        android:layout_width="105dp"
+        android:layout_height="55dp"
+        android:text="Registrarse"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.794"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.928" />
+
+    <Button
+        android:id="@+id/botonCancelarRegistroExpositor"
+        android:layout_width="105dp"
+        android:layout_height="55dp"
+        android:text="Cancelar"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.212"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.928" />
+
+    <Spinner
+        android:id="@+id/spinnerLocalidadRegistroExpositor"
+        android:layout_width="203dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="384dp"
+        android:hint="Localidad"
+        android:textColorHint="@color/cian_titulo_evento_pagina_principal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
+
+    <Spinner
+        android:id="@+id/spinnerInteresesRegistroExpositor"
+        android:layout_width="203dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="444dp"
+        android:hint="Intereses"
+        android:textColorHint="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
+</androidx.constraintlayout.widget.ConstraintLayout>
