@@ -134,26 +134,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
 
-    <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextViewLocalidadRegistroUsuario"
+    <Spinner
+        android:id="@+id/spinnerLocalidadRegistroUsuario"
         android:layout_width="203dp"
         android:layout_height="50dp"
         android:layout_marginTop="384dp"
         android:hint="Localidad"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
+        android:textColorHint="@color/cian_titulo_evento_pagina_principal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
 
-    <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextViewInteresesRegistroUsuario"
+    <Spinner
+        android:id="@+id/spinnerInteresesRegistroUsuario"
         android:layout_width="203dp"
         android:layout_height="50dp"
         android:layout_marginTop="444dp"
         android:hint="Intereses"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
+        android:textColorHint="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
