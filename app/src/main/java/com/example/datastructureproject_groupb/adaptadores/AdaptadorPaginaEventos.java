@@ -8,16 +8,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicArray;
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.entidades.EventosEntidad;
 
 public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPaginaEventos.EventoViewHolder>{
 
-    DynamicArray<EventosEntidad> listaEventos;
+    StaticUnsortedList<EventosEntidad> listaEventos;
     String correoElectronico;
 
-    public AdaptadorPaginaEventos(DynamicArray<EventosEntidad> listaEventos, String correoElectronico) {
+    public AdaptadorPaginaEventos(StaticUnsortedList<EventosEntidad> listaEventos, String correoElectronico) {
         this.listaEventos = listaEventos;
         this.correoElectronico = correoElectronico;
     }
