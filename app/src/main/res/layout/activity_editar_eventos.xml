@@ -27,6 +27,7 @@
         android:background="@drawable/edittext_border"
         android:hint="Nombre del evento"
         android:textColorHint="#757575"
+        android:textColor="@color/black"
         android:layout_marginTop="40dp" />
 
     <EditText
@@ -37,6 +38,7 @@
         android:background="@drawable/edittext_border"
         android:hint="Fecha del evento"
         android:textColorHint="#757575"
+        android:textColor="@color/black"
         android:layout_marginTop="20dp" />
 
     <EditText
@@ -47,6 +49,7 @@
         android:background="@drawable/edittext_border"
         android:hint="Ubicación"
         android:textColorHint="#757575"
+        android:textColor="@color/black"
         android:layout_marginTop="20dp" />
 
     <Spinner
@@ -66,6 +69,7 @@
         android:background="@drawable/edittext_border"
         android:hint="Costo"
         android:textColorHint="#757575"
+        android:textColor="@color/black"
         android:layout_marginTop="20dp" />
 
     <EditText
@@ -76,6 +80,7 @@
         android:background="@drawable/edittext_border"
         android:hint="Horario"
         android:textColorHint="#757575"
+        android:textColor="@color/black"
         android:layout_marginTop="20dp" />
 
     <Spinner
@@ -94,6 +99,7 @@
         android:background="@drawable/edittext_border"
         android:hint="Descripción general"
         android:textColorHint="#757575"
+        android:textColor="@color/black"
         android:layout_marginTop="20dp" />
 
     <View

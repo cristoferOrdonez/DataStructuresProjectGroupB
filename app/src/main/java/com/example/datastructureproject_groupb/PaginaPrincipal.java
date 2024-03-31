@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,10 +15,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StackLinkedList;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaPrincipal;
+import com.example.datastructureproject_groupb.db.DbArt;
 import com.example.datastructureproject_groupb.entidades.EventosEntidad;
 
 import java.util.Date;
@@ -29,6 +32,7 @@ public class PaginaPrincipal extends AppCompatActivity {
     private ImageButton botonHistorial;
     private String correoElectronico, tipoUsuario;
     private RecyclerView listaEventos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +72,6 @@ public class PaginaPrincipal extends AppCompatActivity {
             if(!historialEventos.isEmpty())
                 mostrarDialogHistorial(historialEventos.pop());
         });
-
     }
 
     public void cambiarADescubrir() {

@@ -12,7 +12,7 @@ import com.example.datastructureproject_groupb.entidades.EventosEntidad;
 
 import java.util.Date;
 
-public class DbEventos extends DbArt{
+public class DbEventos extends DbArt {
 
     Context context;
 
@@ -21,7 +21,7 @@ public class DbEventos extends DbArt{
         this.context = context;
     }
 
-    public long insertarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento) {
+    public long insertarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento, String correoArtista) {
         long id = 0;
         try {
             SQLiteDatabase db = getWritableDatabase();
@@ -37,6 +37,7 @@ public class DbEventos extends DbArt{
             values.put("descripcionEvento", descripcionEvento);
             values.put("localidadEvento", localidadEvento);
             values.put("categoriaEvento", categoriaEvento);
+            values.put("correoArtista", correoArtista);
 
             id = db.insert(TABLE_EVENTOS, null, values);
 
@@ -49,7 +50,41 @@ public class DbEventos extends DbArt{
         return id;
     }
 
-    public StaticUnsortedList<EventosEntidad> obtenerEventos(){
+
+    public boolean editarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento, String idEvento) {
+        boolean correcto;
+
+        DbArt dbHelper = new DbArt(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        try {
+            ContentValues values = new ContentValues();
+            values.put("nombreEvento", nombreEvento);
+            values.put("AnoEvento", AnoEvento);
+            values.put("mesEvento", mesEvento);
+            values.put("diaEvento", diaEvento);
+            values.put("ubicacionEvento", ubicacionEvento);
+            values.put("costoEvento", costoEvento);
+            values.put("horarioEvento", horarioEvento);
+            values.put("descripcionEvento", descripcionEvento);
+            values.put("localidadEvento", localidadEvento);
+            values.put("categoriaEvento", categoriaEvento);
+
+            int rowsAffected = db.update(TABLE_EVENTOS, values, "idEvento = ?", new String[]{idEvento});
+
+            correcto = (rowsAffected > 0);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            correcto = false;
+        } finally {
+            db.close();
+        }
+
+        return correcto;
+    }
+
+    public StaticUnsortedList<EventosEntidad> obtenerEventos() {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -58,7 +93,7 @@ public class DbEventos extends DbArt{
 
         StaticUnsortedList<EventosEntidad> listaEventos = new StaticUnsortedList<>(cursorEventos.getCount());
 
-        if(cursorEventos.moveToFirst()){
+        if (cursorEventos.moveToFirst()) {
 
             do {
 
@@ -82,8 +117,7 @@ public class DbEventos extends DbArt{
         cursorEventos.close();
 
         return listaEventos;
-
-
     }
 
 }
+

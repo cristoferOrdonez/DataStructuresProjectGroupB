@@ -55,10 +55,9 @@ public class DbArt extends SQLiteOpenHelper {
                 "costoEvento INTEGER NOT NULL, " + //7
                 "horarioEvento TEXT NOT NULL, " + //8
                 "categoriaEvento INTEGER NOT NULL, " + //9
-                "descripcionEvento TEXT NOT NULL)"); //10
-
-
-
+                "descripcionEvento TEXT NOT NULL, " + //10
+                "correoArtista TEXT NOT NULL, " + //11
+                "FOREIGN KEY (correoArtista) REFERENCES " + TABLE_ARTISTAS + "(correoArtista))"); //12
     }
 
     @Override
@@ -68,7 +67,6 @@ public class DbArt extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTISTAS);
 
         onCreate(sqLiteDatabase);
-
     }
 
     public boolean actualizarCorreos(String correoAntiguo, String correoNuevo) {

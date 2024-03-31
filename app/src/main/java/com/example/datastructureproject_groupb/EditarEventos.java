@@ -8,29 +8,28 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datastructureproject_groupb.db.DbEventos;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-public class CrearEventos extends AppCompatActivity{
-    EditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horarioEvento, descripcionEvento, correoArtista;
+public class EditarEventos extends AppCompatActivity {
+    EditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horarioEvento, descripcionEvento;
     Spinner spinnerLocalidadEvento, spinnerCategoriaEvento;
-    Button cancelarCrearEvento, aceptarCrearEvento;
-
+    Button cancelarEditarEvento, aceptarEditarEvento;
+    int idEvento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crear_eventos);
+        setContentView(R.layout.activity_editar_eventos);
 
         nombreEvento = findViewById(R.id.editTextNombreEvento);
         fechaEvento = findViewById(R.id.editTextFechaEvento);
@@ -38,13 +37,11 @@ public class CrearEventos extends AppCompatActivity{
         costoEvento = findViewById(R.id.editTextCostoEvento);
         horarioEvento = findViewById(R.id.editTextHorarioEvento);
         descripcionEvento = findViewById(R.id.editTextDescripcionEvento);
-        correoArtista = findViewById(R.id.editTextCorreoArtista);
         spinnerLocalidadEvento = findViewById(R.id.spinnerLocalidadEvento);
         spinnerCategoriaEvento = findViewById(R.id.spinnerCategoriaEvento);
 
-        cancelarCrearEvento = findViewById(R.id.botonCancelarCrearEvento);
-        aceptarCrearEvento = findViewById(R.id.botonAceptarCrearEvento);
-
+        cancelarEditarEvento = findViewById(R.id.botonCancelarEditarEvento);
+        aceptarEditarEvento = findViewById(R.id.botonAceptarEditarEvento);
 
         ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, localidades) {
             @Override
@@ -79,10 +76,12 @@ public class CrearEventos extends AppCompatActivity{
         int index2 = Arrays.asList(categorias).indexOf(InteresPreseleccionada);
         spinnerCategoriaEvento.setSelection(index2);
 
-        cancelarCrearEvento.setOnClickListener(view -> cambiarAEventos());
-        aceptarCrearEvento.setOnClickListener(view -> crearEventoExpositor());
+        cancelarEditarEvento.setOnClickListener(view -> cambiarAEventos());
+        aceptarEditarEvento.setOnClickListener(view -> editarEventoExpositor());
 
+        idEvento = getIntent().getIntExtra("ID_EVENTO", -1);
     }
+
     private static final String [] localidades= new String[]{ "Virtual","Usaquén", "Chapinero", "Santa Fe", "San Cristóbal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibón", "Engativá", "Suba", "Barrios Unidos", "Teusaquillo", "Los Mártires", "Antonio Nariño", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolívar", "Sumapaz"   };
     private static final String [] categorias= new String[]{"Musica", "Talleres",     };
 
@@ -93,7 +92,7 @@ public class CrearEventos extends AppCompatActivity{
         finishAffinity();
     }
 
-    public void crearEventoExpositor(){
+    public void editarEventoExpositor(){
         VerificarInformacionRegistro(new View(this));
     }
 
@@ -132,7 +131,7 @@ public class CrearEventos extends AppCompatActivity{
         boolean flag = true;
         String mensajeError = "";
 
-        if(nombreEvento.getText().toString().trim().equals("")) {
+        if (nombreEvento.getText().toString().trim().equals("")) {
             mensajeError += "No ha ingresado nombre valido\n";
             flag = false;
         }
@@ -141,48 +140,43 @@ public class CrearEventos extends AppCompatActivity{
 
         // Dividir la fecha por "/"
         String[] verificarTamanoFechaEvento = verificarFechaEvento.split("/");
-        if(verificarFechaEvento.equals("") || verificarTamanoFechaEvento.length  != 3) {
+        if (verificarFechaEvento.equals("") || verificarTamanoFechaEvento.length != 3) {
             mensajeError += "No ha ingresado fecha valida\n";
             flag = false;
         }
-        if(ubicacionEvento.getText().toString().trim().equals("")) {
+        if (ubicacionEvento.getText().toString().trim().equals("")) {
             mensajeError += "No ha ingresado una ubicación valida\n";
             flag = false;
         }
-        if(spinnerLocalidadEvento.getSelectedItem() == null || spinnerLocalidadEvento.getSelectedItem().toString().trim().equals("")) {
+        if (spinnerLocalidadEvento.getSelectedItem() == null || spinnerLocalidadEvento.getSelectedItem().toString().trim().equals("")) {
             mensajeError += "Seleccione una Localidad\n";
             flag = false;
         }
         String verificarCostoEvento = costoEvento.getText().toString().trim();
-        if(verificarCostoEvento.equals("") || !TextUtils.isDigitsOnly(verificarCostoEvento)) {
+        if (verificarCostoEvento.equals("") || !TextUtils.isDigitsOnly(verificarCostoEvento)) {
             mensajeError += "No ha ingresado un costo valido\n";
             flag = false;
         }
-        if(horarioEvento.getText().toString().trim().equals("")) {
+        if (horarioEvento.getText().toString().trim().equals("")) {
             mensajeError += "No ha ingresado un horario valido\n";
             flag = false;
         }
-        if(spinnerCategoriaEvento.getSelectedItem() == null || spinnerCategoriaEvento.getSelectedItem().toString().trim().equals("")) {
+        if (spinnerCategoriaEvento.getSelectedItem() == null || spinnerCategoriaEvento.getSelectedItem().toString().trim().equals("")) {
             mensajeError += "Seleccione un Interes\n";
             flag = false;
         }
-        if(descripcionEvento.getText().toString().trim().equals("")) {
-            mensajeError += "No ha ingresado una descripción valida\n";
-            flag = false;
-        }
-        if(correoArtista.getText().toString().trim().equals("")) {
+        if (descripcionEvento.getText().toString().trim().equals("")) {
             mensajeError += "No ha ingresado una descripción valida\n";
             flag = false;
         }
 
         Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-
         if(flag)
-            CrearEvento(view);
+            EditarEvento(view);
         else
             Toast.makeText(this, mensajeError, Toast.LENGTH_SHORT).show();
     }
-    public void CrearEvento(View view) {
+    public void EditarEvento(View view) {
         String nombreEvento = this.nombreEvento.getText().toString().trim();
         String fechaEvento = this.fechaEvento.getText().toString().trim();
 
@@ -202,22 +196,24 @@ public class CrearEventos extends AppCompatActivity{
         int localidad=0;
         int categoria=0;
 
-        String correoArtista = this.correoArtista.getText().toString();
+        idEvento = getIntent().getIntExtra("ID_EVENTO", -1);
+
+        String idEvento = String.valueOf(this.idEvento);
+
 
         // Obtener una instancia de DbEventos (sustituye "NombreDeTuActividadOFragmento" por el nombre real)
         DbEventos dbEventos = new DbEventos(this);
-
         // Insertar el evento en la base de datos
-        long idEventoInsertado = dbEventos.insertarEvento(nombreEvento, AnoEvento, mesEvento, diaEvento, ubicacionEvento,
-                costoEvento, horarioEvento, descripcionEvento, localidad, categoria, correoArtista);
+        boolean idEventoEditado = dbEventos.editarEvento(nombreEvento, AnoEvento, mesEvento, diaEvento, ubicacionEvento,
+                costoEvento, horarioEvento, descripcionEvento, localidad, categoria, idEvento);
 
-        if (idEventoInsertado != -1) {
+        if (idEventoEditado) {
             // El evento se insertó correctamente, puedes mostrar un mensaje de éxito o realizar otras acciones.
-            Toast.makeText(this, "Evento creado con éxito", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Evento editado con éxito", Toast.LENGTH_SHORT).show();
             cambiarAEventos();
         } else {
             // Ocurrió un error al insertar el evento, puedes mostrar un mensaje de error o manejar la situación de otra manera.
-            Toast.makeText(this, "Error al crear el evento", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error al editar el evento", Toast.LENGTH_SHORT).show();
         }
     }
 }

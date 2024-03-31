@@ -1,13 +1,17 @@
 package com.example.datastructureproject_groupb.adaptadores;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.datastructureproject_groupb.CrearEventos;
+import com.example.datastructureproject_groupb.EditarEventos;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.entidades.EventosEntidad;
@@ -20,7 +24,15 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
     public AdaptadorPaginaEventos(StaticUnsortedList<EventosEntidad> listaEventos, String correoElectronico) {
         this.listaEventos = listaEventos;
         this.correoElectronico = correoElectronico;
+        this.idEvento = -1;
     }
+
+    private int idEvento;
+
+    public int getIdEvento() {
+        return idEvento;
+    }
+
     @NonNull
     @Override
     public AdaptadorPaginaEventos.EventoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -41,6 +53,24 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
         holder.textViewLugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
         holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
         holder.textViewTipoEvento.setText("Tipo: " + evento.getCategoriaEvento());
+
+        holder.botonEliminarEvento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Implementar la acción de eliminar el evento en la posición "position"
+                // Puedes mostrar un diálogo de confirmación o eliminar el evento directamente de la lista
+                // y notificar al adaptador para actualizar la vista.
+            }
+        });
+
+        holder.botonEditarEvento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                idEvento = evento.getId();
+                Intent intent = new Intent(v.getContext(), EditarEventos.class);
+                intent.putExtra("ID_EVENTO", idEvento);
+                v.getContext().startActivity(intent);}
+        });
     }
 
     @Override
@@ -52,6 +82,7 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
     public class EventoViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewTituloEvento, textViewFechaEvento,textViewHorarioEvento, textViewLugarEvento, textViewCostoEvento, textViewTipoEvento;
+        Button botonEditarEvento, botonEliminarEvento;
 
         public EventoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +94,8 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
             textViewCostoEvento = itemView.findViewById(R.id.textViewCostoEventoPaginaEventos);
             textViewTipoEvento = itemView.findViewById(R.id.textViewTipoEventoPaginaEventos);
 
+            botonEditarEvento = itemView.findViewById(R.id.botonEditarEventos);
+            botonEliminarEvento = itemView.findViewById(R.id.botonEliminarEventos);
         }
     }
 }

@@ -62,21 +62,17 @@ public class Cuenta extends AppCompatActivity {
     }
 
 
-
-
     public void acceder(View view, String correoElectronicoS, String tipoUsuario) {
 
         Intent miIntent = new Intent(this, PaginaPrincipal.class);
-        miIntent.putExtra("correoElectronico",correoElectronicoS);
+        miIntent.putExtra("correoElectronico", correoElectronicoS);
         miIntent.putExtra("tipoUsuario", tipoUsuario);
-        if(tipoUsuario=="Usuario")
+        if (tipoUsuario == "Usuario") {
             Toast.makeText(this, "Ingreso correctamente como Usuario", Toast.LENGTH_SHORT).show();
-        else
+        } else
             Toast.makeText(this, "Ingreso correctamente como Artista", Toast.LENGTH_SHORT).show();
         startActivity(miIntent);
         finishAffinity();
-
-
     }
 
     public void revisar(View view){
