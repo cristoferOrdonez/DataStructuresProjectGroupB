@@ -19,8 +19,10 @@ import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StackLinkedList;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
+import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaEventos;
 import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaPrincipal;
 import com.example.datastructureproject_groupb.db.DbArt;
+import com.example.datastructureproject_groupb.db.DbEventos;
 import com.example.datastructureproject_groupb.entidades.EventosEntidad;
 
 import java.util.Date;
@@ -56,14 +58,10 @@ public class PaginaPrincipal extends AppCompatActivity {
 
         listaEventos.setLayoutManager(new LinearLayoutManager(this));
 
-        //StaticUnsortedList<EventosEntidad> arregloDePrueba = new DbEventos(this).obtenerEventos();
-        StaticUnsortedList<EventosEntidad> arregloDePrueba = new StaticUnsortedList<>(10);
-        arregloDePrueba.insert(new EventosEntidad(0, "Evento1", new Date(2024, 2, 3), "Unal", 100, 1000, "12:00pm - 4:00pm", 1984, "eventazo"));
-        arregloDePrueba.insert(new EventosEntidad(0, "Evento2", new Date(2024, 2, 3), "Unal", 100, 1000, "12:00pm - 4:00pm", 1984, "eventazo"));
-        arregloDePrueba.insert(new EventosEntidad(0, "Evento3", new Date(2024, 2, 3), "Unal", 100, 1000, "12:00pm - 4:00pm", 1984, "eventazo"));
-        arregloDePrueba.insert(new EventosEntidad(0, "Evento4", new Date(2024, 2, 3), "Unal", 100, 1000, "12:00pm - 4:00pm", 1984, "eventazo"));
+        DbEventos dbEventos = new DbEventos(this);
+        StaticUnsortedList<EventosEntidad> eventos = dbEventos.obtenerEventos();
 
-        AdaptadorPaginaPrincipal adapter=new AdaptadorPaginaPrincipal(arregloDePrueba, correoElectronico);
+        AdaptadorPaginaPrincipal adapter=new AdaptadorPaginaPrincipal(eventos, correoElectronico);
         listaEventos.setAdapter(adapter);
 
         botonHistorial = findViewById(R.id.imageButtonHistorial);
@@ -86,11 +84,24 @@ public class PaginaPrincipal extends AppCompatActivity {
         startActivity(miIntent);
         finishAffinity();
     }
+
     public void cambiarAEventos() {
         Intent miIntent = new Intent(this, Eventos.class);
         //miIntent.putExtra("correoElectronico",correoElectronicoS);
         startActivity(miIntent);
         finishAffinity();
+    }
+
+    public void cambiarAEventoskjl() {
+        String usuario = getIntent().getStringExtra("tipoUsuario");
+        if (usuario == "Artista") {
+            Intent miIntent = new Intent(this, Eventos.class);
+            //miIntent.putExtra("correoElectronico",correoElectronicoS);
+            startActivity(miIntent);
+            finishAffinity();
+        } else{
+            Toast.makeText(this, "Usted no es un Artista", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void mostrarDialogHistorial(EventosEntidad evento){

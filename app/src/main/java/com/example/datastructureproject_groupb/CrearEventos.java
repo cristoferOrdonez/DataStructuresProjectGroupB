@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 
 public class CrearEventos extends AppCompatActivity{
-    EditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horarioEvento, descripcionEvento, correoArtista;
+    EditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horarioEvento, descripcionEvento;
     Spinner spinnerLocalidadEvento, spinnerCategoriaEvento;
     Button cancelarCrearEvento, aceptarCrearEvento;
 
@@ -38,7 +38,6 @@ public class CrearEventos extends AppCompatActivity{
         costoEvento = findViewById(R.id.editTextCostoEvento);
         horarioEvento = findViewById(R.id.editTextHorarioEvento);
         descripcionEvento = findViewById(R.id.editTextDescripcionEvento);
-        correoArtista = findViewById(R.id.editTextCorreoArtista);
         spinnerLocalidadEvento = findViewById(R.id.spinnerLocalidadEvento);
         spinnerCategoriaEvento = findViewById(R.id.spinnerCategoriaEvento);
 
@@ -170,10 +169,6 @@ public class CrearEventos extends AppCompatActivity{
             mensajeError += "No ha ingresado una descripción valida\n";
             flag = false;
         }
-        if(correoArtista.getText().toString().trim().equals("")) {
-            mensajeError += "No ha ingresado una descripción valida\n";
-            flag = false;
-        }
 
         Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 
@@ -202,14 +197,12 @@ public class CrearEventos extends AppCompatActivity{
         int localidad=0;
         int categoria=0;
 
-        String correoArtista = this.correoArtista.getText().toString();
-
         // Obtener una instancia de DbEventos (sustituye "NombreDeTuActividadOFragmento" por el nombre real)
         DbEventos dbEventos = new DbEventos(this);
 
         // Insertar el evento en la base de datos
         long idEventoInsertado = dbEventos.insertarEvento(nombreEvento, AnoEvento, mesEvento, diaEvento, ubicacionEvento,
-                costoEvento, horarioEvento, descripcionEvento, localidad, categoria, correoArtista);
+                costoEvento, horarioEvento, descripcionEvento, localidad, categoria);
 
         if (idEventoInsertado != -1) {
             // El evento se insertó correctamente, puedes mostrar un mensaje de éxito o realizar otras acciones.

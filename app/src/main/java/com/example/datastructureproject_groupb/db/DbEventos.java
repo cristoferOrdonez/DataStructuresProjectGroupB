@@ -21,7 +21,7 @@ public class DbEventos extends DbArt {
         this.context = context;
     }
 
-    public long insertarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento, String correoArtista) {
+    public long insertarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento) {
         long id = 0;
         try {
             SQLiteDatabase db = getWritableDatabase();
@@ -37,7 +37,6 @@ public class DbEventos extends DbArt {
             values.put("descripcionEvento", descripcionEvento);
             values.put("localidadEvento", localidadEvento);
             values.put("categoriaEvento", categoriaEvento);
-            values.put("correoArtista", correoArtista);
 
             id = db.insert(TABLE_EVENTOS, null, values);
 
@@ -118,6 +117,26 @@ public class DbEventos extends DbArt {
 
         return listaEventos;
     }
+    public boolean eliminarEvento(int idEvento) {
+        DbArt dbHelper = new DbArt(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        boolean eliminado = false;
 
+        // Define la cláusula WHERE para eliminar el evento por su ID
+        String selection = "idEvento = ?";
+        String[] selectionArgs = {String.valueOf(idEvento)};
+
+        // Ejecuta la eliminación
+        int rowsDeleted = db.delete("t_eventos  ", selection, selectionArgs);
+
+        // Verifica si se eliminó al menos una fila
+        if (rowsDeleted > 0) {
+            eliminado = true;
+        }
+
+        db.close(); // Cierra la base de datos
+
+        return eliminado;
+    }
 }
 

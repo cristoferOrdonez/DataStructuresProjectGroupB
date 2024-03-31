@@ -80,7 +80,7 @@ public class EventosEntidad {
     }
 
     public String getUbicacionEvento() {
-        return "Lugar: " + ubicacionEvento;
+        return ubicacionEvento;
     }
 
     public void setUbicacionEvento(String ubicacionEvento) {
@@ -101,10 +101,10 @@ public class EventosEntidad {
 
     public String getCostoEventoConFormato(){
 
-        if(categoriaEvento == 0)
+        if(costoEvento == 0)
             return "Gratuito";
 
-        return "Costo: " + NumberFormat.getCurrencyInstance(new Locale("es", "CO")).format(costoEvento) + " COP";
+        return NumberFormat.getCurrencyInstance(new Locale("es", "CO")).format(costoEvento) + " COP";
 
     }
 
@@ -121,7 +121,7 @@ public class EventosEntidad {
     }
 
     public String getDescripcionEvento() {
-        return "Descripción: " + descripcionEvento;
+        return descripcionEvento;
     }
 
     public void setDescripcionEvento(String descripcionEvento) {
@@ -130,12 +130,12 @@ public class EventosEntidad {
 
     public String getHorarioEvento(){
 
-        return "Horario: " + horarioEvento;
+        return horarioEvento;
 
     }
 
     public String getFechaEventoString(){
-        return "Fecha: " + fechaEvento.getYear() + "/" + fechaEvento.getMonth() + "/" + fechaEvento.getDate();
+        return fechaEvento.getYear() + "/" + fechaEvento.getMonth() + "/" + fechaEvento.getDate();
     }
 
 }

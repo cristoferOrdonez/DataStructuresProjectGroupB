@@ -43,13 +43,11 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
         EventosEntidad evento = listaEventos.get(position);
 
         holder.textViewTituloEvento.setText(evento.getNombreEvento());
-        holder.textViewFechaEvento.setText(evento.getFechaEventoString());
-        holder.textViewHorarioEvento.setText(evento.getHorarioEvento());
-        holder.textViewLugarEvento.setText(evento.getUbicacionEvento());
-        holder.textViewCostoEvento.setText(evento.getCostoEventoConFormato());
+        holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEvento().getDate() + "/" + evento.getFechaEvento().getMonth() + "/" + evento.getFechaEvento().getYear());
+        holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
+        holder.textViewLugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
+        holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
         holder.textViewTipoEvento.setText("Tipo: " + evento.getCategoriaEvento());
-
-
     }
 
     @Override

@@ -101,17 +101,6 @@
         android:textColor="@color/black"
         android:layout_marginTop="20dp" />
 
-    <EditText
-        android:id="@+id/editTextCorreoArtista"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:background="@drawable/edittext_border"
-        android:hint="Correo Artista"
-        android:textColorHint="#757575"
-        android:textColor="@color/black"
-        android:layout_marginTop="20dp" />
-
     <View
         android:id="@+id/divider"
         android:layout_width="409dp"

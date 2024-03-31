@@ -32,13 +32,20 @@ public class EditarEventos extends AppCompatActivity {
         setContentView(R.layout.activity_editar_eventos);
 
         nombreEvento = findViewById(R.id.editTextNombreEvento);
+        nombreEvento.setText(getIntent().getStringExtra("NOMBRE_EVENTO"));
         fechaEvento = findViewById(R.id.editTextFechaEvento);
+        fechaEvento.setText(getIntent().getStringExtra("FECHA_EVENTO"));
         ubicacionEvento = findViewById(R.id.editTextUbicacionEvento);
+        ubicacionEvento.setText(getIntent().getStringExtra("UBICACION_EVENTO"));
         costoEvento = findViewById(R.id.editTextCostoEvento);
+        costoEvento.setText(getIntent().getStringExtra("COSTO_EVENTO"));
         horarioEvento = findViewById(R.id.editTextHorarioEvento);
+        horarioEvento.setText(getIntent().getStringExtra("HORARIO_EVENTO"));
         descripcionEvento = findViewById(R.id.editTextDescripcionEvento);
+        descripcionEvento.setText(getIntent().getStringExtra("DESCRIPCION_EVENTO"));
         spinnerLocalidadEvento = findViewById(R.id.spinnerLocalidadEvento);
         spinnerCategoriaEvento = findViewById(R.id.spinnerCategoriaEvento);
+        idEvento = getIntent().getIntExtra("ID_EVENTO", -1);
 
         cancelarEditarEvento = findViewById(R.id.botonCancelarEditarEvento);
         aceptarEditarEvento = findViewById(R.id.botonAceptarEditarEvento);
@@ -76,10 +83,10 @@ public class EditarEventos extends AppCompatActivity {
         int index2 = Arrays.asList(categorias).indexOf(InteresPreseleccionada);
         spinnerCategoriaEvento.setSelection(index2);
 
+
         cancelarEditarEvento.setOnClickListener(view -> cambiarAEventos());
         aceptarEditarEvento.setOnClickListener(view -> editarEventoExpositor());
 
-        idEvento = getIntent().getIntExtra("ID_EVENTO", -1);
     }
 
     private static final String [] localidades= new String[]{ "Virtual","Usaquén", "Chapinero", "Santa Fe", "San Cristóbal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibón", "Engativá", "Suba", "Barrios Unidos", "Teusaquillo", "Los Mártires", "Antonio Nariño", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolívar", "Sumapaz"   };

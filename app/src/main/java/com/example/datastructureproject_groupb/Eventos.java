@@ -22,10 +22,13 @@ public class Eventos extends AppCompatActivity {
     ImageButton botonCrearEvento;
     String correoElectronico;
     RecyclerView listaEventos;
+    String CorreoElectronicoExpositor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eventos);
+
+        CorreoElectronicoExpositor = getIntent().getStringExtra(correoElectronico);
 
         botonPaginaPrincipal=findViewById(R.id.botonPaginaPrincipalEventos);
         botonCuenta=findViewById(R.id.botonCuentaEventos);

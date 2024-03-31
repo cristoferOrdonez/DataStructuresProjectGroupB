@@ -1,5 +1,7 @@
 package com.example.datastructureproject_groupb.adaptadores;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import com.example.datastructureproject_groupb.CrearEventos;
 import com.example.datastructureproject_groupb.EditarEventos;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.R;
+import com.example.datastructureproject_groupb.db.DbEventos;
 import com.example.datastructureproject_groupb.entidades.EventosEntidad;
 
 public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPaginaEventos.EventoViewHolder>{
@@ -24,13 +27,6 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
     public AdaptadorPaginaEventos(StaticUnsortedList<EventosEntidad> listaEventos, String correoElectronico) {
         this.listaEventos = listaEventos;
         this.correoElectronico = correoElectronico;
-        this.idEvento = -1;
-    }
-
-    private int idEvento;
-
-    public int getIdEvento() {
-        return idEvento;
     }
 
     @NonNull
@@ -57,18 +53,53 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
         holder.botonEliminarEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Implementar la acción de eliminar el evento en la posición "position"
-                // Puedes mostrar un diálogo de confirmación o eliminar el evento directamente de la lista
-                // y notificar al adaptador para actualizar la vista.
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setTitle("Eliminar Evento");
+                builder.setMessage("¿Está seguro de que desea eliminar este evento?");
+
+                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Lógica para eliminar el evento
+                        int position = holder.getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            EventosEntidad evento = listaEventos.get(position);
+                            // Llamar al método para eliminar el evento de la base de datos
+                            DbEventos dbEventos = new DbEventos(builder.getContext());
+                            dbEventos.eliminarEvento(evento.getId()); // Suponiendo que tienes un método para eliminar el evento por ID
+                            // Eliminar el evento de la lista
+                            listaEventos.delete(position);
+                            notifyItemRemoved(position);
+                        }
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // No hacer nada, simplemente cerrar el diálogo
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
 
         holder.botonEditarEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                idEvento = evento.getId();
                 Intent intent = new Intent(v.getContext(), EditarEventos.class);
-                intent.putExtra("ID_EVENTO", idEvento);
+                intent.putExtra("ID_EVENTO", evento.getId());
+                intent.putExtra("NOMBRE_EVENTO", evento.getNombreEvento());
+                intent.putExtra("FECHA_EVENTO", evento.getFechaEvento().getDate() + "/" + evento.getFechaEvento().getMonth() + "/" + evento.getFechaEvento().getYear());
+                intent.putExtra("UBICACION_EVENTO", evento.getUbicacionEvento());
+                intent.putExtra("COSTO_EVENTO", String.valueOf(evento.getCostoEvento()));
+                intent.putExtra("HORARIO_EVENTO", evento.getHorarioEvento());
+                intent.putExtra("DESCRIPCION_EVENTO", evento.getDescripcionEvento());
+                intent.putExtra("LOCALIDAD_EVENTO", evento.getLocalidadEvento());
+                intent.putExtra("CATEGORIA_EVENTO", evento.getCategoriaEvento());
                 v.getContext().startActivity(intent);}
         });
     }
