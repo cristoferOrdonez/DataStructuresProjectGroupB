@@ -2,30 +2,8 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="CrearCuentaExpositor">
-        <State />
-      </entry>
-      <entry key="CrearEventos">
-        <State />
-      </entry>
-      <entry key="Eventos">
-        <State />
-      </entry>
       <entry key="app">
-        <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="SERIAL_NUMBER" />
-                  <value value="ZY22HJG7NG" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-03-31T18:24:57.337959500Z" />
-        </State>
+        <State />
       </entry>
     </value>
   </component>

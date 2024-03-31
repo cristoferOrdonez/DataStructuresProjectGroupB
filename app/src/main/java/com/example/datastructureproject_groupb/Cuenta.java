@@ -30,13 +30,15 @@ import java.util.regex.Pattern;
 public class Cuenta extends AppCompatActivity {
     Button botonPaginaPrincipal, botonEventos, botonDescubrir, botonAcceder, botonCrearCuentaUsuario, botonCrearCuentaExpositor;
     EditText CorreoElectronicoAcceder, ContrasenaAcceder;
-
-
+    String correoElectronico;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cuenta);
+
+        correoElectronico = getIntent().getStringExtra("correoElectronico");
+
         botonPaginaPrincipal=findViewById(R.id.botonPaginaPrincipalCuenta);
         botonEventos=findViewById(R.id.botonEventosCuenta);
         botonDescubrir=findViewById(R.id.botonDescubrirCuenta);
@@ -210,26 +212,26 @@ public class Cuenta extends AppCompatActivity {
 
     public void cambiarAPaginaPrincipal() {
         Intent miIntent = new Intent(this, PaginaPrincipal.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
+        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarAEventos() {
         Intent miIntent = new Intent(this, Eventos.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
+        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarADescubrir() {
         Intent miIntent = new Intent(this, Descubrir.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
+        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
 
     public void cambiarARegistroUsuario() {
         Intent miIntent = new Intent(this, com.example.datastructureproject_groupb.CrearCuentaUsuario.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
+        //miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
 

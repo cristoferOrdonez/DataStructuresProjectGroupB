@@ -25,11 +25,14 @@ public class EditarEventos extends AppCompatActivity {
     Spinner spinnerLocalidadEvento, spinnerCategoriaEvento;
     Button cancelarEditarEvento, aceptarEditarEvento;
     int idEvento;
+    String correoElectronico;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_eventos);
+
+        correoElectronico = getIntent().getStringExtra("correoElectronico");
 
         nombreEvento = findViewById(R.id.editTextNombreEvento);
         nombreEvento.setText(getIntent().getStringExtra("NOMBRE_EVENTO"));
@@ -74,14 +77,14 @@ public class EditarEventos extends AppCompatActivity {
         categoriasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategoriaEvento.setAdapter(categoriasAdapter);
 
-        String localidadPreseleccionada = "Usaquén"; // Por ejemplo, preseleccionamos "Usaquén"
-        int index = Arrays.asList(localidades).indexOf(localidadPreseleccionada);
-        spinnerLocalidadEvento.setSelection(index);
+        //String localidadPreseleccionada = "Usaquén"; // Por ejemplo, preseleccionamos "Usaquén"
+        //int index = Arrays.asList(localidades).indexOf(localidadPreseleccionada);
+        //spinnerLocalidadEvento.setSelection(index);
 
 
-        String InteresPreseleccionada = "Musica"; // Por ejemplo, preseleccionamos "Usaquén"
-        int index2 = Arrays.asList(categorias).indexOf(InteresPreseleccionada);
-        spinnerCategoriaEvento.setSelection(index2);
+        //String InteresPreseleccionada = "Musica"; // Por ejemplo, preseleccionamos "Usaquén"
+        //int index2 = Arrays.asList(categorias).indexOf(InteresPreseleccionada);
+        //spinnerCategoriaEvento.setSelection(index2);
 
 
         cancelarEditarEvento.setOnClickListener(view -> cambiarAEventos());
@@ -94,7 +97,7 @@ public class EditarEventos extends AppCompatActivity {
 
     public void cambiarAEventos() {
         Intent miIntent = new Intent(this, Eventos.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
+        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }

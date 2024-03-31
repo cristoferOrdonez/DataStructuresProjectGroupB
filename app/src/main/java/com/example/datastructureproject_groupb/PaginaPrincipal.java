@@ -40,6 +40,8 @@ public class PaginaPrincipal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pagina_principal);
 
+        correoElectronico = getIntent().getStringExtra("correoElectronico");
+
         historialEventos = new StackLinkedList<>();
 
         botonDescubrir=findViewById(R.id.botonDescubrirPaginaPrincipal);
@@ -52,7 +54,6 @@ public class PaginaPrincipal extends AppCompatActivity {
         botonEventos.setOnClickListener(view -> cambiarAEventos());
 
         listaEventos = findViewById(R.id.recyclerViewEventosPaginaPrincipal);
-        correoElectronico = getIntent().getStringExtra("correoElectronico");
         tipoUsuario = getIntent().getStringExtra("tipoUsuario");
 
 
@@ -74,20 +75,20 @@ public class PaginaPrincipal extends AppCompatActivity {
 
     public void cambiarADescubrir() {
         Intent miIntent = new Intent(this, Descubrir.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
+        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarACuenta() {
         Intent miIntent = new Intent(this, Cuenta.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
+        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
 
     public void cambiarAEventos() {
         Intent miIntent = new Intent(this, Eventos.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
+        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
@@ -96,7 +97,7 @@ public class PaginaPrincipal extends AppCompatActivity {
         String usuario = getIntent().getStringExtra("tipoUsuario");
         if (usuario == "Artista") {
             Intent miIntent = new Intent(this, Eventos.class);
-            //miIntent.putExtra("correoElectronico",correoElectronicoS);
+            miIntent.putExtra("correoElectronico",correoElectronico);
             startActivity(miIntent);
             finishAffinity();
         } else{

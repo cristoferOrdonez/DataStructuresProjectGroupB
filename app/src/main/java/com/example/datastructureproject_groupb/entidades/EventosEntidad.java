@@ -134,8 +134,24 @@ public class EventosEntidad {
 
     }
 
+    public int getAno(){
+        return fechaEvento.getYear();
+    }
+
+    public int getMes(){
+        return fechaEvento.getMonth();
+    }
+
+    public int getDia(){
+        return fechaEvento.getDate();
+    }
+
     public String getFechaEventoString(){
         return fechaEvento.getYear() + "/" + fechaEvento.getMonth() + "/" + fechaEvento.getDate();
+    }
+
+    public void setHorarioEvento(String horarioEvento){
+        this.horarioEvento = horarioEvento;
     }
 
 }

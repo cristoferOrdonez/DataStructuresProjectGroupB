@@ -98,7 +98,6 @@ public class CrearCuentaExpositor extends AppCompatActivity {
 
     public void cambiarAPaginaPrincipal() {
         Intent miIntent = new Intent(this, PaginaPrincipal.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
         startActivity(miIntent);
         finishAffinity();
     }

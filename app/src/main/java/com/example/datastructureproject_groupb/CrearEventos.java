@@ -25,12 +25,15 @@ public class CrearEventos extends AppCompatActivity{
     EditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horarioEvento, descripcionEvento;
     Spinner spinnerLocalidadEvento, spinnerCategoriaEvento;
     Button cancelarCrearEvento, aceptarCrearEvento;
+    String correoElectronico;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_eventos);
+
+        correoElectronico = getIntent().getStringExtra("correoElectronico");
 
         nombreEvento = findViewById(R.id.editTextNombreEvento);
         fechaEvento = findViewById(R.id.editTextFechaEvento);
@@ -87,7 +90,7 @@ public class CrearEventos extends AppCompatActivity{
 
     public void cambiarAEventos() {
         Intent miIntent = new Intent(this, Eventos.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
+        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }

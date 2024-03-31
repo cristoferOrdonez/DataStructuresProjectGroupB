@@ -22,13 +22,10 @@ public class Eventos extends AppCompatActivity {
     ImageButton botonCrearEvento;
     String correoElectronico;
     RecyclerView listaEventos;
-    String CorreoElectronicoExpositor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eventos);
-
-        CorreoElectronicoExpositor = getIntent().getStringExtra(correoElectronico);
 
         botonPaginaPrincipal=findViewById(R.id.botonPaginaPrincipalEventos);
         botonCuenta=findViewById(R.id.botonCuentaEventos);
@@ -55,25 +52,25 @@ public class Eventos extends AppCompatActivity {
 
     public void cambiarAPaginaPrincipal() {
         Intent miIntent = new Intent(this, PaginaPrincipal.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
+        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarACuenta() {
         Intent miIntent = new Intent(this, Cuenta.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
+        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarADescubrir() {
         Intent miIntent = new Intent(this, Descubrir.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
+        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarACrearEventos() {
         Intent miIntent = new Intent(this, CrearEventos.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
+        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
