@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.Nullable;
 
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
 import com.example.datastructureproject_groupb.entidades.Usuarios;
 
 import java.util.ArrayList;
@@ -97,18 +98,18 @@ public class DbUsuarios extends DbArt {
 
 
 
-    public List<String> obtenerCorreosElectronicos(){
+    public LinkedList<String> obtenerCorreosElectronicos(){
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        List<String> correos = new ArrayList<>();
+        LinkedList<String> correos = new LinkedList<>();
 
         Cursor cursorCorreos = db.rawQuery("SELECT * FROM " + TABLE_USUARIOS, null);
 
 
         if (cursorCorreos.moveToFirst()) {
             do {
-                correos.add(cursorCorreos.getString(4));
+                correos.push(cursorCorreos.getString(4));
 
             } while (cursorCorreos.moveToNext());
         }

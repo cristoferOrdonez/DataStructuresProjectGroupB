@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.datastructureproject_groupb.entidades.Artistas;
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
+
 import com.example.datastructureproject_groupb.entidades.Usuarios;
 
 import java.util.ArrayList;
@@ -69,16 +71,16 @@ public class DbExpositor extends DbArt {
         return correcto;
     }
 
-    public List<String> obtenerCorreosElectronicosExpositores() {
+    public LinkedList<String> obtenerCorreosElectronicosExpositores() {
         SQLiteDatabase db = getWritableDatabase();
 
-        List<String> correos = new ArrayList<>();
+        LinkedList<String> correos = new LinkedList<>();
 
         Cursor cursorCorreos = db.rawQuery("SELECT correoArtista FROM " + TABLE_ARTISTAS, null);
 
         if (cursorCorreos.moveToFirst()) {
             do {
-                correos.add(cursorCorreos.getString(0));
+                correos.push(cursorCorreos.getString(0));
             } while (cursorCorreos.moveToNext());
         }
 

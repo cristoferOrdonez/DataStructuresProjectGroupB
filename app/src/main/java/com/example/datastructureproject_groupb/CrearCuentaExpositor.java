@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
 import com.example.datastructureproject_groupb.db.DbExpositor;
 import com.example.datastructureproject_groupb.db.DbUsuarios;
 
@@ -220,7 +221,7 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         return 0;
     }
 
-    public boolean verificarRepeticion(List<String> correos) {
+    public boolean verificarRepeticion(LinkedList<String> correos) {
 
         boolean repeticion = false;
 

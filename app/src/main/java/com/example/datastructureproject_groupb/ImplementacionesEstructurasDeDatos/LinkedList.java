@@ -1,46 +1,37 @@
 package com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos;
 
+import androidx.annotation.NonNull;
+
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+
 // implementación de listas enlazadas
-public class LinkedList<T>{
+public class LinkedList<T> implements Iterable<T> {
 
-    // clase interna nodo
-    class Node<T>{
+    // Clase interna nodo
+    class Node<T> {
+        public T data;
+        public Node<T> next;
 
-        // atributos
-        public T data; // variable que almacena el dato que contiene el nodo
-        public Node<T> next; // atributo que contiene la dirección en memoria del sigueinte nodo
-
-        // metodos
-
-        // metodo constructor
         public Node(T data) {
             this.data = data;
             this.next = null;
         }
     }
 
-    // atributos
-    public Node<T> head, tail; // head almacena la dirección en memoria del primer nodo de la lista enlazada, y tail el ultimo
+    public Node<T> head, tail;
 
-    // metodos
-
-    //constructor que utiza como parametro un nodo
-    public LinkedList(Node<T> node){
-        head = node;
-        tail = node;
+    // Constructor
+    public LinkedList() {
+        this.head = null;
+        this.tail = null;
     }
 
-    // constructor sin parametros
-    public LinkedList(){
-        this(null);
-    }
-
-    // metodo para colocar un dato al frente de la lista enlazada
-    public void pushFront(T data){
+    // Método para colocar un dato al frente de la lista enlazada
+    public void push(T data) {
         Node<T> node = new Node<>(data);
-        if(head == null){
+        if (head == null) {
             head = node;
             tail = node;
         } else {
@@ -48,6 +39,39 @@ public class LinkedList<T>{
             head = node;
         }
     }
+
+    // Método para obtener un iterador sobre los elementos de la lista
+    @Override
+    public Iterator<T> iterator() {
+        return new LinkedListIterator();
+    }
+
+    // Clase interna que implementa Iterator
+    private class LinkedListIterator implements Iterator<T> {
+        private Node<T> current;
+
+        public LinkedListIterator() {
+            this.current = head;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            T data = current.data;
+            current = current.next;
+            return data;
+        }
+    }
+
+    // metodo para colocar un dato al frente de la lista enlazada
+
 
     // metodo para eliminar el dato que se encuentra al frente de la lista enlazada
     public void popFront(){
@@ -166,6 +190,8 @@ public class LinkedList<T>{
             }
             node = node.next;
         }
+
+
     }
 
 }

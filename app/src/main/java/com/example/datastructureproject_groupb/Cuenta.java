@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
 import com.example.datastructureproject_groupb.db.DbExpositor;
 import com.example.datastructureproject_groupb.db.DbUsuarios;
 import com.example.datastructureproject_groupb.entidades.Artistas;
@@ -147,7 +148,7 @@ public class Cuenta extends AppCompatActivity {
             Toast.makeText(this, mensajeError, Toast.LENGTH_SHORT).show();
     }
 
-    public int verificarExistencia(List<String> correosUsuario, List<String> correosArtista){
+    public int verificarExistencia(LinkedList<String> correosUsuario, LinkedList<String> correosArtista){
 
         boolean existencia;
 
