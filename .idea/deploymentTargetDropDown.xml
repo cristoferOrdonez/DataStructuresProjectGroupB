@@ -2,6 +2,15 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="CrearCuentaExpositor">
+        <State />
+      </entry>
+      <entry key="CrearEventos">
+        <State />
+      </entry>
+      <entry key="Eventos">
+        <State />
+      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>

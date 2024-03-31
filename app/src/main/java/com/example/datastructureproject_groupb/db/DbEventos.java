@@ -1,5 +1,6 @@
 package com.example.datastructureproject_groupb.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,6 +19,34 @@ public class DbEventos extends DbArt{
     public DbEventos(@Nullable Context context) {
         super(context);
         this.context = context;
+    }
+
+    public long insertarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento) {
+        long id = 0;
+        try {
+            SQLiteDatabase db = getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+            values.put("nombreEvento", nombreEvento);
+            values.put("AnoEvento", AnoEvento);
+            values.put("mesEvento", mesEvento);
+            values.put("diaEvento", diaEvento);
+            values.put("ubicacionEvento", ubicacionEvento);
+            values.put("costoEvento", costoEvento);
+            values.put("horarioEvento", horarioEvento);
+            values.put("descripcionEvento", descripcionEvento);
+            values.put("localidadEvento", localidadEvento);
+            values.put("categoriaEvento", categoriaEvento);
+
+            id = db.insert(TABLE_EVENTOS, null, values);
+
+            db.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return id;
     }
 
     public StaticUnsortedList<EventosEntidad> obtenerEventos(){

@@ -76,7 +76,7 @@
             android:layout_height="match_parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/imageButtonHistorial"
+            android:id="@+id/imageButtonCrearEvento"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="332dp"

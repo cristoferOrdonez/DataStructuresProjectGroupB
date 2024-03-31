@@ -13,6 +13,10 @@
         android:theme="@style/Theme.DataStructureProjectGroupB"
         tools:targetApi="31">
         <activity
+            android:name=".CrearEventos"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".CrearCuentaUsuario"
             android:exported="false"
             android:label="@string/title_activity_crear_cuenta_usuario"
