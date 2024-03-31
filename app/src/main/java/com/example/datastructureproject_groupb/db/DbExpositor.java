@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.entidades.Artistas;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
 
@@ -21,28 +22,47 @@ public class DbExpositor extends DbArt {
         this.context=context;
     }
 
-    public long agregarExpositor(String nombresExpositor, String correoExpositor,  String contrasenaExpositor,int localidadDeEventoExpositor, int tipoDeEventoExpositor) {
+    public long agregarExpositor(String nombresExpositor, String correoExpositor, String contrasenaExpositor, int localidadDeEventoExpositor, int tipoDeEventoExpositor) {
         long id = 0;
         try {
             SQLiteDatabase db = getWritableDatabase();
 
-            ContentValues values = new ContentValues();
-            values.put("nombresArtista", nombresExpositor);
-            values.put("correoArtista", correoExpositor);
-            values.put("tipoDeEventoArtista", tipoDeEventoExpositor);
-            values.put("contrasenaArtista", contrasenaExpositor);
-            values.put("localidadEventoArtista", localidadDeEventoExpositor);
+            Cursor cursorExpositores = db.rawQuery("SELECT * FROM " + TABLE_ARTISTAS, null);
 
-            id = db.insert(TABLE_ARTISTAS, null, values);
+            StaticUnsortedList<Artistas> nuevosExpositores = new StaticUnsortedList<>(cursorExpositores.getCount() + 1);
+
+            nuevosExpositores.insert(new Artistas(0, nombresExpositor, correoExpositor, contrasenaExpositor, tipoDeEventoExpositor));
+
+            for (int i = 0; i < cursorExpositores.getCount(); i++) {
+                if (cursorExpositores.moveToFirst()) {
+                    do {
+                        Artistas expositor = new Artistas(cursorExpositores.getInt(0), cursorExpositores.getString(1), cursorExpositores.getString(2), cursorExpositores.getString(3), cursorExpositores.getInt(4));
+                        nuevosExpositores.insert(expositor);
+                    } while (cursorExpositores.moveToNext());
+                }
+            }
+
+            db.delete(TABLE_ARTISTAS, null, null);
+
+            ContentValues values;
+
+            for (int i = 0; i < nuevosExpositores.size(); i++) {
+                values = new ContentValues();
+                Artistas expositorAlt = nuevosExpositores.get(i);
+                values.put("nombresArtista", expositorAlt.getNombreArtista());
+                values.put("correoArtista", expositorAlt.getCorreoElectronico());
+                values.put("tipoDeEventoArtista", expositorAlt.getTipoDeEvento());
+                values.put("contrasenaArtista", expositorAlt.getContrasena());
+                id = db.insert(TABLE_ARTISTAS, null, values);
+            }
 
             db.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return id;
     }
+
     public boolean actualizarExpositor(String correoInicial, String nombresExpositor, String correoExpositor,  String contrasenaExpositor,int localidadDeEventoExpositor, int tipoDeEventoExpositor) {
         boolean correcto;
 
