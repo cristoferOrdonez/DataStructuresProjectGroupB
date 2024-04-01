@@ -48,7 +48,10 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
         holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
         holder.textViewLugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
         holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
-        holder.textViewTipoEvento.setText("Tipo: " + evento.getCategoriaEvento());
+        if(evento.getCategoriaEvento()==0)
+            holder.textViewTipoEvento.setText("Tipo: Música");
+        else
+            holder.textViewTipoEvento.setText("Tipo: Talleres");
 
         holder.botonEliminarEvento.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -44,7 +44,10 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
         holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
         holder.textViewLugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
         holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
-        holder.textViewTipoEvento.setText("Tipo: " + evento.getCategoriaEvento());
+        if(evento.getCategoriaEvento()==0)
+            holder.textViewTipoEvento.setText("Tipo: Música");
+        else
+            holder.textViewTipoEvento.setText("Tipo: Talleres");
     }
 
     @Override
@@ -88,7 +91,10 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
                 horarioEvento.setText(evento.getHorarioEvento());
                 lugarEvento.setText(evento.getUbicacionEvento());
                 costoEvento.setText(evento.getCostoEventoConFormato());
-                tipoEvento.setText("Tipo de evento: " + evento.getCategoriaEvento());
+                if(evento.getCategoriaEvento()==0)
+                    tipoEvento.setText("Tipo: Música");
+                else
+                    tipoEvento.setText("Tipo: Talleres");
                 descripcionEvento.setText(evento.getDescripcionEvento());
 
                 builder.setView(view);
