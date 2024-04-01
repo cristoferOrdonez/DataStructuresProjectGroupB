@@ -8,11 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.datastructureproject_groupb.entidades.Artistas;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
 
-import com.example.datastructureproject_groupb.entidades.Usuarios;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class DbExpositor extends DbArt {
     Context context;
 
@@ -80,7 +75,7 @@ public class DbExpositor extends DbArt {
 
         if (cursorCorreos.moveToFirst()) {
             do {
-                correos.push(cursorCorreos.getString(0));
+                correos.pushFront(cursorCorreos.getString(0));
             } while (cursorCorreos.moveToNext());
         }
 

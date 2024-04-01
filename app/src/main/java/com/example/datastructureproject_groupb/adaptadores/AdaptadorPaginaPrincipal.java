@@ -2,7 +2,6 @@ package com.example.datastructureproject_groupb.adaptadores;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,6 @@ import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDato
 import com.example.datastructureproject_groupb.PaginaPrincipal;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.entidades.EventosEntidad;
-
-import java.util.ArrayList;
 
 public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPaginaPrincipal.EventoViewHolder> {
 
