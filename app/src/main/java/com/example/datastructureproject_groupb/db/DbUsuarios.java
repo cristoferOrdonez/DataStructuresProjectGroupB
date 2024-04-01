@@ -11,9 +11,6 @@ import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDato
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.entidades.Usuarios;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DbUsuarios extends DbArt {
 
     Context context;
@@ -33,13 +30,11 @@ public class DbUsuarios extends DbArt {
 
             nuevosUsuarios.insert(new Usuarios(0, nombresUsuario, apellidosUsuario, edadUsuario, correoUsuario, contrasenaUsuario, localidad, intereses));
 
-            for (int i = 0; i < cursorUsuarios.getCount(); i++) {
-                if (cursorUsuarios.moveToFirst()) {
-                    do {
-                        Usuarios usuario = new Usuarios(cursorUsuarios.getInt(0), cursorUsuarios.getString(1), cursorUsuarios.getString(2), cursorUsuarios.getInt(3), cursorUsuarios.getString(4), cursorUsuarios.getString(5), cursorUsuarios.getInt(6), cursorUsuarios.getInt(7));
-                        nuevosUsuarios.insert(usuario);
-                    } while (cursorUsuarios.moveToNext());
-                }
+            if (cursorUsuarios.moveToFirst()) {
+                do {
+                    Usuarios usuario = new Usuarios(cursorUsuarios.getInt(0), cursorUsuarios.getString(1), cursorUsuarios.getString(2), cursorUsuarios.getInt(3), cursorUsuarios.getString(4), cursorUsuarios.getString(5), cursorUsuarios.getInt(6), cursorUsuarios.getInt(7));
+                    nuevosUsuarios.insert(usuario);
+                } while (cursorUsuarios.moveToNext());
             }
 
             db.delete(TABLE_USUARIOS, null, null);
@@ -52,7 +47,7 @@ public class DbUsuarios extends DbArt {
                 values.put("nombresUsuario", usuarioAlt.getNombres());
                 values.put("apellidosUsuario", usuarioAlt.getApellidos());
                 values.put("edadUsuario", usuarioAlt.getEdad());
-                values.put("correoUsuario", usuarioAlt.getCorreoElectronico());
+                values.put("correoUsuarioUsuarios", usuarioAlt.getCorreoElectronico());
                 values.put("contrasenaUsuario", usuarioAlt.getContrasena());
                 values.put("localidadUsuario", usuarioAlt.getLocalidad());
                 values.put("interesesUsuario", usuarioAlt.getIntereses());
@@ -83,6 +78,7 @@ public class DbUsuarios extends DbArt {
         return UsuarioInfo;
     }
 
+    /*
     public boolean actualizarUsuario(String correoInicial, String nombresUsuario, String apellidosUsuario, int edadUsuario, String correoUsuario, String contrasenaUsuario, int localidad, int intereses) {
         boolean correcto;
 
@@ -112,6 +108,7 @@ public class DbUsuarios extends DbArt {
 
         return correcto;
     }
+     */
 
 
 
@@ -126,7 +123,7 @@ public class DbUsuarios extends DbArt {
 
         if (cursorCorreos.moveToFirst()) {
             do {
-                correos.push(cursorCorreos.getString(4));
+                correos.pushFront(cursorCorreos.getString(4));
 
             } while (cursorCorreos.moveToNext());
         }

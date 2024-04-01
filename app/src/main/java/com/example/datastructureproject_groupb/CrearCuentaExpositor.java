@@ -45,12 +45,8 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         cancelarRegistroUsuario=findViewById(R.id.botonCancelarRegistroExpositor);
         registrasrseRegistroUsuario=findViewById(R.id.botonRegistratseRegistroExpositor);
 
-
-
         cancelarRegistroUsuario.setOnClickListener(view -> cambiarAPaginaPrincipal());
         registrasrseRegistroUsuario.setOnClickListener(view -> registrarseComoExpositor());
-
-
 
         ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, localidades) {
             @Override
@@ -76,22 +72,14 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         interesesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerInteresesRegistroUsuario.setAdapter(interesesAdapter);
 
-        String localidadPreseleccionada = "Usaquén"; // Por ejemplo, preseleccionamos "Usaquén"
+        String localidadPreseleccionada = "Usaquén";
         int index = Arrays.asList(localidades).indexOf(localidadPreseleccionada);
         spinnerLocalidadRegistroUsuario.setSelection(index);
 
 
-        String InteresPreseleccionada = "Musica"; // Por ejemplo, preseleccionamos "Usaquén"
+        String InteresPreseleccionada = "Musica";
         int index2 = Arrays.asList(intereses).indexOf(InteresPreseleccionada);
         spinnerInteresesRegistroUsuario.setSelection(index2);
-
-
-
-
-
-
-
-
 
     }
     private static final String [] localidades= new String[]{ "Virtual","Usaquén", "Chapinero", "Santa Fe", "San Cristóbal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibón", "Engativá", "Suba", "Barrios Unidos", "Teusaquillo", "Los Mártires", "Antonio Nariño", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolívar", "Sumapaz"   };
@@ -110,12 +98,10 @@ public class CrearCuentaExpositor extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedLocalidad = parent.getItemAtPosition(position).toString();
-                // Puedes hacer algo con la localidad seleccionada si es necesario
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Este método se llama cuando no se ha seleccionado ningún elemento
             }
         });
     }
@@ -125,12 +111,10 @@ public class CrearCuentaExpositor extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedInteres = parent.getItemAtPosition(position).toString();
-                // Puedes hacer algo con el interés seleccionado si es necesario
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Este método se llama cuando no se ha seleccionado ningún elemento
             }
         });
     }

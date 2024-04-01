@@ -29,7 +29,7 @@ public class LinkedList<T> implements Iterable<T> {
     }
 
     // Método para colocar un dato al frente de la lista enlazada
-    public void push(T data) {
+    public void pushFront(T data) {
         Node<T> node = new Node<>(data);
         if (head == null) {
             head = node;

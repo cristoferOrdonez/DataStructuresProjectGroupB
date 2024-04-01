@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 
 public class DbArt extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION=1;
+    private static final int DATABASE_VERSION=3;
     private static final String DATABASE_NOMBRE = "datos.db";
 
     public static final String TABLE_USUARIOS = "t_usuarios";
@@ -27,14 +27,14 @@ public class DbArt extends SQLiteOpenHelper {
 
 
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_USUARIOS + "(" +
-                "idUsuario INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nombresUsuario TEXT NOT NULL, " +
-                "apellidosUsuario TEXT NOT NULL, " +
-                "edadUsuario INTEGER NOT NULL, " +
-                "correoUsuarioUsuarios TEXT NOT NULL," +
-                "contrasenaUsuario TEXT NOT NULL,"+
-                "localidadUsuario INTEGER NOT NULL," +
-                "interesesUsuario INTEGER NOT NULL)" );
+                "idUsuario INTEGER PRIMARY KEY AUTOINCREMENT," + //0
+                "nombresUsuario TEXT NOT NULL, " + //1
+                "apellidosUsuario TEXT NOT NULL, " + //2
+                "edadUsuario INTEGER NOT NULL, " + //3
+                "correoUsuarioUsuarios TEXT NOT NULL," + //4
+                "contrasenaUsuario TEXT NOT NULL,"+ //5
+                "localidadUsuario INTEGER NOT NULL," + //6
+                "interesesUsuario INTEGER NOT NULL)" ); //7
 
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_ARTISTAS + "(" +
                 "idArista INTEGER PRIMARY KEY AUTOINCREMENT," +

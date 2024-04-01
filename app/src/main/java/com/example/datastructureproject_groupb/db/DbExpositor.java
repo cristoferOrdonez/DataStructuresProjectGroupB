@@ -25,7 +25,8 @@ public class DbExpositor extends DbArt {
     public long agregarExpositor(String nombresExpositor, String correoExpositor, String contrasenaExpositor, int localidadDeEventoExpositor, int tipoDeEventoExpositor) {
         long id = 0;
         try {
-            SQLiteDatabase db = getWritableDatabase();
+            DbArt dbHelper = new DbArt(context);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             Cursor cursorExpositores = db.rawQuery("SELECT * FROM " + TABLE_ARTISTAS, null);
 
@@ -53,6 +54,7 @@ public class DbExpositor extends DbArt {
                 values.put("correoArtista", expositorAlt.getCorreoElectronico());
                 values.put("tipoDeEventoArtista", expositorAlt.getTipoDeEvento());
                 values.put("contrasenaArtista", expositorAlt.getContrasena());
+                values.put("localidadEventoArtista", 0);
                 id = db.insert(TABLE_ARTISTAS, null, values);
             }
 
@@ -63,6 +65,7 @@ public class DbExpositor extends DbArt {
         return id;
     }
 
+    /*
     public boolean actualizarExpositor(String correoInicial, String nombresExpositor, String correoExpositor,  String contrasenaExpositor,int localidadDeEventoExpositor, int tipoDeEventoExpositor) {
         boolean correcto;
 
@@ -90,6 +93,7 @@ public class DbExpositor extends DbArt {
 
         return correcto;
     }
+     */
 
     public LinkedList<String> obtenerCorreosElectronicosExpositores() {
         SQLiteDatabase db = getWritableDatabase();
@@ -100,7 +104,7 @@ public class DbExpositor extends DbArt {
 
         if (cursorCorreos.moveToFirst()) {
             do {
-                correos.push(cursorCorreos.getString(0));
+                correos.pushFront(cursorCorreos.getString(0));
             } while (cursorCorreos.moveToNext());
         }
 

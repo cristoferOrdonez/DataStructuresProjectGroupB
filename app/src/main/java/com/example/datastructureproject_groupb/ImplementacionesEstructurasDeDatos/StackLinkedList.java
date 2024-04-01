@@ -12,7 +12,7 @@ public class StackLinkedList<T> extends LinkedList<T>{
 
     // metodo para apilar
     public void push(T data){
-        push(data);
+        pushFront(data);
     }
 
     // metodo para desapilar
