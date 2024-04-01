@@ -72,12 +72,12 @@ public class CrearEventos extends AppCompatActivity{
         categoriasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategoriaEvento.setAdapter(categoriasAdapter);
 
-        String localidadPreseleccionada = "Usaquén"; // Por ejemplo, preseleccionamos "Usaquén"
+        String localidadPreseleccionada = "Usaquén";
         int index = Arrays.asList(localidades).indexOf(localidadPreseleccionada);
         spinnerLocalidadEvento.setSelection(index);
 
 
-        String InteresPreseleccionada = "Musica"; // Por ejemplo, preseleccionamos "Usaquén"
+        String InteresPreseleccionada = "Musica";
         int index2 = Arrays.asList(categorias).indexOf(InteresPreseleccionada);
         spinnerCategoriaEvento.setSelection(index2);
 
@@ -104,12 +104,10 @@ public class CrearEventos extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedLocalidad = parent.getItemAtPosition(position).toString();
-                // Puedes hacer algo con la localidad seleccionada si es necesario
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Este método se llama cuando no se ha seleccionado ningún elemento
             }
         });
     }
@@ -119,12 +117,10 @@ public class CrearEventos extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedInteres = parent.getItemAtPosition(position).toString();
-                // Puedes hacer algo con el interés seleccionado si es necesario
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Este método se llama cuando no se ha seleccionado ningún elemento
             }
         });
     }
@@ -141,7 +137,6 @@ public class CrearEventos extends AppCompatActivity{
 
         String verificarFechaEvento = this.fechaEvento.getText().toString().trim();
 
-        // Dividir la fecha por "/"
         String[] verificarTamanoFechaEvento = verificarFechaEvento.split("/");
         if(verificarFechaEvento.equals("") || verificarTamanoFechaEvento.length  != 3) {
             mensajeError += "No ha ingresado fecha valida\n";
@@ -184,13 +179,9 @@ public class CrearEventos extends AppCompatActivity{
         String nombreEvento = this.nombreEvento.getText().toString().trim();
         String fechaEvento = this.fechaEvento.getText().toString().trim();
 
-        // Dividir la fecha por "/"
         String[] partesFecha = fechaEvento.split("/");
-        // Obtener el día
         int diaEvento = Integer.parseInt(partesFecha[0]);
-        // Obtener el mes
         int mesEvento = Integer.parseInt(partesFecha[1]);
-        // Obtener el año
         int AnoEvento = Integer.parseInt(partesFecha[2]);
 
         String ubicacionEvento = this.ubicacionEvento.getText().toString();
@@ -200,19 +191,15 @@ public class CrearEventos extends AppCompatActivity{
         int localidad=0;
         int categoria=0;
 
-        // Obtener una instancia de DbEventos (sustituye "NombreDeTuActividadOFragmento" por el nombre real)
         DbEventos dbEventos = new DbEventos(this);
 
-        // Insertar el evento en la base de datos
         long idEventoInsertado = dbEventos.insertarEvento(nombreEvento, AnoEvento, mesEvento, diaEvento, ubicacionEvento,
                 costoEvento, horarioEvento, descripcionEvento, localidad, categoria);
 
         if (idEventoInsertado != -1) {
-            // El evento se insertó correctamente, puedes mostrar un mensaje de éxito o realizar otras acciones.
             Toast.makeText(this, "Evento creado con éxito", Toast.LENGTH_SHORT).show();
             cambiarAEventos();
         } else {
-            // Ocurrió un error al insertar el evento, puedes mostrar un mensaje de error o manejar la situación de otra manera.
             Toast.makeText(this, "Error al crear el evento", Toast.LENGTH_SHORT).show();
         }
     }

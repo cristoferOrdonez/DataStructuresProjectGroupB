@@ -168,8 +168,6 @@ public class Cuenta extends AppCompatActivity {
 
     }
 
-
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
 
@@ -206,10 +204,6 @@ public class Cuenta extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
 
     }
-
-
-
-
 
     public void cambiarAPaginaPrincipal() {
         Intent miIntent = new Intent(this, PaginaPrincipal.class);

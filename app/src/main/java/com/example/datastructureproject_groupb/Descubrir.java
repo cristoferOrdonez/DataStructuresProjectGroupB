@@ -21,12 +21,9 @@ public class Descubrir extends AppCompatActivity {
         botonCuenta=findViewById(R.id.botonCuentaDescubrir);
         botonEventos=findViewById(R.id.botonEventosDescubrir);
 
-
         botonPaginaPrincipal.setOnClickListener(view -> cambiarAPaginaPrincipal());
         botonCuenta.setOnClickListener(view -> cambiarACuenta());
         botonEventos.setOnClickListener(view -> cambiarAEventos());
-
-
 
     }
 

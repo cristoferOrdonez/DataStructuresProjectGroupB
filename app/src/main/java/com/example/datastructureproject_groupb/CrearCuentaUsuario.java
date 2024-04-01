@@ -71,12 +71,12 @@ public class CrearCuentaUsuario extends AppCompatActivity {
         interesesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerInteresesRegistroUsuario.setAdapter(interesesAdapter);
 
-        String localidadPreseleccionada = "Usaquén"; // Por ejemplo, preseleccionamos "Usaquén"
+        String localidadPreseleccionada = "Usaquén";
         int index = Arrays.asList(localidades).indexOf(localidadPreseleccionada);
         spinnerLocalidadRegistroUsuario.setSelection(index);
 
 
-        String InteresPreseleccionada = "Musica"; // Por ejemplo, preseleccionamos "Usaquén"
+        String InteresPreseleccionada = "Musica";
         int index2 = Arrays.asList(intereses).indexOf(InteresPreseleccionada);
         spinnerInteresesRegistroUsuario.setSelection(index2);
 
@@ -97,12 +97,10 @@ public class CrearCuentaUsuario extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedLocalidad = parent.getItemAtPosition(position).toString();
-                // Puedes hacer algo con la localidad seleccionada si es necesario
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Este método se llama cuando no se ha seleccionado ningún elemento
             }
         });
     }
@@ -112,12 +110,10 @@ public class CrearCuentaUsuario extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedInteres = parent.getItemAtPosition(position).toString();
-                // Puedes hacer algo con el interés seleccionado si es necesario
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Este método se llama cuando no se ha seleccionado ningún elemento
             }
         });
     }
