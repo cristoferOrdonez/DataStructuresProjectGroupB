@@ -8,12 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.datastructureproject_groupb.Bocu;
 import com.example.datastructureproject_groupb.CrearEventos;
 import com.example.datastructureproject_groupb.EditarEventos;
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.db.DbEventos;
@@ -21,10 +24,10 @@ import com.example.datastructureproject_groupb.entidades.EventosEntidad;
 
 public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPaginaEventos.EventoViewHolder>{
 
-    StaticUnsortedList<EventosEntidad> listaEventos;
+    DynamicUnsortedList<EventosEntidad> listaEventos;
     String correoElectronico;
 
-    public AdaptadorPaginaEventos(StaticUnsortedList<EventosEntidad> listaEventos, String correoElectronico) {
+    public AdaptadorPaginaEventos(DynamicUnsortedList<EventosEntidad> listaEventos, String correoElectronico) {
         this.listaEventos = listaEventos;
         this.correoElectronico = correoElectronico;
     }
@@ -63,14 +66,13 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
                         // Lógica para eliminar el evento
                         int position = holder.getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            EventosEntidad evento = listaEventos.get(position);
-                            // Llamar al método para eliminar el evento de la base de datos
-                            DbEventos dbEventos = new DbEventos(builder.getContext());
-                            dbEventos.eliminarEvento(evento.getId()); // Suponiendo que tienes un método para eliminar el evento por ID
-                            // Eliminar el evento de la lista
-                            listaEventos.delete(position);
+                            listaEventos.remove(position);
+                            //Bocu.eventos.remove(position);
                             notifyItemRemoved(position);
                         }
+
+                        Toast.makeText(v.getContext(), "adapterPosition " + position + " size; " + Bocu.eventos.size(), Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
@@ -91,7 +93,8 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), EditarEventos.class);
-                intent.putExtra("ID_EVENTO", evento.getId());
+                int position = holder.getAdapterPosition();
+                intent.putExtra("ID_EVENTO", position);
                 intent.putExtra("NOMBRE_EVENTO", evento.getNombreEvento());
                 intent.putExtra("FECHA_EVENTO", evento.getFechaEvento().getDate() + "/" + evento.getFechaEvento().getMonth() + "/" + evento.getFechaEvento().getYear());
                 intent.putExtra("UBICACION_EVENTO", evento.getUbicacionEvento());

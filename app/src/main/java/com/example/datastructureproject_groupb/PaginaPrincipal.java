@@ -59,10 +59,7 @@ public class PaginaPrincipal extends AppCompatActivity {
 
         listaEventos.setLayoutManager(new LinearLayoutManager(this));
 
-        DbEventos dbEventos = new DbEventos(this);
-        StaticUnsortedList<EventosEntidad> eventos = dbEventos.obtenerEventos();
-
-        AdaptadorPaginaPrincipal adapter=new AdaptadorPaginaPrincipal(eventos, correoElectronico);
+        AdaptadorPaginaPrincipal adapter = new AdaptadorPaginaPrincipal(Bocu.eventos, correoElectronico);
         listaEventos.setAdapter(adapter);
 
         botonHistorial = findViewById(R.id.imageButtonHistorial);
@@ -130,6 +127,10 @@ public class PaginaPrincipal extends AppCompatActivity {
 
         builder.show();
 
+    }
+
+    public void onDestroy(){
+        super.onDestroy();
     }
 
 }

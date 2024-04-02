@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicArray;
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.PaginaPrincipal;
 import com.example.datastructureproject_groupb.R;
@@ -17,10 +19,10 @@ import com.example.datastructureproject_groupb.entidades.EventosEntidad;
 
 public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPaginaPrincipal.EventoViewHolder> {
 
-    StaticUnsortedList<EventosEntidad> listaEventos;
+    DynamicUnsortedList<EventosEntidad> listaEventos;
     String correoElectronico;
 
-    public AdaptadorPaginaPrincipal(StaticUnsortedList<EventosEntidad> listaEventos, String correoElectronico) {
+    public AdaptadorPaginaPrincipal(DynamicUnsortedList<EventosEntidad> listaEventos, String correoElectronico) {
         this.listaEventos = listaEventos;
         this.correoElectronico = correoElectronico;
     }

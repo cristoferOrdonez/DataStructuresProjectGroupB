@@ -10,6 +10,9 @@ import androidx.annotation.Nullable;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
 import com.example.datastructureproject_groupb.entidades.Usuarios;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DbUsuarios extends DbArt {
 
     Context context;
@@ -106,7 +109,7 @@ public class DbUsuarios extends DbArt {
 
         if (cursorCorreos.moveToFirst()) {
             do {
-                correos.pushFront(cursorCorreos.getString(4));
+                correos.pushBack(cursorCorreos.getString(4));
 
             } while (cursorCorreos.moveToNext());
         }

@@ -4,10 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.metrics.Event;
 
 import androidx.annotation.Nullable;
 
+import com.example.datastructureproject_groupb.Bocu;
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicArray;
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.entidades.EventosEntidad;
 
@@ -22,73 +24,24 @@ public class DbEventos extends DbArt {
         this.context = context;
     }
 
-    public long insertarEvento(String nombreEvento, int anoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento) {
+    public long insertarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento) {
         long id = 0;
         try {
             SQLiteDatabase db = getWritableDatabase();
 
-            EventosEntidad evento;
+            ContentValues values = new ContentValues();
+            values.put("nombreEvento", nombreEvento);
+            values.put("AnoEvento", AnoEvento);
+            values.put("mesEvento", mesEvento);
+            values.put("diaEvento", diaEvento);
+            values.put("ubicacionEvento", ubicacionEvento);
+            values.put("costoEvento", costoEvento);
+            values.put("horarioEvento", horarioEvento);
+            values.put("descripcionEvento", descripcionEvento);
+            values.put("localidadEvento", localidadEvento);
+            values.put("categoriaEvento", categoriaEvento);
 
-            Cursor cursorEventos = db.rawQuery("SELECT * FROM " + TABLE_EVENTOS, null);
-
-            StaticUnsortedList<EventosEntidad> nuevosEventos = new StaticUnsortedList<>(cursorEventos.getCount() + 1);
-
-            nuevosEventos.insert(new EventosEntidad(0 ,nombreEvento,
-                    new Date(anoEvento, mesEvento, diaEvento), ubicacionEvento,
-                    localidadEvento, costoEvento, horarioEvento,
-                    categoriaEvento, descripcionEvento));
-
-            for(int i = 0; i < cursorEventos.getCount(); i++){
-
-                if (cursorEventos.moveToFirst()) {
-
-                    do {
-
-                        evento = new EventosEntidad(cursorEventos.getInt(0),
-                                cursorEventos.getString(1),
-                                new Date(cursorEventos.getInt(2), cursorEventos.getInt(3), cursorEventos.getInt(4)),
-                                cursorEventos.getString(5),
-                                cursorEventos.getInt(6),
-                                cursorEventos.getInt(7),
-                                cursorEventos.getString(8),
-                                cursorEventos.getInt(9),
-                                cursorEventos.getString(10));
-
-                        nuevosEventos.insert(evento);
-
-
-                    } while (cursorEventos.moveToNext());
-
-                }
-
-            }
-
-            db.delete(TABLE_EVENTOS, null, null);
-
-            ContentValues values;
-
-            EventosEntidad eventoAlt;
-
-            for(int i = 0; i < nuevosEventos.size(); i++){
-
-                values = new ContentValues();
-
-                eventoAlt = nuevosEventos.get(i);
-
-                values.put("nombreEvento", eventoAlt.getNombreEvento());
-                values.put("AnoEvento", eventoAlt.getAno());
-                values.put("mesEvento", eventoAlt.getMes());
-                values.put("diaEvento", eventoAlt.getDia());
-                values.put("ubicacionEvento", eventoAlt.getUbicacionEvento());
-                values.put("costoEvento", eventoAlt.getCostoEvento());
-                values.put("horarioEvento", eventoAlt.getHorarioEvento());
-                values.put("descripcionEvento", eventoAlt.getDescripcionEvento());
-                values.put("localidadEvento", eventoAlt.getLocalidadEvento());
-                values.put("categoriaEvento", eventoAlt.getCategoriaEvento());
-
-                db.insert(TABLE_EVENTOS, null, values);
-
-            }
+            id = db.insert(TABLE_EVENTOS, null, values);
 
             db.close();
 
@@ -101,74 +54,46 @@ public class DbEventos extends DbArt {
 
 
     public boolean editarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento, String idEvento) {
-        boolean correcto = false;
+        boolean correcto;
 
         DbArt dbHelper = new DbArt(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        EventosEntidad evento;
+        try {
+            ContentValues values = new ContentValues();
+            values.put("nombreEvento", nombreEvento);
+            values.put("AnoEvento", AnoEvento);
+            values.put("mesEvento", mesEvento);
+            values.put("diaEvento", diaEvento);
+            values.put("ubicacionEvento", ubicacionEvento);
+            values.put("costoEvento", costoEvento);
+            values.put("horarioEvento", horarioEvento);
+            values.put("descripcionEvento", descripcionEvento);
+            values.put("localidadEvento", localidadEvento);
+            values.put("categoriaEvento", categoriaEvento);
 
-        StaticUnsortedList<EventosEntidad> nuevosEventos = obtenerEventos();
+            int rowsAffected = db.update(TABLE_EVENTOS, values, "idEvento = ?", new String[]{idEvento});
 
-        db.delete(TABLE_EVENTOS, null, null);
+            correcto = (rowsAffected > 0);
 
-        for(int i = 0; i < nuevosEventos.size(); i++){
-
-            evento = nuevosEventos.get(i);
-
-            if(evento.getId() == Integer.parseInt(idEvento)){
-                correcto = true;
-                evento.setNombreEvento(nombreEvento);
-                evento.setFechaEvento(new Date(AnoEvento, mesEvento, diaEvento));
-                evento.setUbicacionEvento(ubicacionEvento);
-                evento.setCostoEvento(costoEvento);
-                evento.setHorarioEvento(horarioEvento);
-                evento.setDescripcionEvento(descripcionEvento);
-                evento.setLocalidadEvento(localidadEvento);
-                evento.setCategoriaEvento(categoriaEvento);
-
-            }
-
+        } catch (Exception e) {
+            e.printStackTrace();
+            correcto = false;
+        } finally {
+            db.close();
         }
-
-        ContentValues values;
-
-        EventosEntidad eventoAlt;
-
-        for(int i = 0; i < nuevosEventos.size(); i++){
-
-            values = new ContentValues();
-
-            eventoAlt = nuevosEventos.get(i);
-
-            values.put("nombreEvento", eventoAlt.getNombreEvento());
-            values.put("AnoEvento", eventoAlt.getAno());
-            values.put("mesEvento", eventoAlt.getMes());
-            values.put("diaEvento", eventoAlt.getDia());
-            values.put("ubicacionEvento", eventoAlt.getUbicacionEvento());
-            values.put("costoEvento", eventoAlt.getCostoEvento());
-            values.put("horarioEvento", eventoAlt.getHorarioEvento());
-            values.put("descripcionEvento", eventoAlt.getDescripcionEvento());
-            values.put("localidadEvento", eventoAlt.getLocalidadEvento());
-            values.put("categoriaEvento", eventoAlt.getCategoriaEvento());
-
-            db.insert(TABLE_EVENTOS, null, values);
-
-        }
-
-        db.close();
 
         return correcto;
     }
 
-    public StaticUnsortedList<EventosEntidad> obtenerEventos() {
+    public DynamicUnsortedList<EventosEntidad> obtenerEventos() {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         EventosEntidad evento;
         Cursor cursorEventos = db.rawQuery("SELECT * FROM " + TABLE_EVENTOS, null);
 
-        StaticUnsortedList<EventosEntidad> listaEventos = new StaticUnsortedList<>(cursorEventos.getCount());
+        DynamicUnsortedList<EventosEntidad> listaEventos = new DynamicUnsortedList<>();
 
         if (cursorEventos.moveToFirst()) {
 
@@ -200,69 +125,59 @@ public class DbEventos extends DbArt {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         boolean eliminado = false;
 
+        // Define la cláusula WHERE para eliminar el evento por su ID
+        String selection = "idEvento = ?";
+        String[] selectionArgs = {String.valueOf(idEvento)};
+
+        // Ejecuta la eliminación
+        int rowsDeleted = db.delete("t_eventos  ", selection, selectionArgs);
+
+        // Verifica si se eliminó al menos una fila
+        if (rowsDeleted > 0) {
+            eliminado = true;
+        }
+
+        db.close(); // Cierra la base de datos
+
+        return eliminado;
+    }
+
+    public void guardarEventos(){
+
         EventosEntidad evento;
 
-        Cursor cursorEventos = db.rawQuery("SELECT * FROM " + TABLE_EVENTOS, null);
+        int numeroEventos = Bocu.eventos.size();
 
-        StaticUnsortedList<EventosEntidad> nuevosEventos = new StaticUnsortedList<>(cursorEventos.getCount() - 1);
-
-        for(int i = 0; i < cursorEventos.getCount(); i++){
-
-            if (cursorEventos.moveToFirst()) {
-
-                do {
-
-                    evento = new EventosEntidad(cursorEventos.getInt(0),
-                            cursorEventos.getString(1),
-                            new Date(cursorEventos.getInt(2), cursorEventos.getInt(3), cursorEventos.getInt(4)),
-                            cursorEventos.getString(5),
-                            cursorEventos.getInt(6),
-                            cursorEventos.getInt(7),
-                            cursorEventos.getString(8),
-                            cursorEventos.getInt(9),
-                            cursorEventos.getString(10));
-
-                    if(idEvento != evento.getId()) {
-                        nuevosEventos.insert(evento);
-                        eliminado = true;
-                    }
-
-                } while (cursorEventos.moveToNext());
-
-            }
-
-        }
+        SQLiteDatabase db = getWritableDatabase();
 
         db.delete(TABLE_EVENTOS, null, null);
 
         ContentValues values;
 
-        EventosEntidad eventoAlt;
+        for(int i = 0; i < numeroEventos; i++) {
+            try {
+                evento = Bocu.eventos.get(i);
+                values = new ContentValues();
+                values.put("nombreEvento", evento.getNombreEvento());
+                values.put("AnoEvento", evento.getFechaEvento().getYear());
+                values.put("mesEvento", evento.getFechaEvento().getMonth());
+                values.put("diaEvento", evento.getFechaEvento().getDate());
+                values.put("ubicacionEvento", evento.getUbicacionEvento());
+                values.put("costoEvento", evento.getCostoEvento());
+                values.put("horarioEvento", evento.getHorarioEvento());
+                values.put("descripcionEvento", evento.getDescripcionEvento());
+                values.put("localidadEvento", evento.getLocalidadEvento());
+                values.put("categoriaEvento", evento.getCategoriaEvento());
 
-        for(int i = 0; i < nuevosEventos.size(); i++){
-
-            values = new ContentValues();
-
-            eventoAlt = nuevosEventos.get(i);
-
-            values.put("nombreEvento", eventoAlt.getNombreEvento());
-            values.put("AnoEvento", eventoAlt.getAno());
-            values.put("mesEvento", eventoAlt.getMes());
-            values.put("diaEvento", eventoAlt.getDia());
-            values.put("ubicacionEvento", eventoAlt.getUbicacionEvento());
-            values.put("costoEvento", eventoAlt.getCostoEvento());
-            values.put("horarioEvento", eventoAlt.getHorarioEvento());
-            values.put("descripcionEvento", eventoAlt.getDescripcionEvento());
-            values.put("localidadEvento", eventoAlt.getLocalidadEvento());
-            values.put("categoriaEvento", eventoAlt.getCategoriaEvento());
-
-            db.insert(TABLE_EVENTOS, null, values);
+                db.insert(TABLE_EVENTOS, null, values);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
 
         db.close();
 
-        return eliminado;
     }
-}
 
+}

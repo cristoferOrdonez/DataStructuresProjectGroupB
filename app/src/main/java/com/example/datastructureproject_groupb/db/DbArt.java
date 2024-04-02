@@ -55,7 +55,7 @@ public class DbArt extends SQLiteOpenHelper {
                 "costoEvento INTEGER NOT NULL, " + //7
                 "horarioEvento TEXT NOT NULL, " + //8
                 "categoriaEvento INTEGER NOT NULL, " + //9
-                "descripcionEvento TEXT NOT NULL)"); //12
+                "descripcionEvento TEXT NOT NULL)"); //10
     }
 
     @Override

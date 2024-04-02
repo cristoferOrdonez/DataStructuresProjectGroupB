@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaEventos;
 import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaPrincipal;
@@ -42,10 +43,8 @@ public class Eventos extends AppCompatActivity {
         correoElectronico = getIntent().getStringExtra("correoElectronico");
 
         listaEventos.setLayoutManager(new LinearLayoutManager(this));
-        DbEventos dbEventos = new DbEventos(this);
-        StaticUnsortedList<EventosEntidad> eventos = dbEventos.obtenerEventos();
 
-        AdaptadorPaginaEventos adapter=new AdaptadorPaginaEventos(eventos, correoElectronico);
+        AdaptadorPaginaEventos adapter=new AdaptadorPaginaEventos(Bocu.eventos, correoElectronico);
         listaEventos.setAdapter(adapter);
 
     }

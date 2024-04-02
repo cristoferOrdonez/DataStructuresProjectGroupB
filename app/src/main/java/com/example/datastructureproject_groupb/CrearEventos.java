@@ -17,8 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.db.DbEventos;
+import com.example.datastructureproject_groupb.entidades.EventosEntidad;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class CrearEventos extends AppCompatActivity{
@@ -200,19 +202,23 @@ public class CrearEventos extends AppCompatActivity{
         int localidad=0;
         int categoria=0;
 
-        // Obtener una instancia de DbEventos (sustituye "NombreDeTuActividadOFragmento" por el nombre real)
-        DbEventos dbEventos = new DbEventos(this);
+        try {
+            Bocu.eventos.insert(new EventosEntidad(
+                    Bocu.eventos.size(),
+                    nombreEvento,
+                    new Date(AnoEvento, mesEvento, diaEvento),
+                    ubicacionEvento,
+                    localidad,
+                    costoEvento,
+                    horarioEvento,
+                    categoria,
+                    descripcionEvento
+            ));
 
-        // Insertar el evento en la base de datos
-        long idEventoInsertado = dbEventos.insertarEvento(nombreEvento, AnoEvento, mesEvento, diaEvento, ubicacionEvento,
-                costoEvento, horarioEvento, descripcionEvento, localidad, categoria);
-
-        if (idEventoInsertado != -1) {
-            // El evento se insertó correctamente, puedes mostrar un mensaje de éxito o realizar otras acciones.
             Toast.makeText(this, "Evento creado con éxito", Toast.LENGTH_SHORT).show();
             cambiarAEventos();
-        } else {
-            // Ocurrió un error al insertar el evento, puedes mostrar un mensaje de error o manejar la situación de otra manera.
+
+        } catch(Exception e){
             Toast.makeText(this, "Error al crear el evento", Toast.LENGTH_SHORT).show();
         }
     }

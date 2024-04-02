@@ -16,8 +16,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datastructureproject_groupb.db.DbEventos;
+import com.example.datastructureproject_groupb.entidades.EventosEntidad;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class EditarEventos extends AppCompatActivity {
@@ -208,22 +210,27 @@ public class EditarEventos extends AppCompatActivity {
 
         idEvento = getIntent().getIntExtra("ID_EVENTO", -1);
 
-        String idEvento = String.valueOf(this.idEvento);
+        try {
+            Bocu.eventos.set(idEvento, new EventosEntidad(
+                    Bocu.eventos.size(),
+                    nombreEvento,
+                    new Date(AnoEvento, mesEvento, diaEvento),
+                    ubicacionEvento,
+                    localidad,
+                    costoEvento,
+                    horarioEvento,
+                    categoria,
+                    descripcionEvento
+            ));
 
+            Toast.makeText(this, "" + idEvento, Toast.LENGTH_SHORT).show();
 
-        // Obtener una instancia de DbEventos (sustituye "NombreDeTuActividadOFragmento" por el nombre real)
-        DbEventos dbEventos = new DbEventos(this);
-        // Insertar el evento en la base de datos
-        boolean idEventoEditado = dbEventos.editarEvento(nombreEvento, AnoEvento, mesEvento, diaEvento, ubicacionEvento,
-                costoEvento, horarioEvento, descripcionEvento, localidad, categoria, idEvento);
-
-        if (idEventoEditado) {
-            // El evento se insertó correctamente, puedes mostrar un mensaje de éxito o realizar otras acciones.
-            Toast.makeText(this, "Evento editado con éxito", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Evento creado con éxito", Toast.LENGTH_SHORT).show();
             cambiarAEventos();
-        } else {
-            // Ocurrió un error al insertar el evento, puedes mostrar un mensaje de error o manejar la situación de otra manera.
-            Toast.makeText(this, "Error al editar el evento", Toast.LENGTH_SHORT).show();
+
+        } catch(Exception e){
+            Toast.makeText(this, "Error al crear el evento", Toast.LENGTH_SHORT).show();
         }
+
     }
 }
