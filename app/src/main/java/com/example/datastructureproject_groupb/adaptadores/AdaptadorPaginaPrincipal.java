@@ -10,19 +10,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicArray;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
-import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.PaginaPrincipal;
 import com.example.datastructureproject_groupb.R;
-import com.example.datastructureproject_groupb.entidades.EventosEntidad;
+import com.example.datastructureproject_groupb.entidades.Evento;
 
 public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPaginaPrincipal.EventoViewHolder> {
 
-    DynamicUnsortedList<EventosEntidad> listaEventos;
+    DynamicUnsortedList<Evento> listaEventos;
     String correoElectronico;
 
-    public AdaptadorPaginaPrincipal(DynamicUnsortedList<EventosEntidad> listaEventos, String correoElectronico) {
+    public AdaptadorPaginaPrincipal(DynamicUnsortedList<Evento> listaEventos, String correoElectronico) {
         this.listaEventos = listaEventos;
         this.correoElectronico = correoElectronico;
     }
@@ -39,7 +37,7 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
     @Override
     public void onBindViewHolder(@NonNull EventoViewHolder holder, int position) {
 
-        EventosEntidad evento = listaEventos.get(position);
+        Evento evento = listaEventos.get(position);
 
         holder.textViewTituloEvento.setText(evento.getNombreEvento());
         holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEvento().getDate() + "/" + evento.getFechaEvento().getMonth() + "/" + evento.getFechaEvento().getYear());
@@ -71,7 +69,7 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
 
             itemView.setOnClickListener(v -> {
 
-                EventosEntidad evento = listaEventos.get(getAdapterPosition());
+                Evento evento = listaEventos.get(getAdapterPosition());
 
                 Activity activity = (Activity) v.getContext();
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());

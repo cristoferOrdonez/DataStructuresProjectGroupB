@@ -20,11 +20,10 @@ import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
 import com.example.datastructureproject_groupb.db.DbExpositor;
-import com.example.datastructureproject_groupb.db.DbUsuarios;
-import com.example.datastructureproject_groupb.entidades.Artistas;
-import com.example.datastructureproject_groupb.entidades.Usuarios;
+import com.example.datastructureproject_groupb.db.DbUsuariosComunes;
+import com.example.datastructureproject_groupb.entidades.Artista;
+import com.example.datastructureproject_groupb.entidades.UsuarioComun;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,6 +36,13 @@ public class Cuenta extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cuenta);
+
+        if(Bocu.expositores == null){
+            Bocu.expositores = new DbExpositor(this).obtenerExpositores();
+        }
+        if(Bocu.usuariosComunes == null){
+            Bocu.usuariosComunes = new DbUsuariosComunes(this).obtenerUsuariosComunes();
+        }
 
         correoElectronico = getIntent().getStringExtra("correoElectronico");
 
@@ -65,41 +71,39 @@ public class Cuenta extends AppCompatActivity {
     }
 
 
-    public void acceder(View view, String correoElectronicoS, String tipoUsuario) {
+    public void acceder(View view, String correoElectronicoS, int tipoUsuario) {
 
         Intent miIntent = new Intent(this, PaginaPrincipal.class);
-        miIntent.putExtra("correoElectronico", correoElectronicoS);
-        miIntent.putExtra("tipoUsuario", tipoUsuario);
-        if (tipoUsuario == "Usuario") {
+        Bocu.correoElectronico = correoElectronicoS;
+        Bocu.estadoUsuario = tipoUsuario;
+        if (tipoUsuario == Bocu.USUARIO_COMUN) {
             Toast.makeText(this, "Ingreso correctamente como Usuario", Toast.LENGTH_SHORT).show();
         } else
             Toast.makeText(this, "Ingreso correctamente como Artista", Toast.LENGTH_SHORT).show();
         startActivity(miIntent);
         finishAffinity();
+        Bocu.expositores = null;
+        Bocu.usuariosComunes = null;
     }
 
     public void revisar(View view){
-        DbUsuarios dbUsuarios = new DbUsuarios(this);
+        DbUsuariosComunes dbUsuarios = new DbUsuariosComunes(this);
         DbExpositor dbExpositor = new DbExpositor(this);
-        String tipoUsuario = "Invitado";
-
-        int opcion = verificarExistencia(dbUsuarios.obtenerCorreosElectronicos(), dbExpositor.obtenerCorreosElectronicosExpositores());
+        int opcion = verificarExistencia();
         if(opcion>-1){
             if(opcion==0){
-                Usuarios usuario = dbUsuarios.verUsuario(CorreoElectronicoAcceder.getText().toString().toLowerCase());
+                UsuarioComun usuario = verUsuarioComun(CorreoElectronicoAcceder.getText().toString().toLowerCase());
                 if(ContrasenaAcceder.getText().toString().equals(usuario.getContrasena())){
-                    tipoUsuario = "Usuario";
-                    acceder(view, CorreoElectronicoAcceder.getText().toString(), tipoUsuario);
+                    acceder(view, CorreoElectronicoAcceder.getText().toString(), Bocu.USUARIO_COMUN);
                 } else {
                     Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
                 }
             }
 
             else if(opcion==1){
-                Artistas usuario = dbExpositor.verUsuarioExpositor(CorreoElectronicoAcceder.getText().toString().toLowerCase());
+                Artista usuario = verExpositor(CorreoElectronicoAcceder.getText().toString().toLowerCase());
                 if(ContrasenaAcceder.getText().toString().equals(usuario.getContrasena())){
-                    tipoUsuario = "Artista";
-                    acceder(view, CorreoElectronicoAcceder.getText().toString(), tipoUsuario);
+                    acceder(view, CorreoElectronicoAcceder.getText().toString(), Bocu.ARTISTA);
                 } else {
                     Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
                 }
@@ -148,7 +152,25 @@ public class Cuenta extends AppCompatActivity {
             Toast.makeText(this, mensajeError, Toast.LENGTH_SHORT).show();
     }
 
-    public int verificarExistencia(LinkedList<String> correosUsuario, LinkedList<String> correosArtista){
+    public int verificarExistencia(){
+
+        LinkedList<String> correosArtista = new LinkedList<>(), correosUsuario = new LinkedList<>();
+
+        int veces = Bocu.expositores.size();
+
+        for(int i = 0; i < veces; i++){
+
+            correosArtista.pushFront(Bocu.expositores.get(i).getCorreoElectronico());
+
+        }
+
+        veces = Bocu.usuariosComunes.size();
+
+        for(int i = 0; i < veces; i++){
+
+            correosUsuario.pushFront(Bocu.usuariosComunes.get(i).getCorreoElectronico());
+
+        }
 
         boolean existencia;
 
@@ -207,32 +229,24 @@ public class Cuenta extends AppCompatActivity {
 
     }
 
-
-
-
-
     public void cambiarAPaginaPrincipal() {
         Intent miIntent = new Intent(this, PaginaPrincipal.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarAEventos() {
         Intent miIntent = new Intent(this, Eventos.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarADescubrir() {
         Intent miIntent = new Intent(this, Descubrir.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
 
     public void cambiarARegistroUsuario() {
         Intent miIntent = new Intent(this, com.example.datastructureproject_groupb.CrearCuentaUsuario.class);
-        //miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
 
@@ -240,13 +254,26 @@ public class Cuenta extends AppCompatActivity {
     }
     public void cambiarARegistroExpositor() {
         Intent miIntent = new Intent(this, com.example.datastructureproject_groupb.CrearCuentaExpositor.class);
-        //miIntent.putExtra("correoElectronico",correoElectronicoS);
         startActivity(miIntent);
         finishAffinity();
 
 
     }
 
+    private UsuarioComun verUsuarioComun(String correoElectronico){
+        int veces = Bocu.usuariosComunes.size();
+        for(int i = 0; i < veces; i++)
+            if(Bocu.usuariosComunes.get(i).getCorreoElectronico().equals(correoElectronico))
+                return Bocu.usuariosComunes.get(i);
+        return null;
+    }
 
+    private Artista verExpositor(String correoElectronico){
+        int veces = Bocu.expositores.size();
+        for(int i = 0; i < veces; i++)
+            if(Bocu.expositores.get(i).getCorreoElectronico().equals(correoElectronico))
+                return Bocu.expositores.get(i);
+        return null;
+    }
 
 }

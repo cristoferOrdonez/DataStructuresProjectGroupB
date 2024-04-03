@@ -7,18 +7,39 @@ import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.Nullable;
 
+import com.example.datastructureproject_groupb.Bocu;
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
-import com.example.datastructureproject_groupb.entidades.Usuarios;
+import com.example.datastructureproject_groupb.entidades.Artista;
+import com.example.datastructureproject_groupb.entidades.UsuarioComun;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class DbUsuarios extends DbArt {
+public class DbUsuariosComunes extends DbArt {
 
     Context context;
-    public DbUsuarios(@Nullable Context context) {
+    public DbUsuariosComunes(@Nullable Context context) {
         super(context);
         this.context = context;
+    }
+
+    public DynamicUnsortedList<UsuarioComun> obtenerUsuariosComunes(){
+        DbArt dbHelper = new DbArt(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        Cursor cursorUsuarios = db.rawQuery("SELECT * FROM " + TABLE_USUARIOS, null);
+
+        DynamicUnsortedList<UsuarioComun> usuariosComunes = new DynamicUnsortedList<UsuarioComun>();
+
+        if (cursorUsuarios.moveToFirst()) {
+            do {
+                UsuarioComun usuario = new UsuarioComun(cursorUsuarios.getInt(0), cursorUsuarios.getString(1), cursorUsuarios.getString(2), cursorUsuarios.getInt(3), cursorUsuarios.getString(4), cursorUsuarios.getString(5), cursorUsuarios.getInt(6), cursorUsuarios.getInt(7));
+                usuariosComunes.insert(usuario);
+            } while (cursorUsuarios.moveToNext());
+        }
+
+        db.close();
+
+        return usuariosComunes;
+
     }
 
     public long agregarUsuario(String nombresUsuario, String apellidosUsuario, int edadUsuario, String correoUsuario, String contrasenaUsuario, int localidad, int intereses) {
@@ -49,15 +70,15 @@ public class DbUsuarios extends DbArt {
 
     }
 
-    public Usuarios verUsuario(String correoUsuario) {
+    public UsuarioComun verUsuario(String correoUsuario) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Usuarios UsuarioInfo = null;
+        UsuarioComun UsuarioInfo = null;
         Cursor cursorUsuarios;
 
         cursorUsuarios = db.rawQuery("SELECT * FROM " + TABLE_USUARIOS + " WHERE correoUsuarioUsuarios = ? LIMIT 1", new String[]{correoUsuario});
 
         if (cursorUsuarios.moveToFirst()) {
-            UsuarioInfo = new Usuarios(cursorUsuarios.getInt(0), cursorUsuarios.getString(1), cursorUsuarios.getString(2),cursorUsuarios.getInt(3), cursorUsuarios.getString(4), cursorUsuarios.getString(5), cursorUsuarios.getInt(6), cursorUsuarios.getInt(7));
+            UsuarioInfo = new UsuarioComun(cursorUsuarios.getInt(0), cursorUsuarios.getString(1), cursorUsuarios.getString(2),cursorUsuarios.getInt(3), cursorUsuarios.getString(4), cursorUsuarios.getString(5), cursorUsuarios.getInt(6), cursorUsuarios.getInt(7));
         }
         cursorUsuarios.close();
 
@@ -117,6 +138,24 @@ public class DbUsuarios extends DbArt {
         db.close();
 
         return correos;
+
+    }
+
+    public void guardarUsuariosComunes(){
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.delete(TABLE_USUARIOS, null, null);
+        db.close();
+
+        int veces = Bocu.usuariosComunes.size();
+
+        UsuarioComun usuarioComun;
+
+        for(int i = 0; i < veces; i++) {
+            usuarioComun = Bocu.usuariosComunes.get(i);
+            agregarUsuario(usuarioComun.getNombres(), usuarioComun.getApellidos(), usuarioComun.getEdad(), usuarioComun.getCorreoElectronico(), usuarioComun.getContrasena(), usuarioComun.getLocalidad(), usuarioComun.getIntereses());
+        }
 
     }
 

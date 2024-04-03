@@ -9,14 +9,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
-import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaEventos;
-import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaPrincipal;
-import com.example.datastructureproject_groupb.db.DbEventos;
-import com.example.datastructureproject_groupb.entidades.EventosEntidad;
-
-import java.util.Date;
 
 public class Eventos extends AppCompatActivity {
     Button botonPaginaPrincipal, botonCuenta, botonDescubrir, botonEditarEvento, botonEliimnarEvento;

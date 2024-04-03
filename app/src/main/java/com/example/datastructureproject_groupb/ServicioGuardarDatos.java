@@ -8,6 +8,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.example.datastructureproject_groupb.db.DbEventos;
+import com.example.datastructureproject_groupb.db.DbExpositor;
+import com.example.datastructureproject_groupb.db.DbUsuariosComunes;
 
 public class ServicioGuardarDatos extends Service {
 
@@ -28,8 +30,21 @@ public class ServicioGuardarDatos extends Service {
     }
 
     private void guardarDatos() {
-        Toast.makeText(this, "WAOS", Toast.LENGTH_SHORT).show();
-        new DbEventos(this).guardarEventos();
+        if(Bocu.cambiosEnEventos) {
+            Toast.makeText(this, "Guardando Eventos", Toast.LENGTH_SHORT).show();
+            new DbEventos(this).guardarEventos();
+            Bocu.cambiosEnEventos = false;
+        }
+        if(Bocu.cambiosEnExpositores){
+            Toast.makeText(this, "Guardando Expositores", Toast.LENGTH_SHORT).show();
+            new DbExpositor(this).guardarExpositores();
+            Bocu.cambiosEnExpositores = false;
+        }
+        if(Bocu.cambiosEnUsuariosComunes){
+            Toast.makeText(this, "Guardando Usuarios comunes", Toast.LENGTH_SHORT).show();
+            new DbUsuariosComunes(this).guardarUsuariosComunes();
+            Bocu.cambiosEnUsuariosComunes = false;
+        }
     }
 
     @Nullable

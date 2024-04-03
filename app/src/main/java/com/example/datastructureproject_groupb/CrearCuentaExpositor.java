@@ -7,22 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
 import com.example.datastructureproject_groupb.db.DbExpositor;
-import com.example.datastructureproject_groupb.db.DbUsuarios;
+import com.example.datastructureproject_groupb.db.DbUsuariosComunes;
+import com.example.datastructureproject_groupb.entidades.Artista;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -85,14 +83,6 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         int index2 = Arrays.asList(intereses).indexOf(InteresPreseleccionada);
         spinnerInteresesRegistroUsuario.setSelection(index2);
 
-
-
-
-
-
-
-
-
     }
     private static final String [] localidades= new String[]{ "Virtual","Usaquén", "Chapinero", "Santa Fe", "San Cristóbal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibón", "Engativá", "Suba", "Barrios Unidos", "Teusaquillo", "Los Mártires", "Antonio Nariño", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolívar", "Sumapaz"   };
     private static final String [] intereses= new String[]{"Musica", "Talleres",     };
@@ -110,12 +100,10 @@ public class CrearCuentaExpositor extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedLocalidad = parent.getItemAtPosition(position).toString();
-                // Puedes hacer algo con la localidad seleccionada si es necesario
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Este método se llama cuando no se ha seleccionado ningún elemento
             }
         });
     }
@@ -125,12 +113,10 @@ public class CrearCuentaExpositor extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedInteres = parent.getItemAtPosition(position).toString();
-                // Puedes hacer algo con el interés seleccionado si es necesario
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Este método se llama cuando no se ha seleccionado ningún elemento
             }
         });
     }
@@ -195,14 +181,15 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         int localidad=0;
         int interes=0;
 
-        DbExpositor dbExpositor = new DbExpositor(this);
-        DbUsuarios dbUsuarios = new DbUsuarios(this);
+        //DbExpositor dbExpositor = new DbExpositor(this);
 
+        Artista expositor = new Artista(Bocu.expositores.size(), nombres, correoElectronicoR.toLowerCase(), contrasenaR, interes, localidad);
 
+        if(!verificarRepeticion()){
 
-        if(!verificarRepeticion(dbExpositor.obtenerCorreosElectronicosExpositores()) && !verificarRepeticion(dbUsuarios.obtenerCorreosElectronicos())){
-
-            long i = dbExpositor.agregarExpositor(nombres, correoElectronicoR.toLowerCase(), contrasenaR, localidad, interes);
+            Bocu.expositores.insert(expositor);
+            Bocu.cambiosEnExpositores = true;
+            //long i = dbExpositor.agregarExpositor(nombres, correoElectronicoR.toLowerCase(), contrasenaR, localidad, interes);
             Toast.makeText(this, "Se ha registrado como expositor exitosamente.", Toast.LENGTH_SHORT).show();
             cambiarAPaginaPrincipal();
 
@@ -221,7 +208,19 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         return 0;
     }
 
-    public boolean verificarRepeticion(LinkedList<String> correos) {
+    public boolean verificarRepeticion() {
+
+        LinkedList<String> correos = new LinkedList<>();
+
+        int veces = Bocu.expositores.size();
+
+        for(int i = 0; i < veces; i++)
+            correos.pushFront(Bocu.expositores.get(i).getCorreoElectronico());
+
+        veces = Bocu.usuariosComunes.size();
+
+        for(int i = 0; i < veces; i++)
+            correos.pushFront(Bocu.usuariosComunes.get(i).getCorreoElectronico());
 
         boolean repeticion = false;
 

@@ -8,10 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import androidx.annotation.Nullable;
 
 import com.example.datastructureproject_groupb.Bocu;
-import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicArray;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
-import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
-import com.example.datastructureproject_groupb.entidades.EventosEntidad;
+import com.example.datastructureproject_groupb.entidades.Evento;
 
 import java.util.Date;
 
@@ -86,20 +84,20 @@ public class DbEventos extends DbArt {
         return correcto;
     }
 
-    public DynamicUnsortedList<EventosEntidad> obtenerEventos() {
+    public DynamicUnsortedList<Evento> obtenerEventos() {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        EventosEntidad evento;
+        Evento evento;
         Cursor cursorEventos = db.rawQuery("SELECT * FROM " + TABLE_EVENTOS, null);
 
-        DynamicUnsortedList<EventosEntidad> listaEventos = new DynamicUnsortedList<>();
+        DynamicUnsortedList<Evento> listaEventos = new DynamicUnsortedList<>();
 
         if (cursorEventos.moveToFirst()) {
 
             do {
 
-                evento = new EventosEntidad(cursorEventos.getInt(0),
+                evento = new Evento(cursorEventos.getInt(0),
                         cursorEventos.getString(1),
                         new Date(cursorEventos.getInt(2), cursorEventos.getInt(3), cursorEventos.getInt(4)),
                         cursorEventos.getString(5),
@@ -120,33 +118,19 @@ public class DbEventos extends DbArt {
 
         return listaEventos;
     }
-    public boolean eliminarEvento(int idEvento) {
+    public void eliminarEvento(int idEvento) {
         DbArt dbHelper = new DbArt(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        boolean eliminado = false;
 
-        // Define la cláusula WHERE para eliminar el evento por su ID
-        String selection = "idEvento = ?";
-        String[] selectionArgs = {String.valueOf(idEvento)};
+        db.delete(TABLE_EVENTOS, "idEvento = ?", new String[]{String.valueOf(idEvento)});
 
-        // Ejecuta la eliminación
-        int rowsDeleted = db.delete("t_eventos  ", selection, selectionArgs);
+        db.close();
 
-        // Verifica si se eliminó al menos una fila
-        if (rowsDeleted > 0) {
-            eliminado = true;
-        }
-
-        db.close(); // Cierra la base de datos
-
-        return eliminado;
     }
 
     public void guardarEventos(){
 
-        EventosEntidad evento;
-
-        int numeroEventos = Bocu.eventos.size();
+        int veces = Bocu.eventos.size();
 
         SQLiteDatabase db = getWritableDatabase();
 
@@ -154,7 +138,9 @@ public class DbEventos extends DbArt {
 
         ContentValues values;
 
-        for(int i = 0; i < numeroEventos; i++) {
+        Evento evento;
+
+        for(int i = 0; i < veces; i++) {
             try {
                 evento = Bocu.eventos.get(i);
                 values = new ContentValues();

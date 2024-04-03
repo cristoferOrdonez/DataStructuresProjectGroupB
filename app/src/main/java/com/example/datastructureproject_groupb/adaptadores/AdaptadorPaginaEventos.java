@@ -14,20 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datastructureproject_groupb.Bocu;
-import com.example.datastructureproject_groupb.CrearEventos;
 import com.example.datastructureproject_groupb.EditarEventos;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
-import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.R;
-import com.example.datastructureproject_groupb.db.DbEventos;
-import com.example.datastructureproject_groupb.entidades.EventosEntidad;
+import com.example.datastructureproject_groupb.entidades.Evento;
 
 public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPaginaEventos.EventoViewHolder>{
 
-    DynamicUnsortedList<EventosEntidad> listaEventos;
+    DynamicUnsortedList<Evento> listaEventos;
     String correoElectronico;
 
-    public AdaptadorPaginaEventos(DynamicUnsortedList<EventosEntidad> listaEventos, String correoElectronico) {
+    public AdaptadorPaginaEventos(DynamicUnsortedList<Evento> listaEventos, String correoElectronico) {
         this.listaEventos = listaEventos;
         this.correoElectronico = correoElectronico;
     }
@@ -44,7 +41,7 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
     @Override
     public void onBindViewHolder(@NonNull AdaptadorPaginaEventos.EventoViewHolder holder, int position) {
 
-        EventosEntidad evento = listaEventos.get(position);
+        Evento evento = listaEventos.get(position);
 
         holder.textViewTituloEvento.setText(evento.getNombreEvento());
         holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEvento().getDate() + "/" + evento.getFechaEvento().getMonth() + "/" + evento.getFechaEvento().getYear());
@@ -63,12 +60,15 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
                 builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Lógica para eliminar el evento
                         int position = holder.getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            listaEventos.remove(position);
-                            //Bocu.eventos.remove(position);
-                            notifyItemRemoved(position);
+                            try {
+                                listaEventos.remove(position);
+                                Bocu.cambiosEnEventos = true;
+                                notifyItemRemoved(position);
+                            } catch (Exception e){
+                                Toast.makeText(v.getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         Toast.makeText(v.getContext(), "adapterPosition " + position + " size; " + Bocu.eventos.size(), Toast.LENGTH_SHORT).show();
@@ -94,7 +94,8 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), EditarEventos.class);
                 int position = holder.getAdapterPosition();
-                intent.putExtra("ID_EVENTO", position);
+                intent.putExtra("ID_EVENTO",evento.getId());
+                intent.putExtra("POSITION", position);
                 intent.putExtra("NOMBRE_EVENTO", evento.getNombreEvento());
                 intent.putExtra("FECHA_EVENTO", evento.getFechaEvento().getDate() + "/" + evento.getFechaEvento().getMonth() + "/" + evento.getFechaEvento().getYear());
                 intent.putExtra("UBICACION_EVENTO", evento.getUbicacionEvento());

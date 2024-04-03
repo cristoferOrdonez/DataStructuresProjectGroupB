@@ -1,15 +1,10 @@
 package com.example.datastructureproject_groupb.entidades;
 
-import android.widget.TimePicker;
-
-import org.intellij.lang.annotations.JdkConstants;
-
-import java.sql.Time;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class EventosEntidad {
+public class Evento {
 
     // atributos
 
@@ -44,7 +39,7 @@ public class EventosEntidad {
     private String horarioEvento;
     private int categoriaEvento;
     private String descripcionEvento;
-    public EventosEntidad(int id,String nombreEvento,Date fechaEvento,String ubicacionEvento, int localidadEvento, int costoEvento, String horarioEvento, int categoriaEvento, String descripcionEvento){
+    public Evento(int id, String nombreEvento, Date fechaEvento, String ubicacionEvento, int localidadEvento, int costoEvento, String horarioEvento, int categoriaEvento, String descripcionEvento){
         this.id=id;
         this.nombreEvento=nombreEvento;
         this.fechaEvento=fechaEvento;

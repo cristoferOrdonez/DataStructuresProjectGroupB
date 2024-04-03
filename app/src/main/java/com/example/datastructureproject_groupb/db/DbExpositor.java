@@ -4,14 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.ExpandableListAdapter;
 
-import com.example.datastructureproject_groupb.entidades.Artistas;
+import com.example.datastructureproject_groupb.Bocu;
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
+import com.example.datastructureproject_groupb.entidades.Artista;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
-
-import com.example.datastructureproject_groupb.entidades.Usuarios;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DbExpositor extends DbArt {
     Context context;
@@ -19,6 +17,29 @@ public class DbExpositor extends DbArt {
     public DbExpositor(Context context) {
         super(context);
         this.context=context;
+    }
+
+    public DynamicUnsortedList<Artista> obtenerExpositores(){
+        DbArt dbHelper = new DbArt(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        Cursor cursorExpositores = db.rawQuery("SELECT * FROM " + TABLE_ARTISTAS, null);
+
+        DynamicUnsortedList<Artista> expositores = new DynamicUnsortedList<Artista>();
+
+        for (int i = 0; i < cursorExpositores.getCount(); i++) {
+            if (cursorExpositores.moveToFirst()) {
+                do {
+                    Artista expositor = new Artista(cursorExpositores.getInt(0), cursorExpositores.getString(1), cursorExpositores.getString(2), cursorExpositores.getString(5), cursorExpositores.getInt(3), cursorExpositores.getInt(4));
+                    expositores.insert(expositor);
+                } while (cursorExpositores.moveToNext());
+            }
+        }
+
+        db.close();
+
+        return expositores;
+
     }
 
     public long agregarExpositor(String nombresExpositor, String correoExpositor,  String contrasenaExpositor,int localidadDeEventoExpositor, int tipoDeEventoExpositor) {
@@ -91,15 +112,15 @@ public class DbExpositor extends DbArt {
     }
 
 
-    public Artistas verUsuarioExpositor(String correoUsuario) {
+    public Artista verUsuarioExpositor(String correoUsuario) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Artistas ArtistasInfo = null;
+        Artista ArtistasInfo = null;
         Cursor cursorArtistas;
 
         cursorArtistas = db.rawQuery("SELECT * FROM " + TABLE_ARTISTAS + " WHERE correoArtista = ? LIMIT 1", new String[]{correoUsuario});
 
         if (cursorArtistas.moveToFirst()) {
-            ArtistasInfo = new Artistas();
+            ArtistasInfo = new Artista();
             ArtistasInfo.setCorreoElectronico(cursorArtistas.getString(2));
             ArtistasInfo.setContrasena(cursorArtistas.getString(5));
         }
@@ -109,4 +130,23 @@ public class DbExpositor extends DbArt {
 
         return ArtistasInfo;
     }
+
+    public void guardarExpositores(){
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.delete(TABLE_ARTISTAS, null, null);
+        db.close();
+
+        int veces = Bocu.expositores.size();
+
+        Artista artista;
+
+        for(int i = 0; i < veces; i++) {
+            artista = Bocu.expositores.get(i);
+            agregarExpositor(artista.getNombreArtista(), artista.getCorreoElectronico(), artista.getContrasena(), artista.getLocalidad(), artista.getTipoDeEvento());
+        }
+
+    }
+
 }

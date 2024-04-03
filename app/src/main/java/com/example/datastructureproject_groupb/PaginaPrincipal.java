@@ -4,11 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,18 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StackLinkedList;
-import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
-import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaEventos;
 import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaPrincipal;
-import com.example.datastructureproject_groupb.db.DbArt;
-import com.example.datastructureproject_groupb.db.DbEventos;
-import com.example.datastructureproject_groupb.entidades.EventosEntidad;
-
-import java.util.Date;
+import com.example.datastructureproject_groupb.entidades.Evento;
 
 public class PaginaPrincipal extends AppCompatActivity {
 
-    public static StackLinkedList<EventosEntidad> historialEventos;
+    public static StackLinkedList<Evento> historialEventos;
     private Button botonDescubrir, botonCuenta, botonEventos;
     private ImageButton botonHistorial;
     private String correoElectronico, tipoUsuario;
@@ -102,7 +93,7 @@ public class PaginaPrincipal extends AppCompatActivity {
         }
     }
 
-    public void mostrarDialogHistorial(EventosEntidad evento){
+    public void mostrarDialogHistorial(Evento evento){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();

@@ -15,10 +15,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.datastructureproject_groupb.db.DbEventos;
-import com.example.datastructureproject_groupb.entidades.EventosEntidad;
+import com.example.datastructureproject_groupb.entidades.Evento;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -208,11 +206,13 @@ public class EditarEventos extends AppCompatActivity {
         int localidad=0;
         int categoria=0;
 
-        idEvento = getIntent().getIntExtra("ID_EVENTO", -1);
+        int position = getIntent().getIntExtra("POSITION", -1);
+        idEvento = getIntent().getIntExtra("ID_EVENTO",-1);
 
         try {
-            Bocu.eventos.set(idEvento, new EventosEntidad(
-                    Bocu.eventos.size(),
+
+            Evento evento = new Evento(
+                    idEvento,
                     nombreEvento,
                     new Date(AnoEvento, mesEvento, diaEvento),
                     ubicacionEvento,
@@ -221,7 +221,10 @@ public class EditarEventos extends AppCompatActivity {
                     horarioEvento,
                     categoria,
                     descripcionEvento
-            ));
+            );
+
+            Bocu.eventos.set(position, evento);
+            Bocu.cambiosEnEventos = true;
 
             Toast.makeText(this, "" + idEvento, Toast.LENGTH_SHORT).show();
 
