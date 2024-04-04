@@ -12,7 +12,7 @@ import android.widget.ImageButton;
 import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaEventos;
 
 public class Eventos extends AppCompatActivity {
-    Button botonPaginaPrincipal, botonCuenta, botonDescubrir, botonEditarEvento, botonEliimnarEvento;
+    Button botonPaginaPrincipal, botonCuenta, botonDescubrir;
     ImageButton botonCrearEvento;
     String correoElectronico;
     RecyclerView listaEventos;
@@ -35,11 +35,11 @@ public class Eventos extends AppCompatActivity {
         listaEventos = findViewById(R.id.RecyclerViewEventosPaginaEventos);
         correoElectronico = getIntent().getStringExtra("correoElectronico");
 
-        listaEventos.setLayoutManager(new LinearLayoutManager(this));
+        listaEventos.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
 
-        AdaptadorPaginaEventos adapter=new AdaptadorPaginaEventos(Bocu.eventos, correoElectronico);
+        AdaptadorPaginaEventos adapter=new AdaptadorPaginaEventos(Bocu.eventosExpositor, correoElectronico);
         listaEventos.setAdapter(adapter);
-
+        listaEventos.scrollToPosition(Bocu.eventosExpositor.size() - 1);
     }
 
     public void cambiarAPaginaPrincipal() {

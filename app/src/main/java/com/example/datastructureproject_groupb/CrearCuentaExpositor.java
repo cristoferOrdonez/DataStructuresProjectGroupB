@@ -188,8 +188,7 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         if(!verificarRepeticion()){
 
             Bocu.expositores.insert(expositor);
-            Bocu.cambiosEnExpositores = true;
-            //long i = dbExpositor.agregarExpositor(nombres, correoElectronicoR.toLowerCase(), contrasenaR, localidad, interes);
+            new DbExpositor(this).agregarExpositor(nombres, correoElectronicoR.toLowerCase(), contrasenaR, localidad, interes);
             Toast.makeText(this, "Se ha registrado como expositor exitosamente.", Toast.LENGTH_SHORT).show();
             cambiarAPaginaPrincipal();
 

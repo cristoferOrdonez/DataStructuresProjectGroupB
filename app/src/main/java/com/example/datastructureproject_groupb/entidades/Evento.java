@@ -30,31 +30,28 @@ public class Evento {
     private static final int CIUDAD_BOLÍVAR = 19;
     private static final int SUMAPAZ = 20;
 
-    private int id;
-    private String nombreEvento;
+    private int localidadEvento, costoEvento, categoriaEvento;
+    private long id;
+    private String nombreEvento, ubicacionEvento, horarioEvento, descripcionEvento, correoAutor;
     private Date fechaEvento;
-    private String ubicacionEvento;
-    private int localidadEvento;
-    private int costoEvento;
-    private String horarioEvento;
-    private int categoriaEvento;
-    private String descripcionEvento;
-    public Evento(int id, String nombreEvento, Date fechaEvento, String ubicacionEvento, int localidadEvento, int costoEvento, String horarioEvento, int categoriaEvento, String descripcionEvento){
-        this.id=id;
-        this.nombreEvento=nombreEvento;
-        this.fechaEvento=fechaEvento;
-        this.ubicacionEvento=ubicacionEvento;
-        this.localidadEvento=localidadEvento;
-        this.costoEvento=costoEvento;
+
+    public Evento(long id, String nombreEvento, Date fechaEvento, String ubicacionEvento, int localidadEvento, int costoEvento, String horarioEvento, int categoriaEvento, String descripcionEvento, String correoAutor){
+        this.id = id;
+        this.nombreEvento = nombreEvento;
+        this.fechaEvento = fechaEvento;
+        this.ubicacionEvento = ubicacionEvento;
+        this.localidadEvento = localidadEvento;
+        this.costoEvento = costoEvento;
         this.horarioEvento = horarioEvento;
-        this.categoriaEvento=categoriaEvento;
-        this.descripcionEvento=descripcionEvento;
+        this.categoriaEvento =categoriaEvento;
+        this.descripcionEvento = descripcionEvento;
+        this.correoAutor = correoAutor;
     }
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -147,6 +144,14 @@ public class Evento {
 
     public void setHorarioEvento(String horarioEvento){
         this.horarioEvento = horarioEvento;
+    }
+
+    public void setCorreoAutor(String correoAutor){
+        this.correoAutor = correoAutor;
+    }
+
+    public String getCorreoAutor(){
+        return correoAutor;
     }
 
 }

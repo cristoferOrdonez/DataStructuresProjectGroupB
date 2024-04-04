@@ -16,6 +16,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.datastructureproject_groupb.db.DbEventos;
+import com.example.datastructureproject_groupb.db.DbExpositor;
 import com.example.datastructureproject_groupb.entidades.Evento;
 
 import java.util.Arrays;
@@ -201,8 +203,22 @@ public class CrearEventos extends AppCompatActivity{
         int localidad=0;
         int categoria=0;
 
+        Toast.makeText(this, "" + Bocu.correoElectronico, Toast.LENGTH_SHORT).show();
+
+        long newId = new DbEventos(this).insertarEvento(nombreEvento,
+                AnoEvento,
+                mesEvento,
+                diaEvento,
+                ubicacionEvento,
+                costoEvento,
+                horarioEvento,
+                descripcionEvento,
+                localidad,
+                categoria,
+                Bocu.correoElectronico);
+
         Evento evento = new Evento(
-                Bocu.eventos.size(),
+                newId,
                 nombreEvento,
                 new Date(AnoEvento, mesEvento, diaEvento),
                 ubicacionEvento,
@@ -210,12 +226,15 @@ public class CrearEventos extends AppCompatActivity{
                 costoEvento,
                 horarioEvento,
                 categoria,
-                descripcionEvento
+                descripcionEvento,
+                Bocu.correoElectronico
         );
 
         try {
+            Bocu.eventosExpositor.insert(evento);
+            Bocu.posicionesEventosExpositor.insert(Bocu.eventos.size());
             Bocu.eventos.insert(evento);
-            Bocu.cambiosEnEventos = true;
+
             Toast.makeText(this, "Evento creado con éxito", Toast.LENGTH_SHORT).show();
             cambiarAEventos();
 

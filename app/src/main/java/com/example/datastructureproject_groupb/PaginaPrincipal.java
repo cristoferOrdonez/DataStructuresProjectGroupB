@@ -47,7 +47,6 @@ public class PaginaPrincipal extends AppCompatActivity {
         listaEventos = findViewById(R.id.recyclerViewEventosPaginaPrincipal);
         tipoUsuario = getIntent().getStringExtra("tipoUsuario");
 
-
         listaEventos.setLayoutManager(new LinearLayoutManager(this));
 
         AdaptadorPaginaPrincipal adapter = new AdaptadorPaginaPrincipal(Bocu.eventos, correoElectronico);

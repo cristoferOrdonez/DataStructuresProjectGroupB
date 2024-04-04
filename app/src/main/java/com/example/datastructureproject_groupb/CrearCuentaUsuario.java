@@ -204,8 +204,7 @@ public class CrearCuentaUsuario extends AppCompatActivity {
         if(!verificarRepeticion()){
 
             Bocu.usuariosComunes.insert(usuarioComun);
-            Bocu.cambiosEnUsuariosComunes = true;
-            //long i = dbUsuarios.agregarUsuario(nombres, apellidos, edad, correoElectronicoR.toLowerCase(), contrasenaR, localidad, interes);
+            new DbUsuariosComunes(this).agregarUsuario(nombres, apellidos, edad, correoElectronicoR.toLowerCase(), contrasenaR, localidad, interes);
             Toast.makeText(this, "Se ha registrado como usuario exitosamente.", Toast.LENGTH_SHORT).show();
 
             cambiarAPaginaPrincipal();

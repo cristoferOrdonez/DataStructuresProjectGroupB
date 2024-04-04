@@ -17,6 +17,7 @@ import com.example.datastructureproject_groupb.Bocu;
 import com.example.datastructureproject_groupb.EditarEventos;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.R;
+import com.example.datastructureproject_groupb.db.DbEventos;
 import com.example.datastructureproject_groupb.entidades.Evento;
 
 public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPaginaEventos.EventoViewHolder>{
@@ -64,7 +65,15 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
                         if (position != RecyclerView.NO_POSITION) {
                             try {
                                 listaEventos.remove(position);
-                                Bocu.cambiosEnEventos = true;
+                                Bocu.eventos.remove(Bocu.posicionesEventosExpositor.get(position));
+                                Bocu.posicionesEventosExpositor.remove(position);
+
+                                int veces = Bocu.posicionesEventosExpositor.size();
+
+                                for(int i = position; i < veces; i++)
+                                    Bocu.posicionesEventosExpositor.set(i, Bocu.posicionesEventosExpositor.get(i) - 1);
+
+                                new DbEventos(v.getContext()).eliminarEvento(evento.getId());
                                 notifyItemRemoved(position);
                             } catch (Exception e){
                                 Toast.makeText(v.getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -79,7 +88,6 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // No hacer nada, simplemente cerrar el diálogo
                         dialog.dismiss();
                     }
                 });

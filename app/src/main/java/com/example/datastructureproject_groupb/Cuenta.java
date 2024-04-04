@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
 import com.example.datastructureproject_groupb.db.DbExpositor;
 import com.example.datastructureproject_groupb.db.DbUsuariosComunes;
@@ -73,50 +74,56 @@ public class Cuenta extends AppCompatActivity {
 
     public void acceder(View view, String correoElectronicoS, int tipoUsuario) {
 
-        Intent miIntent = new Intent(this, PaginaPrincipal.class);
-        Bocu.correoElectronico = correoElectronicoS;
-        Bocu.estadoUsuario = tipoUsuario;
-        if (tipoUsuario == Bocu.USUARIO_COMUN) {
-            Toast.makeText(this, "Ingreso correctamente como Usuario", Toast.LENGTH_SHORT).show();
-        } else
-            Toast.makeText(this, "Ingreso correctamente como Artista", Toast.LENGTH_SHORT).show();
-        startActivity(miIntent);
-        finishAffinity();
-        Bocu.expositores = null;
-        Bocu.usuariosComunes = null;
+        try {
+            Intent miIntent = new Intent(this, PaginaPrincipal.class);
+            Bocu.correoElectronico = correoElectronicoS;
+            Bocu.estadoUsuario = tipoUsuario;
+            if (tipoUsuario == Bocu.USUARIO_COMUN) {
+                Toast.makeText(this, "Ingreso correctamente como Usuario", Toast.LENGTH_SHORT).show();
+            } else {
+                establecerEventosExpositor();
+                Toast.makeText(this, "Ingreso correctamente como Artista", Toast.LENGTH_SHORT).show();
+            }
+            startActivity(miIntent);
+            finishAffinity();
+            Bocu.expositores = null;
+            Bocu.usuariosComunes = null;
+        } catch (Exception e){
+            Toast.makeText(this, "ESTE ES EL VERDAERA ERROR: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void revisar(View view){
-        DbUsuariosComunes dbUsuarios = new DbUsuariosComunes(this);
-        DbExpositor dbExpositor = new DbExpositor(this);
-        int opcion = verificarExistencia();
-        if(opcion>-1){
-            if(opcion==0){
-                UsuarioComun usuario = verUsuarioComun(CorreoElectronicoAcceder.getText().toString().toLowerCase());
-                if(ContrasenaAcceder.getText().toString().equals(usuario.getContrasena())){
-                    acceder(view, CorreoElectronicoAcceder.getText().toString(), Bocu.USUARIO_COMUN);
-                } else {
-                    Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+        try {
+
+            int opcion = verificarExistencia();
+            if (opcion > -1) {
+                if (opcion == 0) {
+                    UsuarioComun usuario = verUsuarioComun(CorreoElectronicoAcceder.getText().toString().toLowerCase());
+                    if (ContrasenaAcceder.getText().toString().equals(usuario.getContrasena())) {
+                        acceder(view, CorreoElectronicoAcceder.getText().toString(), Bocu.USUARIO_COMUN);
+                    } else {
+                        Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (opcion == 1) {
+                    Artista usuario = verExpositor(CorreoElectronicoAcceder.getText().toString().toLowerCase());
+                    if (ContrasenaAcceder.getText().toString().equals(usuario.getContrasena())) {
+                        acceder(view, CorreoElectronicoAcceder.getText().toString(), Bocu.ARTISTA);
+                    } else {
+                        Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
+            } else {
+
+                Toast.makeText(this, "El correo electronico ingresado no se encuentra registrado.", Toast.LENGTH_SHORT).show();
+
             }
 
-            else if(opcion==1){
-                Artista usuario = verExpositor(CorreoElectronicoAcceder.getText().toString().toLowerCase());
-                if(ContrasenaAcceder.getText().toString().equals(usuario.getContrasena())){
-                    acceder(view, CorreoElectronicoAcceder.getText().toString(), Bocu.ARTISTA);
-                } else {
-                    Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-        } else {
-
-            Toast.makeText(this, "El correo electronico ingresado no se encuentra registrado.", Toast.LENGTH_SHORT).show();
-
+        }catch (Exception e){
+            Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
-        dbUsuarios.close();
-        dbExpositor.close();
     }
 
     public void VerificarInformacionAcceso (View view) {
@@ -267,9 +274,11 @@ public class Cuenta extends AppCompatActivity {
 
     private UsuarioComun verUsuarioComun(String correoElectronico){
         int veces = Bocu.usuariosComunes.size();
+        Toast.makeText(this, Bocu.usuariosComunes.get(0).getContrasena(), Toast.LENGTH_SHORT).show();
         for(int i = 0; i < veces; i++)
             if(Bocu.usuariosComunes.get(i).getCorreoElectronico().equals(correoElectronico))
                 return Bocu.usuariosComunes.get(i);
+
         return null;
     }
 
@@ -279,6 +288,20 @@ public class Cuenta extends AppCompatActivity {
             if(Bocu.expositores.get(i).getCorreoElectronico().equals(correoElectronico))
                 return Bocu.expositores.get(i);
         return null;
+    }
+
+    private void establecerEventosExpositor(){
+        Bocu.eventosExpositor = new DynamicUnsortedList<>();
+        Bocu.posicionesEventosExpositor = new DynamicUnsortedList<>();
+
+        int veces = Bocu.eventos.size();
+
+        for(int i = 0; i < veces; i++)
+            if(Bocu.eventos.get(i).getCorreoAutor().equals(Bocu.correoElectronico)){
+                Bocu.eventosExpositor.insert(Bocu.eventos.get(i));
+                Bocu.posicionesEventosExpositor.insert(i);
+            }
+
     }
 
 }

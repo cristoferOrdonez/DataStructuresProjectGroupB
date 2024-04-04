@@ -22,7 +22,7 @@ public class DbEventos extends DbArt {
         this.context = context;
     }
 
-    public long insertarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento) {
+    public long insertarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento, String correoAutor) {
         long id = 0;
         try {
             SQLiteDatabase db = getWritableDatabase();
@@ -38,6 +38,7 @@ public class DbEventos extends DbArt {
             values.put("descripcionEvento", descripcionEvento);
             values.put("localidadEvento", localidadEvento);
             values.put("categoriaEvento", categoriaEvento);
+            values.put("correoAutor", correoAutor);
 
             id = db.insert(TABLE_EVENTOS, null, values);
 
@@ -51,7 +52,7 @@ public class DbEventos extends DbArt {
     }
 
 
-    public boolean editarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento, String idEvento) {
+    public boolean editarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento, String idEvento, String correoAutor) {
         boolean correcto;
 
         DbArt dbHelper = new DbArt(context);
@@ -69,6 +70,7 @@ public class DbEventos extends DbArt {
             values.put("descripcionEvento", descripcionEvento);
             values.put("localidadEvento", localidadEvento);
             values.put("categoriaEvento", categoriaEvento);
+            values.put("correoAutor", correoAutor);
 
             int rowsAffected = db.update(TABLE_EVENTOS, values, "idEvento = ?", new String[]{idEvento});
 
@@ -105,7 +107,8 @@ public class DbEventos extends DbArt {
                         cursorEventos.getInt(7),
                         cursorEventos.getString(8),
                         cursorEventos.getInt(9),
-                        cursorEventos.getString(10));
+                        cursorEventos.getString(10),
+                        cursorEventos.getString(11));
 
                 listaEventos.insert(evento);
 
@@ -118,7 +121,7 @@ public class DbEventos extends DbArt {
 
         return listaEventos;
     }
-    public void eliminarEvento(int idEvento) {
+    public void eliminarEvento(long idEvento) {
         DbArt dbHelper = new DbArt(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 

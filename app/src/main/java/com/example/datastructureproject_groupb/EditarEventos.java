@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.datastructureproject_groupb.db.DbEventos;
 import com.example.datastructureproject_groupb.entidades.Evento;
 
 import java.util.Date;
@@ -24,7 +25,7 @@ public class EditarEventos extends AppCompatActivity {
     EditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horarioEvento, descripcionEvento;
     Spinner spinnerLocalidadEvento, spinnerCategoriaEvento;
     Button cancelarEditarEvento, aceptarEditarEvento;
-    int idEvento;
+    long idEvento;
     String correoElectronico;
 
     @Override
@@ -48,7 +49,6 @@ public class EditarEventos extends AppCompatActivity {
         descripcionEvento.setText(getIntent().getStringExtra("DESCRIPCION_EVENTO"));
         spinnerLocalidadEvento = findViewById(R.id.spinnerLocalidadEvento);
         spinnerCategoriaEvento = findViewById(R.id.spinnerCategoriaEvento);
-        idEvento = getIntent().getIntExtra("ID_EVENTO", -1);
 
         cancelarEditarEvento = findViewById(R.id.botonCancelarEditarEvento);
         aceptarEditarEvento = findViewById(R.id.botonAceptarEditarEvento);
@@ -207,7 +207,7 @@ public class EditarEventos extends AppCompatActivity {
         int categoria=0;
 
         int position = getIntent().getIntExtra("POSITION", -1);
-        idEvento = getIntent().getIntExtra("ID_EVENTO",-1);
+        idEvento = getIntent().getLongExtra("ID_EVENTO",-1);
 
         try {
 
@@ -220,11 +220,24 @@ public class EditarEventos extends AppCompatActivity {
                     costoEvento,
                     horarioEvento,
                     categoria,
-                    descripcionEvento
+                    descripcionEvento,
+                    Bocu.correoElectronico
             );
 
-            Bocu.eventos.set(position, evento);
-            Bocu.cambiosEnEventos = true;
+            Bocu.eventosExpositor.set(position, evento);
+            Bocu.eventos.set(Bocu.posicionesEventosExpositor.get(position), evento);
+            new DbEventos(this).editarEvento(nombreEvento,
+                    AnoEvento,
+                    mesEvento,
+                    diaEvento,
+                    ubicacionEvento,
+                    costoEvento,
+                    horarioEvento,
+                    descripcionEvento,
+                    localidad,
+                    categoria,
+                    String.valueOf(idEvento),
+                    Bocu.correoElectronico);
 
             Toast.makeText(this, "" + idEvento, Toast.LENGTH_SHORT).show();
 

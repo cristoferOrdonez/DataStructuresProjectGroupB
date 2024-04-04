@@ -19,7 +19,7 @@ public class DynamicArray<T>{
     // Metodo para duplicar la capacidad del arreglo estatico
     public void duplicateSize(){
         T[] array = (T[]) new Object[capacity*2];
-        for (int i=0; i<size-1;i++)
+        for (int i = 0; i < size; i++)
             array[i] = this.array[i];
         this.array = array;
         capacity *= 2;
