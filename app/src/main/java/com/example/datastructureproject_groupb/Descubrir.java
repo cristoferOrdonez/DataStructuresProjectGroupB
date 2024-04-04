@@ -36,17 +36,24 @@ public class Descubrir extends AppCompatActivity {
         startActivity(miIntent);
         finishAffinity();
     }
+    
     public void cambiarACuenta() {
         Intent miIntent = new Intent(this, Cuenta.class);
         miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
+    
     public void cambiarAEventos() {
-        Intent miIntent = new Intent(this, Eventos.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
-        startActivity(miIntent);
-        finishAffinity();
+        int usuario = Bocu.estadoUsuario;
+        if (usuario == 2) {
+            Intent miIntent = new Intent(this, Eventos.class);
+            miIntent.putExtra("correoElectronico",correoElectronico);
+            startActivity(miIntent);
+            finishAffinity();
+        } else{
+            Toast.makeText(this, "Usted no es un Artista", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
