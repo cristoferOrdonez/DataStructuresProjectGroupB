@@ -75,15 +75,8 @@ public class PaginaPrincipal extends AppCompatActivity {
     }
 
     public void cambiarAEventos() {
-        Intent miIntent = new Intent(this, Eventos.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
-        startActivity(miIntent);
-        finishAffinity();
-    }
-
-    public void cambiarAEventoskjl() {
-        String usuario = getIntent().getStringExtra("tipoUsuario");
-        if (usuario == "Artista") {
+        int usuario = Bocu.estadoUsuario;
+        if (usuario == 2) {
             Intent miIntent = new Intent(this, Eventos.class);
             miIntent.putExtra("correoElectronico",correoElectronico);
             startActivity(miIntent);
