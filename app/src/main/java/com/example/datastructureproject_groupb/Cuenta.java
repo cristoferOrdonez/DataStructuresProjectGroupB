@@ -235,9 +235,14 @@ public class Cuenta extends AppCompatActivity {
         finishAffinity();
     }
     public void cambiarAEventos() {
-        Intent miIntent = new Intent(this, Eventos.class);
-        startActivity(miIntent);
-        finishAffinity();
+        int usuario = Bocu.estadoUsuario;
+        if (usuario == 2) {
+            Intent miIntent = new Intent(this, Eventos.class);
+            startActivity(miIntent);
+            finishAffinity();
+        } else{
+            Toast.makeText(this, "Usted no es un Artista", Toast.LENGTH_SHORT).show();
+        }
     }
     public void cambiarADescubrir() {
         Intent miIntent = new Intent(this, Descubrir.class);
