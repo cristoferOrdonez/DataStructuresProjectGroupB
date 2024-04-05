@@ -26,14 +26,11 @@ public class EditarEventos extends AppCompatActivity {
     Spinner spinnerLocalidadEvento, spinnerCategoriaEvento;
     Button cancelarEditarEvento, aceptarEditarEvento;
     long idEvento;
-    String correoElectronico;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_eventos);
-
-        correoElectronico = getIntent().getStringExtra("correoElectronico");
 
         nombreEvento = findViewById(R.id.editTextNombreEvento);
         nombreEvento.setText(getIntent().getStringExtra("NOMBRE_EVENTO"));
@@ -77,14 +74,10 @@ public class EditarEventos extends AppCompatActivity {
         categoriasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategoriaEvento.setAdapter(categoriasAdapter);
 
-        //String localidadPreseleccionada = "Usaquén"; // Por ejemplo, preseleccionamos "Usaquén"
-        //int index = Arrays.asList(localidades).indexOf(localidadPreseleccionada);
-        //spinnerLocalidadEvento.setSelection(index);
+        spinnerLocalidadEvento.setSelection(getIntent().getIntExtra("LOCALIDAD_EVENTO", -1));
 
 
-        //String InteresPreseleccionada = "Musica"; // Por ejemplo, preseleccionamos "Usaquén"
-        //int index2 = Arrays.asList(categorias).indexOf(InteresPreseleccionada);
-        //spinnerCategoriaEvento.setSelection(index2);
+        spinnerCategoriaEvento.setSelection(getIntent().getIntExtra("CATEGORIA_EVENTO", -1));
 
 
         cancelarEditarEvento.setOnClickListener(view -> cambiarAEventos());
@@ -97,7 +90,6 @@ public class EditarEventos extends AppCompatActivity {
 
     public void cambiarAEventos() {
         Intent miIntent = new Intent(this, Eventos.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
@@ -111,12 +103,10 @@ public class EditarEventos extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedLocalidad = parent.getItemAtPosition(position).toString();
-                // Puedes hacer algo con la localidad seleccionada si es necesario
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Este método se llama cuando no se ha seleccionado ningún elemento
             }
         });
     }
@@ -126,12 +116,10 @@ public class EditarEventos extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedInteres = parent.getItemAtPosition(position).toString();
-                // Puedes hacer algo con el interés seleccionado si es necesario
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Este método se llama cuando no se ha seleccionado ningún elemento
             }
         });
     }
@@ -148,7 +136,6 @@ public class EditarEventos extends AppCompatActivity {
 
         String verificarFechaEvento = this.fechaEvento.getText().toString().trim();
 
-        // Dividir la fecha por "/"
         String[] verificarTamanoFechaEvento = verificarFechaEvento.split("/");
         if (verificarFechaEvento.equals("") || verificarTamanoFechaEvento.length != 3) {
             mensajeError += "No ha ingresado fecha valida\n";
@@ -190,21 +177,17 @@ public class EditarEventos extends AppCompatActivity {
         String nombreEvento = this.nombreEvento.getText().toString().trim();
         String fechaEvento = this.fechaEvento.getText().toString().trim();
 
-        // Dividir la fecha por "/"
         String[] partesFecha = fechaEvento.split("/");
-        // Obtener el día
         int diaEvento = Integer.parseInt(partesFecha[0]);
-        // Obtener el mes
         int mesEvento = Integer.parseInt(partesFecha[1]);
-        // Obtener el año
         int AnoEvento = Integer.parseInt(partesFecha[2]);
 
         String ubicacionEvento = this.ubicacionEvento.getText().toString();
         int costoEvento = Integer.parseInt(this.costoEvento.getText().toString());
         String horarioEvento = this.horarioEvento.getText().toString();
         String descripcionEvento = this.descripcionEvento.getText().toString();
-        int localidad=0;
-        int categoria=0;
+        int localidad = spinnerLocalidadEvento.getSelectedItemPosition();
+        int categoria = spinnerCategoriaEvento.getSelectedItemPosition();
 
         int position = getIntent().getIntExtra("POSITION", -1);
         idEvento = getIntent().getLongExtra("ID_EVENTO",-1);
@@ -221,7 +204,7 @@ public class EditarEventos extends AppCompatActivity {
                     horarioEvento,
                     categoria,
                     descripcionEvento,
-                    Bocu.correoElectronico
+                    Bocu.usuario.getCorreoElectronico()
             );
 
             Bocu.eventosExpositor.set(position, evento);
@@ -237,9 +220,7 @@ public class EditarEventos extends AppCompatActivity {
                     localidad,
                     categoria,
                     String.valueOf(idEvento),
-                    Bocu.correoElectronico);
-
-            Toast.makeText(this, "" + idEvento, Toast.LENGTH_SHORT).show();
+                    Bocu.usuario.getCorreoElectronico());
 
             Toast.makeText(this, "Evento creado con éxito", Toast.LENGTH_SHORT).show();
             cambiarAEventos();

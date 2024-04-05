@@ -14,4 +14,12 @@ public class DynamicUnsortedList<T> extends DynamicArray<T>{
         pushBack(item);
     }
 
+    // Metodo para eliminar un elemento de la lista
+    public void remove(int index){
+        if (index < 0 || index >= size)
+            System.out.println("Index out of range");
+        else
+            array[index] = array[--size];
+    }
+
 }

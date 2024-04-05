@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Cuenta">
+
+    <Spinner
+        android:id="@+id/spinnerIntereses"
+        android:layout_width="260dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="20dp"
+        android:hint="Intereses"
+        android:textColorHint="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerLocalidad" />
+
+    <Spinner
+        android:id="@+id/spinnerLocalidad"
+        android:layout_width="263dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="20dp"
+        android:hint="Localidad"
+        android:textColorHint="@color/cian_titulo_evento_pagina_principal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextContrasena" />
+
+    <EditText
+        android:id="@+id/editTextNombre"
+        android:layout_width="263dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="20dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="Nombre Organizacion"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextCorreo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/botonPaginaPrincipalCuenta"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:text="Pagina Principal"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/botonDescubrirCuenta"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:text="Descubrir"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/botonPaginaPrincipalCuenta"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/botonEventosCuenta"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:text="Eventos"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/botonDescubrirCuenta"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/botonCuentaCuenta"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="12dp"
+        android:text="Cuenta"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/botonEventosCuenta"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editTextCorreo"
+        android:layout_width="265dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="276dp"
+        android:ems="10"
+        android:hint="Correo Electronico"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:textColorHint="#393939"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextContrasena"
+        android:layout_width="265dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="356dp"
+        android:ems="10"
+        android:hint="Contraseña"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:textColorHint="@color/cardview_dark_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

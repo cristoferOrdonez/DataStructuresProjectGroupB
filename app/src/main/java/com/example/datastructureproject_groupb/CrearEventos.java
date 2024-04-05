@@ -28,7 +28,6 @@ public class CrearEventos extends AppCompatActivity{
     EditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horarioEvento, descripcionEvento;
     Spinner spinnerLocalidadEvento, spinnerCategoriaEvento;
     Button cancelarCrearEvento, aceptarCrearEvento;
-    String correoElectronico;
 
 
     @Override
@@ -36,7 +35,6 @@ public class CrearEventos extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_eventos);
 
-        correoElectronico = getIntent().getStringExtra("correoElectronico");
 
         nombreEvento = findViewById(R.id.editTextNombreEvento);
         fechaEvento = findViewById(R.id.editTextFechaEvento);
@@ -51,7 +49,7 @@ public class CrearEventos extends AppCompatActivity{
         aceptarCrearEvento = findViewById(R.id.botonAceptarCrearEvento);
 
 
-        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, localidades) {
+        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -63,7 +61,7 @@ public class CrearEventos extends AppCompatActivity{
         localidadesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLocalidadEvento.setAdapter(localidadesAdapter);
 
-        ArrayAdapter<String> categoriasAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categorias) {
+        ArrayAdapter<String> categoriasAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Bocu.INTERESES) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -75,25 +73,22 @@ public class CrearEventos extends AppCompatActivity{
         categoriasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategoriaEvento.setAdapter(categoriasAdapter);
 
-        String localidadPreseleccionada = "Usaquén"; // Por ejemplo, preseleccionamos "Usaquén"
-        int index = Arrays.asList(localidades).indexOf(localidadPreseleccionada);
+        String localidadPreseleccionada = "Usaquén";
+        int index = Arrays.asList(Bocu.LOCALIDADES).indexOf(localidadPreseleccionada);
         spinnerLocalidadEvento.setSelection(index);
 
 
-        String InteresPreseleccionada = "Musica"; // Por ejemplo, preseleccionamos "Usaquén"
-        int index2 = Arrays.asList(categorias).indexOf(InteresPreseleccionada);
+        String InteresPreseleccionada = "Musica";
+        int index2 = Arrays.asList(Bocu.INTERESES).indexOf(InteresPreseleccionada);
         spinnerCategoriaEvento.setSelection(index2);
 
         cancelarCrearEvento.setOnClickListener(view -> cambiarAEventos());
         aceptarCrearEvento.setOnClickListener(view -> crearEventoExpositor());
 
     }
-    private static final String [] localidades= new String[]{ "Virtual","Usaquén", "Chapinero", "Santa Fe", "San Cristóbal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibón", "Engativá", "Suba", "Barrios Unidos", "Teusaquillo", "Los Mártires", "Antonio Nariño", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolívar", "Sumapaz"   };
-    private static final String [] categorias= new String[]{"Musica", "Talleres",     };
 
     public void cambiarAEventos() {
         Intent miIntent = new Intent(this, Eventos.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
@@ -107,12 +102,10 @@ public class CrearEventos extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedLocalidad = parent.getItemAtPosition(position).toString();
-                // Puedes hacer algo con la localidad seleccionada si es necesario
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Este método se llama cuando no se ha seleccionado ningún elemento
             }
         });
     }
@@ -122,12 +115,10 @@ public class CrearEventos extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedInteres = parent.getItemAtPosition(position).toString();
-                // Puedes hacer algo con el interés seleccionado si es necesario
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Este método se llama cuando no se ha seleccionado ningún elemento
             }
         });
     }
@@ -144,7 +135,6 @@ public class CrearEventos extends AppCompatActivity{
 
         String verificarFechaEvento = this.fechaEvento.getText().toString().trim();
 
-        // Dividir la fecha por "/"
         String[] verificarTamanoFechaEvento = verificarFechaEvento.split("/");
         if(verificarFechaEvento.equals("") || verificarTamanoFechaEvento.length  != 3) {
             mensajeError += "No ha ingresado fecha valida\n";
@@ -187,23 +177,17 @@ public class CrearEventos extends AppCompatActivity{
         String nombreEvento = this.nombreEvento.getText().toString().trim();
         String fechaEvento = this.fechaEvento.getText().toString().trim();
 
-        // Dividir la fecha por "/"
         String[] partesFecha = fechaEvento.split("/");
-        // Obtener el día
         int diaEvento = Integer.parseInt(partesFecha[0]);
-        // Obtener el mes
         int mesEvento = Integer.parseInt(partesFecha[1]);
-        // Obtener el año
         int AnoEvento = Integer.parseInt(partesFecha[2]);
 
         String ubicacionEvento = this.ubicacionEvento.getText().toString();
         int costoEvento = Integer.parseInt(this.costoEvento.getText().toString());
         String horarioEvento = this.horarioEvento.getText().toString();
         String descripcionEvento = this.descripcionEvento.getText().toString();
-        int localidad=0;
-        int categoria=0;
-
-        Toast.makeText(this, "" + Bocu.correoElectronico, Toast.LENGTH_SHORT).show();
+        int localidad = spinnerLocalidadEvento.getSelectedItemPosition();
+        int categoria = spinnerCategoriaEvento.getSelectedItemPosition();
 
         long newId = new DbEventos(this).insertarEvento(nombreEvento,
                 AnoEvento,
@@ -215,7 +199,7 @@ public class CrearEventos extends AppCompatActivity{
                 descripcionEvento,
                 localidad,
                 categoria,
-                Bocu.correoElectronico);
+                Bocu.usuario.getCorreoElectronico());
 
         Evento evento = new Evento(
                 newId,
@@ -227,7 +211,7 @@ public class CrearEventos extends AppCompatActivity{
                 horarioEvento,
                 categoria,
                 descripcionEvento,
-                Bocu.correoElectronico
+                Bocu.usuario.getCorreoElectronico()
         );
 
         try {

@@ -3,8 +3,8 @@ package com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDat
 public class DynamicArray<T>{
 
     // Atributos
-    private T[] array;
-    private int size;
+    protected T[] array;
+    protected int size;
     private int capacity;
 
     // Metodos

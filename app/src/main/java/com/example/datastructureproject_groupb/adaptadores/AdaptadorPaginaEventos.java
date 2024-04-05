@@ -23,11 +23,9 @@ import com.example.datastructureproject_groupb.entidades.Evento;
 public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPaginaEventos.EventoViewHolder>{
 
     DynamicUnsortedList<Evento> listaEventos;
-    String correoElectronico;
 
-    public AdaptadorPaginaEventos(DynamicUnsortedList<Evento> listaEventos, String correoElectronico) {
+    public AdaptadorPaginaEventos(DynamicUnsortedList<Evento> listaEventos) {
         this.listaEventos = listaEventos;
-        this.correoElectronico = correoElectronico;
     }
 
     @NonNull
@@ -45,11 +43,11 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
         Evento evento = listaEventos.get(position);
 
         holder.textViewTituloEvento.setText(evento.getNombreEvento());
-        holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEvento().getDate() + "/" + evento.getFechaEvento().getMonth() + "/" + evento.getFechaEvento().getYear());
+        holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEventoString());
         holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
         holder.textViewLugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
         holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
-        holder.textViewTipoEvento.setText("Tipo: " + evento.getCategoriaEvento());
+        holder.textViewTipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
 
         holder.botonEliminarEvento.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,24 +61,20 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
                     public void onClick(DialogInterface dialog, int which) {
                         int position = holder.getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
-                            try {
-                                listaEventos.remove(position);
+                            listaEventos.remove(position);
+                            if(!Bocu.eventos.get(Bocu.eventos.size() - 1).getCorreoAutor().equals(Bocu.usuario.getCorreoElectronico())) {
                                 Bocu.eventos.remove(Bocu.posicionesEventosExpositor.get(position));
                                 Bocu.posicionesEventosExpositor.remove(position);
-
-                                int veces = Bocu.posicionesEventosExpositor.size();
-
-                                for(int i = position; i < veces; i++)
-                                    Bocu.posicionesEventosExpositor.set(i, Bocu.posicionesEventosExpositor.get(i) - 1);
-
-                                new DbEventos(v.getContext()).eliminarEvento(evento.getId());
-                                notifyItemRemoved(position);
-                            } catch (Exception e){
-                                Toast.makeText(v.getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Bocu.eventos.remove(Bocu.posicionesEventosExpositor.get(position));
+                                int posicionOriginal = Bocu.posicionesEventosExpositor.get(position);
+                                Bocu.posicionesEventosExpositor.remove(position);
+                                Bocu.posicionesEventosExpositor.set(position, posicionOriginal);
                             }
-                        }
 
-                        Toast.makeText(v.getContext(), "adapterPosition " + position + " size; " + Bocu.eventos.size(), Toast.LENGTH_SHORT).show();
+                            new DbEventos(v.getContext()).eliminarEvento(evento.getId());
+                            notifyDataSetChanged();
+                        }
 
                     }
                 });

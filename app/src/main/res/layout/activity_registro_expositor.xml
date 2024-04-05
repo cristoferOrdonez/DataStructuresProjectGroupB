@@ -65,7 +65,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/textViewNombreRegistroExpositor"
+        android:id="@+id/textViewNombre"
         android:layout_width="203dp"
         android:layout_height="50dp"
         android:layout_marginTop="28dp"

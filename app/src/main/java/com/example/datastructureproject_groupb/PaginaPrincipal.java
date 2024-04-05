@@ -23,15 +23,12 @@ public class PaginaPrincipal extends AppCompatActivity {
     public static StackLinkedList<Evento> historialEventos;
     private Button botonDescubrir, botonCuenta, botonEventos;
     private ImageButton botonHistorial;
-    private String correoElectronico, tipoUsuario;
     private RecyclerView listaEventos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pagina_principal);
-
-        correoElectronico = getIntent().getStringExtra("correoElectronico");
 
         historialEventos = new StackLinkedList<>();
 
@@ -45,11 +42,10 @@ public class PaginaPrincipal extends AppCompatActivity {
         botonEventos.setOnClickListener(view -> cambiarAEventos());
 
         listaEventos = findViewById(R.id.recyclerViewEventosPaginaPrincipal);
-        tipoUsuario = getIntent().getStringExtra("tipoUsuario");
 
         listaEventos.setLayoutManager(new LinearLayoutManager(this));
 
-        AdaptadorPaginaPrincipal adapter = new AdaptadorPaginaPrincipal(Bocu.eventos, correoElectronico);
+        AdaptadorPaginaPrincipal adapter = new AdaptadorPaginaPrincipal(Bocu.eventos);
         listaEventos.setAdapter(adapter);
 
         botonHistorial = findViewById(R.id.imageButtonHistorial);
@@ -62,13 +58,11 @@ public class PaginaPrincipal extends AppCompatActivity {
 
     public void cambiarADescubrir() {
         Intent miIntent = new Intent(this, Descubrir.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarACuenta() {
         Intent miIntent = new Intent(this, Cuenta.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
@@ -77,7 +71,6 @@ public class PaginaPrincipal extends AppCompatActivity {
         int usuario = Bocu.estadoUsuario;
         if (usuario == 2) {
             Intent miIntent = new Intent(this, Eventos.class);
-            miIntent.putExtra("correoElectronico",correoElectronico);
             startActivity(miIntent);
             finishAffinity();
         } else{
@@ -99,12 +92,12 @@ public class PaginaPrincipal extends AppCompatActivity {
                 descripcionEvento = view.findViewById(R.id.textViewDescripcionEventoPaginaPrincipal);
 
         tituloEvento.setText(evento.getNombreEvento());
-        fechaEvento.setText(evento.getFechaEventoString());
-        horarioEvento.setText(evento.getHorarioEvento());
-        lugarEvento.setText(evento.getUbicacionEvento());
-        costoEvento.setText(evento.getCostoEventoConFormato());
-        tipoEvento.setText("Tipo de evento: " + evento.getCategoriaEvento());
-        descripcionEvento.setText(evento.getDescripcionEvento());
+        fechaEvento.setText("Fecha: " + evento.getFechaEventoString());
+        horarioEvento.setText("Horario: " + evento.getHorarioEvento());
+        lugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
+        costoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
+        tipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
+        descripcionEvento.setText("Descripción: " + evento.getDescripcionEvento());
 
         builder.setView(view);
 

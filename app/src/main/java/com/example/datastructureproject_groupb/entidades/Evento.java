@@ -6,9 +6,6 @@ import java.util.Locale;
 
 public class Evento {
 
-    // atributos
-
-    // constantes
     private static final int USAQUÉN = 1;
     private static final int CHAPINERO = 2;
     private static final int SANTA_FE = 3;

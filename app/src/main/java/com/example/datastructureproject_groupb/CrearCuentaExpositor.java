@@ -17,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
 import com.example.datastructureproject_groupb.db.DbExpositor;
-import com.example.datastructureproject_groupb.db.DbUsuariosComunes;
 import com.example.datastructureproject_groupb.entidades.Artista;
 
 import java.util.Arrays;
@@ -25,16 +24,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CrearCuentaExpositor extends AppCompatActivity {
-    EditText NombreRegistroUsuario, CorreoRegistroUsuario, ConfirmarContrasenaRegistroUsuario, ContrasenaRegistroUsuario;
-    Spinner spinnerLocalidadRegistroUsuario,spinnerInteresesRegistroUsuario;
-    Button cancelarRegistroUsuario, registrasrseRegistroUsuario;
+    private EditText NombreRegistroUsuario, CorreoRegistroUsuario, ConfirmarContrasenaRegistroUsuario, ContrasenaRegistroUsuario;
+    private Spinner spinnerLocalidadRegistroUsuario,spinnerInteresesRegistroUsuario;
+    private Button cancelarRegistroUsuario, registrasrseRegistroUsuario;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_expositor);
 
-        NombreRegistroUsuario=findViewById(R.id.textViewNombreRegistroExpositor);
+        NombreRegistroUsuario=findViewById(R.id.textViewNombre);
         CorreoRegistroUsuario=findViewById(R.id.textViewCorreoRegistroExpositor);
         ConfirmarContrasenaRegistroUsuario=findViewById(R.id.textViewConfirmarContrasenaRegistroExpositor);
         ContrasenaRegistroUsuario=findViewById(R.id.textViewContrasenaRegistroExpositor);
@@ -43,14 +43,12 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         cancelarRegistroUsuario=findViewById(R.id.botonCancelarRegistroExpositor);
         registrasrseRegistroUsuario=findViewById(R.id.botonRegistratseRegistroExpositor);
 
-
-
         cancelarRegistroUsuario.setOnClickListener(view -> cambiarAPaginaPrincipal());
         registrasrseRegistroUsuario.setOnClickListener(view -> registrarseComoExpositor());
 
 
 
-        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, localidades) {
+        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -59,10 +57,11 @@ public class CrearCuentaExpositor extends AppCompatActivity {
                 return view;
             }
         };
+
         localidadesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLocalidadRegistroUsuario.setAdapter(localidadesAdapter);
 
-        ArrayAdapter<String> interesesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, intereses) {
+        ArrayAdapter<String> interesesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Bocu.INTERESES) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -74,18 +73,16 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         interesesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerInteresesRegistroUsuario.setAdapter(interesesAdapter);
 
-        String localidadPreseleccionada = "Usaquén"; // Por ejemplo, preseleccionamos "Usaquén"
-        int index = Arrays.asList(localidades).indexOf(localidadPreseleccionada);
+        String localidadPreseleccionada = "Usaquén";
+        int index = Arrays.asList(Bocu.LOCALIDADES).indexOf(localidadPreseleccionada);
         spinnerLocalidadRegistroUsuario.setSelection(index);
 
 
-        String InteresPreseleccionada = "Musica"; // Por ejemplo, preseleccionamos "Usaquén"
-        int index2 = Arrays.asList(intereses).indexOf(InteresPreseleccionada);
+        String InteresPreseleccionada = "Musica";
+        int index2 = Arrays.asList(Bocu.INTERESES).indexOf(InteresPreseleccionada);
         spinnerInteresesRegistroUsuario.setSelection(index2);
 
     }
-    private static final String [] localidades= new String[]{ "Virtual","Usaquén", "Chapinero", "Santa Fe", "San Cristóbal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibón", "Engativá", "Suba", "Barrios Unidos", "Teusaquillo", "Los Mártires", "Antonio Nariño", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolívar", "Sumapaz"   };
-    private static final String [] intereses= new String[]{"Musica", "Talleres",     };
 
     public void cambiarAPaginaPrincipal() {
         Intent miIntent = new Intent(this, PaginaPrincipal.class);
@@ -139,8 +136,6 @@ public class CrearCuentaExpositor extends AppCompatActivity {
             flag = false;
         }
 
-
-
         Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 
         Matcher mather = pattern.matcher(CorreoRegistroUsuario.getText().toString());
@@ -174,14 +169,12 @@ public class CrearCuentaExpositor extends AppCompatActivity {
     }
 
     public void RegistrarExpositor(View view) {
-        String nombres = this.NombreRegistroUsuario.getText().toString().trim();
+        String nombres = NombreRegistroUsuario.getText().toString().trim();
 
-        String correoElectronicoR = this.CorreoRegistroUsuario.getText().toString();
-        String contrasenaR = this.ContrasenaRegistroUsuario.getText().toString();
-        int localidad=0;
-        int interes=0;
-
-        //DbExpositor dbExpositor = new DbExpositor(this);
+        String correoElectronicoR = CorreoRegistroUsuario.getText().toString();
+        String contrasenaR = ContrasenaRegistroUsuario.getText().toString();
+        int localidad = spinnerLocalidadRegistroUsuario.getSelectedItemPosition();
+        int interes = spinnerInteresesRegistroUsuario.getSelectedItemPosition();
 
         Artista expositor = new Artista(Bocu.expositores.size(), nombres, correoElectronicoR.toLowerCase(), contrasenaR, interes, localidad);
 

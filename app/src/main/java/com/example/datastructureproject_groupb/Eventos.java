@@ -14,7 +14,6 @@ import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaEvento
 public class Eventos extends AppCompatActivity {
     Button botonPaginaPrincipal, botonCuenta, botonDescubrir;
     ImageButton botonCrearEvento;
-    String correoElectronico;
     RecyclerView listaEventos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,36 +32,31 @@ public class Eventos extends AppCompatActivity {
 
 
         listaEventos = findViewById(R.id.RecyclerViewEventosPaginaEventos);
-        correoElectronico = getIntent().getStringExtra("correoElectronico");
 
         listaEventos.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
 
-        AdaptadorPaginaEventos adapter=new AdaptadorPaginaEventos(Bocu.eventosExpositor, correoElectronico);
+        AdaptadorPaginaEventos adapter=new AdaptadorPaginaEventos(Bocu.eventosExpositor);
         listaEventos.setAdapter(adapter);
         listaEventos.scrollToPosition(Bocu.eventosExpositor.size() - 1);
     }
 
     public void cambiarAPaginaPrincipal() {
         Intent miIntent = new Intent(this, PaginaPrincipal.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarACuenta() {
         Intent miIntent = new Intent(this, Cuenta.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarADescubrir() {
         Intent miIntent = new Intent(this, Descubrir.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarACrearEventos() {
         Intent miIntent = new Intent(this, CrearEventos.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
