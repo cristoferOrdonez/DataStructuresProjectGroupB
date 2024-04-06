@@ -17,15 +17,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.db.DbEventos;
+import com.example.datastructureproject_groupb.db.DbExpositor;
+import com.example.datastructureproject_groupb.entidades.Evento;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class CrearEventos extends AppCompatActivity{
     EditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horarioEvento, descripcionEvento;
     Spinner spinnerLocalidadEvento, spinnerCategoriaEvento;
     Button cancelarCrearEvento, aceptarCrearEvento;
-    String correoElectronico;
 
 
     @Override
@@ -33,7 +35,6 @@ public class CrearEventos extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_eventos);
 
-        correoElectronico = getIntent().getStringExtra("correoElectronico");
 
         nombreEvento = findViewById(R.id.editTextNombreEvento);
         fechaEvento = findViewById(R.id.editTextFechaEvento);
@@ -48,7 +49,7 @@ public class CrearEventos extends AppCompatActivity{
         aceptarCrearEvento = findViewById(R.id.botonAceptarCrearEvento);
 
 
-        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, localidades) {
+        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -60,7 +61,7 @@ public class CrearEventos extends AppCompatActivity{
         localidadesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLocalidadEvento.setAdapter(localidadesAdapter);
 
-        ArrayAdapter<String> categoriasAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categorias) {
+        ArrayAdapter<String> categoriasAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Bocu.INTERESES) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -73,24 +74,21 @@ public class CrearEventos extends AppCompatActivity{
         spinnerCategoriaEvento.setAdapter(categoriasAdapter);
 
         String localidadPreseleccionada = "Usaquén";
-        int index = Arrays.asList(localidades).indexOf(localidadPreseleccionada);
+        int index = Arrays.asList(Bocu.LOCALIDADES).indexOf(localidadPreseleccionada);
         spinnerLocalidadEvento.setSelection(index);
 
 
         String InteresPreseleccionada = "Musica";
-        int index2 = Arrays.asList(categorias).indexOf(InteresPreseleccionada);
+        int index2 = Arrays.asList(Bocu.INTERESES).indexOf(InteresPreseleccionada);
         spinnerCategoriaEvento.setSelection(index2);
 
         cancelarCrearEvento.setOnClickListener(view -> cambiarAEventos());
         aceptarCrearEvento.setOnClickListener(view -> crearEventoExpositor());
 
     }
-    private static final String [] localidades= new String[]{ "Virtual","Usaquén", "Chapinero", "Santa Fe", "San Cristóbal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibón", "Engativá", "Suba", "Barrios Unidos", "Teusaquillo", "Los Mártires", "Antonio Nariño", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolívar", "Sumapaz"   };
-    private static final String [] categorias= new String[]{"Musica", "Talleres",     };
 
     public void cambiarAEventos() {
         Intent miIntent = new Intent(this, Eventos.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
@@ -188,18 +186,43 @@ public class CrearEventos extends AppCompatActivity{
         int costoEvento = Integer.parseInt(this.costoEvento.getText().toString());
         String horarioEvento = this.horarioEvento.getText().toString();
         String descripcionEvento = this.descripcionEvento.getText().toString();
-        int localidad=0;
-        int categoria=0;
+        int localidad = spinnerLocalidadEvento.getSelectedItemPosition();
+        int categoria = spinnerCategoriaEvento.getSelectedItemPosition();
 
-        DbEventos dbEventos = new DbEventos(this);
+        long newId = new DbEventos(this).insertarEvento(nombreEvento,
+                AnoEvento,
+                mesEvento,
+                diaEvento,
+                ubicacionEvento,
+                costoEvento,
+                horarioEvento,
+                descripcionEvento,
+                localidad,
+                categoria,
+                Bocu.usuario.getCorreoElectronico());
 
-        long idEventoInsertado = dbEventos.insertarEvento(nombreEvento, AnoEvento, mesEvento, diaEvento, ubicacionEvento,
-                costoEvento, horarioEvento, descripcionEvento, localidad, categoria);
+        Evento evento = new Evento(
+                newId,
+                nombreEvento,
+                new Date(AnoEvento, mesEvento, diaEvento),
+                ubicacionEvento,
+                localidad,
+                costoEvento,
+                horarioEvento,
+                categoria,
+                descripcionEvento,
+                Bocu.usuario.getCorreoElectronico()
+        );
 
-        if (idEventoInsertado != -1) {
+        try {
+            Bocu.eventosExpositor.insert(evento);
+            Bocu.posicionesEventosExpositor.insert(Bocu.eventos.size());
+            Bocu.eventos.insert(evento);
+
             Toast.makeText(this, "Evento creado con éxito", Toast.LENGTH_SHORT).show();
             cambiarAEventos();
-        } else {
+
+        } catch(Exception e){
             Toast.makeText(this, "Error al crear el evento", Toast.LENGTH_SHORT).show();
         }
     }

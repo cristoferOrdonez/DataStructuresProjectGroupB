@@ -5,17 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class Descubrir extends AppCompatActivity {
 
     Button botonPaginaPrincipal, botonCuenta, botonEventos;
-    String correoElectronico;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_descubrir);
-
-        correoElectronico = getIntent().getStringExtra("correoElectronico");
 
         botonPaginaPrincipal=findViewById(R.id.botonPaginaPrincipalDescubrir);
         botonCuenta=findViewById(R.id.botonCuentaDescubrir);
@@ -29,21 +27,24 @@ public class Descubrir extends AppCompatActivity {
 
     public void cambiarAPaginaPrincipal() {
         Intent miIntent = new Intent(this, PaginaPrincipal.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
+    
     public void cambiarACuenta() {
         Intent miIntent = new Intent(this, Cuenta.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
+    
     public void cambiarAEventos() {
-        Intent miIntent = new Intent(this, Eventos.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
-        startActivity(miIntent);
-        finishAffinity();
+        if (Bocu.estadoUsuario == Bocu.ARTISTA) {
+            Intent miIntent = new Intent(this, Eventos.class);
+            startActivity(miIntent);
+            finishAffinity();
+        } else{
+            Toast.makeText(this, "Usted no es un Artista", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

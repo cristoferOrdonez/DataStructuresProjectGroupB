@@ -16,23 +16,21 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datastructureproject_groupb.db.DbEventos;
+import com.example.datastructureproject_groupb.entidades.Evento;
 
-import java.util.Arrays;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class EditarEventos extends AppCompatActivity {
     EditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horarioEvento, descripcionEvento;
     Spinner spinnerLocalidadEvento, spinnerCategoriaEvento;
     Button cancelarEditarEvento, aceptarEditarEvento;
-    int idEvento;
-    String correoElectronico;
+    long idEvento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_eventos);
-
-        correoElectronico = getIntent().getStringExtra("correoElectronico");
 
         nombreEvento = findViewById(R.id.editTextNombreEvento);
         nombreEvento.setText(getIntent().getStringExtra("NOMBRE_EVENTO"));
@@ -48,7 +46,6 @@ public class EditarEventos extends AppCompatActivity {
         descripcionEvento.setText(getIntent().getStringExtra("DESCRIPCION_EVENTO"));
         spinnerLocalidadEvento = findViewById(R.id.spinnerLocalidadEvento);
         spinnerCategoriaEvento = findViewById(R.id.spinnerCategoriaEvento);
-        idEvento = getIntent().getIntExtra("ID_EVENTO", -1);
 
         cancelarEditarEvento = findViewById(R.id.botonCancelarEditarEvento);
         aceptarEditarEvento = findViewById(R.id.botonAceptarEditarEvento);
@@ -77,6 +74,12 @@ public class EditarEventos extends AppCompatActivity {
         categoriasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategoriaEvento.setAdapter(categoriasAdapter);
 
+        spinnerLocalidadEvento.setSelection(getIntent().getIntExtra("LOCALIDAD_EVENTO", -1));
+
+
+        spinnerCategoriaEvento.setSelection(getIntent().getIntExtra("CATEGORIA_EVENTO", -1));
+
+
         cancelarEditarEvento.setOnClickListener(view -> cambiarAEventos());
         aceptarEditarEvento.setOnClickListener(view -> editarEventoExpositor());
 
@@ -87,7 +90,6 @@ public class EditarEventos extends AppCompatActivity {
 
     public void cambiarAEventos() {
         Intent miIntent = new Intent(this, Eventos.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
@@ -184,23 +186,48 @@ public class EditarEventos extends AppCompatActivity {
         int costoEvento = Integer.parseInt(this.costoEvento.getText().toString());
         String horarioEvento = this.horarioEvento.getText().toString();
         String descripcionEvento = this.descripcionEvento.getText().toString();
-        int localidad=0;
-        int categoria=0;
+        int localidad = spinnerLocalidadEvento.getSelectedItemPosition();
+        int categoria = spinnerCategoriaEvento.getSelectedItemPosition();
 
-        idEvento = getIntent().getIntExtra("ID_EVENTO", -1);
+        int position = getIntent().getIntExtra("POSITION", -1);
+        idEvento = getIntent().getLongExtra("ID_EVENTO",-1);
 
-        String idEvento = String.valueOf(this.idEvento);
+        try {
 
+            Evento evento = new Evento(
+                    idEvento,
+                    nombreEvento,
+                    new Date(AnoEvento, mesEvento, diaEvento),
+                    ubicacionEvento,
+                    localidad,
+                    costoEvento,
+                    horarioEvento,
+                    categoria,
+                    descripcionEvento,
+                    Bocu.usuario.getCorreoElectronico()
+            );
 
-        DbEventos dbEventos = new DbEventos(this);
-        boolean idEventoEditado = dbEventos.editarEvento(nombreEvento, AnoEvento, mesEvento, diaEvento, ubicacionEvento,
-                costoEvento, horarioEvento, descripcionEvento, localidad, categoria, idEvento);
+            Bocu.eventosExpositor.set(position, evento);
+            Bocu.eventos.set(Bocu.posicionesEventosExpositor.get(position), evento);
+            new DbEventos(this).editarEvento(nombreEvento,
+                    AnoEvento,
+                    mesEvento,
+                    diaEvento,
+                    ubicacionEvento,
+                    costoEvento,
+                    horarioEvento,
+                    descripcionEvento,
+                    localidad,
+                    categoria,
+                    String.valueOf(idEvento),
+                    Bocu.usuario.getCorreoElectronico());
 
-        if (idEventoEditado) {
-            Toast.makeText(this, "Evento editado con éxito", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Evento creado con éxito", Toast.LENGTH_SHORT).show();
             cambiarAEventos();
-        } else {
-            Toast.makeText(this, "Error al editar el evento", Toast.LENGTH_SHORT).show();
+
+        } catch(Exception e){
+            Toast.makeText(this, "Error al crear el evento", Toast.LENGTH_SHORT).show();
         }
+
     }
 }

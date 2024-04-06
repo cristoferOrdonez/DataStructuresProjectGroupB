@@ -18,6 +18,7 @@ public class LinkedList<T> implements Iterable<T> {
         }
     }
 
+    // Atributos
     public Node<T> head, tail;
 
     // Constructor

@@ -6,23 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
+import com.example.datastructureproject_groupb.Bocu;
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.PaginaPrincipal;
 import com.example.datastructureproject_groupb.R;
-import com.example.datastructureproject_groupb.entidades.EventosEntidad;
+import com.example.datastructureproject_groupb.entidades.Evento;
 
 public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPaginaPrincipal.EventoViewHolder> {
 
-    StaticUnsortedList<EventosEntidad> listaEventos;
-    String correoElectronico;
+    DynamicUnsortedList<Evento> listaEventos;
 
-    public AdaptadorPaginaPrincipal(StaticUnsortedList<EventosEntidad> listaEventos, String correoElectronico) {
+    public AdaptadorPaginaPrincipal(DynamicUnsortedList<Evento> listaEventos) {
         this.listaEventos = listaEventos;
-        this.correoElectronico = correoElectronico;
     }
     @NonNull
     @Override
@@ -36,18 +36,14 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
 
     @Override
     public void onBindViewHolder(@NonNull EventoViewHolder holder, int position) {
+            Evento evento = listaEventos.get(position);
 
-        EventosEntidad evento = listaEventos.get(position);
-
-        holder.textViewTituloEvento.setText(evento.getNombreEvento());
-        holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEvento().getDate() + "/" + evento.getFechaEvento().getMonth() + "/" + evento.getFechaEvento().getYear());
-        holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
-        holder.textViewLugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
-        holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
-        if(evento.getCategoriaEvento()==0)
-            holder.textViewTipoEvento.setText("Tipo: Música");
-        else
-            holder.textViewTipoEvento.setText("Tipo: Talleres");
+            holder.textViewTituloEvento.setText(evento.getNombreEvento());
+            holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEventoString());
+            holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
+            holder.textViewLugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
+            holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
+            holder.textViewTipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
     }
 
     @Override
@@ -72,7 +68,7 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
 
             itemView.setOnClickListener(v -> {
 
-                EventosEntidad evento = listaEventos.get(getAdapterPosition());
+                Evento evento = listaEventos.get(getAdapterPosition());
 
                 Activity activity = (Activity) v.getContext();
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
@@ -87,15 +83,12 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
                         descripcionEvento = view.findViewById(R.id.textViewDescripcionEventoPaginaPrincipal);
 
                 tituloEvento.setText(evento.getNombreEvento());
-                fechaEvento.setText(evento.getFechaEventoString());
-                horarioEvento.setText(evento.getHorarioEvento());
-                lugarEvento.setText(evento.getUbicacionEvento());
-                costoEvento.setText(evento.getCostoEventoConFormato());
-                if(evento.getCategoriaEvento()==0)
-                    tipoEvento.setText("Tipo: Música");
-                else
-                    tipoEvento.setText("Tipo: Talleres");
-                descripcionEvento.setText(evento.getDescripcionEvento());
+                fechaEvento.setText("Fecha: " + evento.getFechaEventoString());
+                horarioEvento.setText("Horario: " + evento.getHorarioEvento());
+                lugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
+                costoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
+                tipoEvento.setText("Tipo: " + evento.getCategoriaEvento());
+                descripcionEvento.setText("Descripción: " + evento.getDescripcionEvento());
 
                 builder.setView(view);
 

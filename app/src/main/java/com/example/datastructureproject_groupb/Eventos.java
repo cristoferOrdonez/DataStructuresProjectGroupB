@@ -9,18 +9,11 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StaticUnsortedList;
 import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaEventos;
-import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaPrincipal;
-import com.example.datastructureproject_groupb.db.DbEventos;
-import com.example.datastructureproject_groupb.entidades.EventosEntidad;
-
-import java.util.Date;
 
 public class Eventos extends AppCompatActivity {
-    Button botonPaginaPrincipal, botonCuenta, botonDescubrir, botonEditarEvento, botonEliimnarEvento;
+    Button botonPaginaPrincipal, botonCuenta, botonDescubrir;
     ImageButton botonCrearEvento;
-    String correoElectronico;
     RecyclerView listaEventos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,38 +32,31 @@ public class Eventos extends AppCompatActivity {
 
 
         listaEventos = findViewById(R.id.RecyclerViewEventosPaginaEventos);
-        correoElectronico = getIntent().getStringExtra("correoElectronico");
 
-        listaEventos.setLayoutManager(new LinearLayoutManager(this));
-        DbEventos dbEventos = new DbEventos(this);
-        StaticUnsortedList<EventosEntidad> eventos = dbEventos.obtenerEventos();
+        listaEventos.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
 
-        AdaptadorPaginaEventos adapter=new AdaptadorPaginaEventos(eventos, correoElectronico);
+        AdaptadorPaginaEventos adapter=new AdaptadorPaginaEventos(Bocu.eventosExpositor);
         listaEventos.setAdapter(adapter);
-
+        listaEventos.scrollToPosition(Bocu.eventosExpositor.size() - 1);
     }
 
     public void cambiarAPaginaPrincipal() {
         Intent miIntent = new Intent(this, PaginaPrincipal.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarACuenta() {
         Intent miIntent = new Intent(this, Cuenta.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarADescubrir() {
         Intent miIntent = new Intent(this, Descubrir.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
     public void cambiarACrearEventos() {
         Intent miIntent = new Intent(this, CrearEventos.class);
-        miIntent.putExtra("correoElectronico",correoElectronico);
         startActivity(miIntent);
         finishAffinity();
     }
