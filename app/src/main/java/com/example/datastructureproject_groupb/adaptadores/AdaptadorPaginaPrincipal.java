@@ -6,16 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datastructureproject_groupb.Bocu;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
-import com.example.datastructureproject_groupb.PaginaPrincipal;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.entidades.Evento;
+import com.example.datastructureproject_groupb.fragmentos.PaginaPrincipalFragment;
 
 public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPaginaPrincipal.EventoViewHolder> {
 
@@ -87,14 +86,14 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
                 horarioEvento.setText("Horario: " + evento.getHorarioEvento());
                 lugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
                 costoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
-                tipoEvento.setText("Tipo: " + evento.getCategoriaEvento());
+                tipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
                 descripcionEvento.setText("Descripción: " + evento.getDescripcionEvento());
 
                 builder.setView(view);
 
                 builder.show();
 
-                PaginaPrincipal.historialEventos.push(evento);
+                PaginaPrincipalFragment.historialEventos.push(evento);
 
             });
 

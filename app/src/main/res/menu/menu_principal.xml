@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuPaginaPrincipal"
+        android:title="Pagina principal"
+        android:icon="@drawable/pagina_principal_boton" />
+    <item
+        android:id="@+id/menuDescubrir"
+        android:title="Descubrir"
+        android:icon="@drawable/descubrir_boton" />
+
+    <item
+        android:id="@+id/menuEventos"
+        android:title="Eventos"
+        android:icon="@drawable/crear_eventos_boton" />
+
+    <item
+        android:id="@+id/menuCuenta"
+        android:title="Cuenta"
+        android:icon="@drawable/cuenta_boton" />
+
+</menu>

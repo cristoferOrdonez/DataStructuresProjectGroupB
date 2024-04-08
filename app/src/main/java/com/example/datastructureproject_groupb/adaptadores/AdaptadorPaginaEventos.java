@@ -1,5 +1,6 @@
 package com.example.datastructureproject_groupb.adaptadores;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -106,7 +107,9 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
                 intent.putExtra("DESCRIPCION_EVENTO", evento.getDescripcionEvento());
                 intent.putExtra("LOCALIDAD_EVENTO", evento.getLocalidadEvento());
                 intent.putExtra("CATEGORIA_EVENTO", evento.getCategoriaEvento());
-                v.getContext().startActivity(intent);}
+                v.getContext().startActivity(intent);
+                ((Activity)v.getContext()).finishAffinity();
+            }
         });
     }
 

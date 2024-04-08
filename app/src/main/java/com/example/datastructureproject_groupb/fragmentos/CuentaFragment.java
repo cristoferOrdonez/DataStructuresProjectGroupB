@@ -1,71 +1,80 @@
-package com.example.datastructureproject_groupb;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.datastructureproject_groupb.fragmentos;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-
-import androidx.appcompat.view.ContextThemeWrapper;
-
-import android.app.AlertDialog;
-import android.graphics.Color;
-import android.os.Build;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.datastructureproject_groupb.Bocu;
+import com.example.datastructureproject_groupb.CrearCuentaExpositor;
+import com.example.datastructureproject_groupb.CrearCuentaUsuario;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
+import com.example.datastructureproject_groupb.PaginaInicio;
+import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.db.DbExpositor;
 import com.example.datastructureproject_groupb.db.DbUsuariosComunes;
 import com.example.datastructureproject_groupb.entidades.Artista;
 import com.example.datastructureproject_groupb.entidades.UsuarioComun;
 import com.example.datastructureproject_groupb.entidades.UsuarioRegistrado;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Cuenta extends AppCompatActivity {
-    Button botonPaginaPrincipal, botonEventos, botonDescubrir, botonAcceder, botonCrearCuentaUsuario, botonCrearCuentaExpositor;
+public class CuentaFragment extends Fragment {
+
+    Button botonAcceder, botonCrearCuentaUsuario, botonCrearCuentaExpositor;
     EditText nombreAcceder, correoElectronicoAcceder, contrasenaAcceder, apellidoAcceder, edadAcceder;
     Spinner spinnerLocalidad, spinnerIntereses;
-    private static final String [] localidades= new String[]{ "Virtual","Usaquén", "Chapinero", "Santa Fe", "San Cristóbal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibón", "Engativá", "Suba", "Barrios Unidos", "Teusaquillo", "Los Mártires", "Antonio Nariño", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolívar", "Sumapaz"   };
-    private static final String [] intereses= new String[]{"Musica", "Talleres",     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (Bocu.estadoUsuario == Bocu.ARTISTA)
-            establecerContenidoExpositor();
-        else if (Bocu.estadoUsuario == Bocu.USUARIO_COMUN)
-            establecerContenidoUsuarioComun();
-        else
-            establecerContenidoUsuarioNoRegistrado();
-
+    public CuentaFragment() {
     }
 
-    private void establecerContenidoExpositor(){
-        setContentView(R.layout.activity_cuenta_expositor);
-        botonPaginaPrincipal = findViewById(R.id.botonPaginaPrincipalCuenta);
-        botonDescubrir = findViewById(R.id.botonDescubrirCuenta);
-        botonEventos = findViewById(R.id.botonEventosCuenta);
+    public static CuentaFragment newInstance() {
+        CuentaFragment fragment = new CuentaFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-        botonPaginaPrincipal.setOnClickListener(view -> cambiarAPaginaPrincipal());
-        botonEventos.setOnClickListener(view -> cambiarAEventos());
-        botonDescubrir.setOnClickListener(view -> cambiarADescubrir());
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-        nombreAcceder = findViewById(R.id.editTextNombre);
-        correoElectronicoAcceder = findViewById(R.id.editTextCorreo);
-        contrasenaAcceder = findViewById(R.id.editTextContrasena);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View root;
+
+        if (Bocu.estadoUsuario == Bocu.ARTISTA)
+            root = establecerContenidoExpositor(inflater, container);
+        else if (Bocu.estadoUsuario == Bocu.USUARIO_COMUN)
+            root = establecerContenidoUsuarioComun(inflater, container);
+        else
+            root = establecerContenidoUsuarioNoRegistrado(inflater, container);
+
+        return root;
+    }
+
+    private View establecerContenidoExpositor(LayoutInflater inflater, ViewGroup container){
+        View root = inflater.inflate(R.layout.fragment_cuenta_expositor, container, false);
+
+        nombreAcceder = root.findViewById(R.id.editTextNombre);
+        correoElectronicoAcceder = root.findViewById(R.id.editTextCorreo);
+        contrasenaAcceder = root.findViewById(R.id.editTextContrasena);
 
         nombreAcceder.setText(((Artista)Bocu.usuario).getNombreArtista());
         correoElectronicoAcceder.setText(((Artista)Bocu.usuario).getCorreoElectronico());
@@ -75,10 +84,10 @@ public class Cuenta extends AppCompatActivity {
         correoElectronicoAcceder.setEnabled(false);
         contrasenaAcceder.setEnabled(false);
 
-        spinnerLocalidad = findViewById(R.id.spinnerLocalidad);
-        spinnerIntereses = findViewById(R.id.spinnerIntereses);
+        spinnerLocalidad = root.findViewById(R.id.spinnerLocalidad);
+        spinnerIntereses = root.findViewById(R.id.spinnerIntereses);
 
-        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, localidades) {
+        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -91,7 +100,7 @@ public class Cuenta extends AppCompatActivity {
         localidadesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLocalidad.setAdapter(localidadesAdapter);
 
-        ArrayAdapter<String> interesesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, intereses) {
+        ArrayAdapter<String> interesesAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Bocu.INTERESES) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -110,23 +119,18 @@ public class Cuenta extends AppCompatActivity {
         spinnerIntereses.setEnabled(false);
         spinnerLocalidad.setEnabled(false);
 
+        return root;
+
     }
 
-    private void establecerContenidoUsuarioComun(){
-        setContentView(R.layout.activity_cuenta_usuario_comun);
-        botonPaginaPrincipal = findViewById(R.id.botonPaginaPrincipalCuenta);
-        botonDescubrir = findViewById(R.id.botonDescubrirCuenta);
-        botonEventos = findViewById(R.id.botonEventosCuenta);
+    private View establecerContenidoUsuarioComun(LayoutInflater inflater, ViewGroup container){
+        View root = inflater.inflate(R.layout.fragment_cuenta_usuario_comun, container, false);
 
-        botonPaginaPrincipal.setOnClickListener(view -> cambiarAPaginaPrincipal());
-        botonEventos.setOnClickListener(view -> cambiarAEventos());
-        botonDescubrir.setOnClickListener(view -> cambiarADescubrir());
-
-        nombreAcceder = findViewById(R.id.editTextNombre);
-        correoElectronicoAcceder = findViewById(R.id.editTextCorreo);
-        contrasenaAcceder = findViewById(R.id.editTextContrasena);
-        apellidoAcceder = findViewById(R.id.editTextApellido);
-        edadAcceder = findViewById(R.id.editTextEdad);
+        nombreAcceder = root.findViewById(R.id.editTextNombre);
+        correoElectronicoAcceder = root.findViewById(R.id.editTextCorreo);
+        contrasenaAcceder = root.findViewById(R.id.editTextContrasena);
+        apellidoAcceder = root.findViewById(R.id.editTextApellido);
+        edadAcceder = root.findViewById(R.id.editTextEdad);
 
         nombreAcceder.setText(((UsuarioComun)Bocu.usuario).getNombres());
         apellidoAcceder.setText(((UsuarioComun)Bocu.usuario).getApellidos());
@@ -140,10 +144,10 @@ public class Cuenta extends AppCompatActivity {
         apellidoAcceder.setEnabled(false);
         edadAcceder.setEnabled(false);
 
-        spinnerLocalidad = findViewById(R.id.spinnerLocalidad);
-        spinnerIntereses = findViewById(R.id.spinnerIntereses);
+        spinnerLocalidad = root.findViewById(R.id.spinnerLocalidad);
+        spinnerIntereses = root.findViewById(R.id.spinnerIntereses);
 
-        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, localidades) {
+        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -156,7 +160,7 @@ public class Cuenta extends AppCompatActivity {
         localidadesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLocalidad.setAdapter(localidadesAdapter);
 
-        ArrayAdapter<String> interesesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, intereses) {
+        ArrayAdapter<String> interesesAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Bocu.INTERESES) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -174,59 +178,65 @@ public class Cuenta extends AppCompatActivity {
 
         spinnerIntereses.setEnabled(false);
         spinnerLocalidad.setEnabled(false);
+
+        return root;
+
     }
 
-    private void establecerContenidoUsuarioNoRegistrado(){
-        setContentView(R.layout.activity_cuenta_usuario_no_registrado);
+    private View establecerContenidoUsuarioNoRegistrado(LayoutInflater inflater, ViewGroup container){
+        View root = inflater.inflate(R.layout.fragment_cuenta_usuario_no_registrado, container, false);
 
         if(Bocu.expositores == null){
-            Bocu.expositores = new DbExpositor(this).obtenerExpositores();
+            Bocu.expositores = new DbExpositor(getActivity()).obtenerExpositores();
         }
         if(Bocu.usuariosComunes == null){
-            Bocu.usuariosComunes = new DbUsuariosComunes(this).obtenerUsuariosComunes();
+            Bocu.usuariosComunes = new DbUsuariosComunes(getActivity()).obtenerUsuariosComunes();
         }
 
-        botonPaginaPrincipal=findViewById(R.id.botonPaginaPrincipalCuenta);
-        botonEventos=findViewById(R.id.botonEventosCuenta);
-        botonDescubrir=findViewById(R.id.botonDescubrirCuenta);
-        botonAcceder=findViewById(R.id.botonAccederCuenta);
-        botonCrearCuentaUsuario=findViewById(R.id.botonCrearCuentaUsuario);
-        botonCrearCuentaExpositor=findViewById(R.id.botonCrearCuentaExpositor);
+        botonAcceder = root.findViewById(R.id.botonAccederCuenta);
+        botonCrearCuentaUsuario = root.findViewById(R.id.botonCrearCuentaUsuario);
+        botonCrearCuentaExpositor = root.findViewById(R.id.botonCrearCuentaExpositor);
 
-        correoElectronicoAcceder =findViewById(R.id.editTextCorreo);
-        contrasenaAcceder =findViewById(R.id.editTextContrasena);
+        botonAcceder.setOnClickListener(i -> VerificarInformacionAcceso());
+        correoElectronicoAcceder = root.findViewById(R.id.editTextCorreo);
+        contrasenaAcceder = root.findViewById(R.id.editTextContrasena);
 
 
-        botonPaginaPrincipal.setOnClickListener(view -> cambiarAPaginaPrincipal());
-        botonEventos.setOnClickListener(view -> cambiarAEventos());
-        botonDescubrir.setOnClickListener(view -> cambiarADescubrir());
         botonCrearCuentaUsuario.setOnClickListener(view -> cambiarARegistroUsuario());
         botonCrearCuentaExpositor.setOnClickListener(view -> cambiarARegistroExpositor());
-    }
 
-    protected void onDestroy() {
-        super.onDestroy();
+        return root;
+
     }
 
 
     public void acceder(UsuarioRegistrado usuario, int tipoUsuario) {
 
-        Intent miIntent = new Intent(this, PaginaPrincipal.class);
         Bocu.usuario = usuario;
         Bocu.estadoUsuario = tipoUsuario;
         if (tipoUsuario == Bocu.USUARIO_COMUN) {
-            Toast.makeText(this, "Ingreso correctamente como Usuario", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Ingreso correctamente como Usuario", Toast.LENGTH_SHORT).show();
         } else {
             establecerEventosExpositor();
-            Toast.makeText(this, "Ingreso correctamente como Artista", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Ingreso correctamente como Artista", Toast.LENGTH_SHORT).show();
         }
-        startActivity(miIntent);
-        finishAffinity();
+
         Bocu.expositores = null;
         Bocu.usuariosComunes = null;
+
+        cambiarAPaginaPrincipal();
+
     }
 
-    public void revisar(View view){
+    public void cambiarAPaginaPrincipal(){
+        PaginaInicio.intensionInicializacion = PaginaInicio.PAGINA_PRINCIPAL;
+        FragmentActivity activity = getActivity();
+        Intent miIntent = new Intent(activity, PaginaInicio.class);
+        activity.startActivity(miIntent);
+        activity.finishAffinity();
+    }
+
+    public void revisar(){
 
         int opcion = verificarExistencia();
         if (opcion > -1) {
@@ -235,26 +245,26 @@ public class Cuenta extends AppCompatActivity {
                 if (contrasenaAcceder.getText().toString().equals(usuario.getContrasena())) {
                     acceder(usuario, Bocu.USUARIO_COMUN);
                 } else {
-                    Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
                 }
             } else if (opcion == 1) {
                 Artista artista = verExpositor(correoElectronicoAcceder.getText().toString().toLowerCase());
                 if (contrasenaAcceder.getText().toString().equals(artista.getContrasena())) {
                     acceder(artista, Bocu.ARTISTA);
                 } else {
-                    Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
                 }
             }
 
         } else {
 
-            Toast.makeText(this, "El correo electronico ingresado no se encuentra registrado.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "El correo electronico ingresado no se encuentra registrado.", Toast.LENGTH_SHORT).show();
 
         }
 
     }
 
-    public void VerificarInformacionAcceso (View view) {
+    public void VerificarInformacionAcceso () {
 
         boolean flag = true;
         String mensajeError = "";
@@ -282,9 +292,9 @@ public class Cuenta extends AppCompatActivity {
         }
 
         if(flag)
-            revisar(view);
+            revisar();
         else
-            Toast.makeText(this, mensajeError, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), mensajeError, Toast.LENGTH_SHORT).show();
     }
 
     public int verificarExistencia(){
@@ -325,37 +335,17 @@ public class Cuenta extends AppCompatActivity {
 
     }
 
-    public void cambiarAPaginaPrincipal() {
-        Intent miIntent = new Intent(this, PaginaPrincipal.class);
-        startActivity(miIntent);
-        finishAffinity();
-    }
-    public void cambiarAEventos() {
-        if (Bocu.estadoUsuario == Bocu.ARTISTA) {
-            Intent miIntent = new Intent(this, Eventos.class);
-            startActivity(miIntent);
-            finishAffinity();
-        } else{
-            Toast.makeText(this, "Usted no es un Artista", Toast.LENGTH_SHORT).show();
-        }
-    }
-    public void cambiarADescubrir() {
-        Intent miIntent = new Intent(this, Descubrir.class);
-        startActivity(miIntent);
-        finishAffinity();
-    }
-
     public void cambiarARegistroUsuario() {
-        Intent miIntent = new Intent(this, com.example.datastructureproject_groupb.CrearCuentaUsuario.class);
+        Intent miIntent = new Intent(getActivity(), CrearCuentaUsuario.class);
         startActivity(miIntent);
-        finishAffinity();
+        getActivity().finishAffinity();
 
 
     }
     public void cambiarARegistroExpositor() {
-        Intent miIntent = new Intent(this, com.example.datastructureproject_groupb.CrearCuentaExpositor.class);
+        Intent miIntent = new Intent(getActivity(), CrearCuentaExpositor.class);
         startActivity(miIntent);
-        finishAffinity();
+        getActivity().finishAffinity();
 
 
     }
@@ -392,5 +382,6 @@ public class Cuenta extends AppCompatActivity {
             }
 
     }
+
 
 }

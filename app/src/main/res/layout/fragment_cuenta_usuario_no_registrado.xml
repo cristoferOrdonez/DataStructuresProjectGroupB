@@ -4,63 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Cuenta">
-
-    <Button
-        android:id="@+id/botonPaginaPrincipalCuenta"
-        android:layout_width="90dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:text="Pagina Principal"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/botonDescubrirCuenta"
-        android:layout_width="90dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="12dp"
-        android:text="Descubrir"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/botonPaginaPrincipalCuenta"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/botonEventosCuenta"
-        android:layout_width="90dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="12dp"
-        android:text="Eventos"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/botonDescubrirCuenta"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/botonCuentaCuenta"
-        android:layout_width="90dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="12dp"
-        android:text="Cuenta"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/botonEventosCuenta"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+    tools:context=".fragmentos.CuentaFragment">
 
     <EditText
         android:id="@+id/editTextCorreo"
         android:layout_width="265dp"
         android:layout_height="63dp"
-        android:layout_marginTop="276dp"
+        android:layout_marginTop="150dp"
         android:ems="10"
         android:hint="Correo Electronico"
         android:inputType="text"
@@ -75,7 +25,7 @@
         android:id="@+id/editTextContrasena"
         android:layout_width="265dp"
         android:layout_height="63dp"
-        android:layout_marginTop="356dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="Contraseña"
         android:inputType="text"
@@ -83,14 +33,13 @@
         android:textColorHint="@color/cardview_dark_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextCorreo" />
 
     <Button
         android:id="@+id/botonAccederCuenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:onClick="VerificarInformacionAcceso"
         android:text="Acceder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,22 +49,21 @@
         android:id="@+id/textViewCrearCuenta"
         android:layout_width="151dp"
         android:layout_height="24dp"
-        android:layout_marginTop="556dp"
+        android:layout_marginTop="40dp"
         android:text="¿Aún no tienes cuenta?"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/botonAccederCuenta" />
 
     <TextView
         android:id="@+id/textViewCrearcuentausuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:textColor="@color/black"
         android:text="Crear cuenta como usuario"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/botonCrearCuentaExpositor"
+        app:layout_constraintEnd_toStartOf="@+id/botonCrearCuentaUsuario"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewCrearCuenta" />
 
@@ -123,34 +71,33 @@
         android:id="@+id/textViewCrearcuetnaExpositor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="116dp"
-        android:textColor="@color/black"
+        android:layout_marginTop="20dp"
         android:text="Crear cuenta como expositor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.069"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/botonCrearCuentaExpositor"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCrearCuenta" />
+        app:layout_constraintTop_toBottomOf="@+id/botonCrearCuentaUsuario" />
 
     <Button
         android:id="@+id/botonCrearCuentaUsuario"
         android:layout_width="183dp"
         android:layout_height="40dp"
-        android:layout_marginTop="620dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="10dp"
         android:text="Registratse como usuario"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewCrearCuenta" />
 
     <Button
         android:id="@+id/botonCrearCuentaExpositor"
         android:layout_width="183dp"
         android:layout_height="40dp"
-        android:layout_marginTop="684dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
         android:text="Registratse como expositor"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/botonCrearCuentaUsuario" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

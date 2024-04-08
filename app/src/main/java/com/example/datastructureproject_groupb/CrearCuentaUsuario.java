@@ -83,7 +83,8 @@ public class CrearCuentaUsuario extends AppCompatActivity {
     }
 
     public void cambiarAPaginaPrincipal() {
-        Intent miIntent = new Intent(this, PaginaPrincipal.class);
+        PaginaInicio.intensionInicializacion = PaginaInicio.CUENTA;
+        Intent miIntent = new Intent(this, PaginaInicio.class);
         startActivity(miIntent);
         finishAffinity();
     }

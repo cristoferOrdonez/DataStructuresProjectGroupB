@@ -50,7 +50,7 @@ public class EditarEventos extends AppCompatActivity {
         cancelarEditarEvento = findViewById(R.id.botonCancelarEditarEvento);
         aceptarEditarEvento = findViewById(R.id.botonAceptarEditarEvento);
 
-        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, localidades) {
+        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -62,7 +62,7 @@ public class EditarEventos extends AppCompatActivity {
         localidadesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLocalidadEvento.setAdapter(localidadesAdapter);
 
-        ArrayAdapter<String> categoriasAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categorias) {
+        ArrayAdapter<String> categoriasAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Bocu.INTERESES) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -85,11 +85,9 @@ public class EditarEventos extends AppCompatActivity {
 
     }
 
-    private static final String [] localidades= new String[]{ "Virtual","Usaquén", "Chapinero", "Santa Fe", "San Cristóbal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibón", "Engativá", "Suba", "Barrios Unidos", "Teusaquillo", "Los Mártires", "Antonio Nariño", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolívar", "Sumapaz"   };
-    private static final String [] categorias= new String[]{"Musica", "Talleres",     };
-
     public void cambiarAEventos() {
-        Intent miIntent = new Intent(this, Eventos.class);
+        PaginaInicio.intensionInicializacion = PaginaInicio.EVENTOS;
+        Intent miIntent = new Intent(this, PaginaInicio.class);
         startActivity(miIntent);
         finishAffinity();
     }

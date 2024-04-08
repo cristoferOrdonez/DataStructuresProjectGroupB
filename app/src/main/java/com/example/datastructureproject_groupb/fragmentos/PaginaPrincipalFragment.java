@@ -1,86 +1,75 @@
-package com.example.datastructureproject_groupb;
+package com.example.datastructureproject_groupb.fragmentos;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.app.AlertDialog;
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.datastructureproject_groupb.Bocu;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StackLinkedList;
+import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaPrincipal;
 import com.example.datastructureproject_groupb.entidades.Evento;
 
-public class PaginaPrincipal extends AppCompatActivity {
+public class PaginaPrincipalFragment extends Fragment {
 
     public static StackLinkedList<Evento> historialEventos;
-    private Button botonDescubrir, botonCuenta, botonEventos;
     private ImageButton botonHistorial;
     private RecyclerView listaEventos;
 
+    public PaginaPrincipalFragment() {
+    }
+
+    public static PaginaPrincipalFragment newInstance() {
+        PaginaPrincipalFragment fragment = new PaginaPrincipalFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pagina_principal);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View root = inflater.inflate(R.layout.fragment_pagina_principal, container, false);
 
         historialEventos = new StackLinkedList<>();
 
-        botonDescubrir=findViewById(R.id.botonDescubrirPaginaPrincipal);
-        botonCuenta=findViewById(R.id.botonCuentaPaginaPrincipal);
-        botonEventos=findViewById(R.id.botonEventosPaginaPrincipal);
+        listaEventos = root.findViewById(R.id.recyclerViewEventosPaginaPrincipal);
 
-
-        botonDescubrir.setOnClickListener(view -> cambiarADescubrir());
-        botonCuenta.setOnClickListener(view -> cambiarACuenta());
-        botonEventos.setOnClickListener(view -> cambiarAEventos());
-
-        listaEventos = findViewById(R.id.recyclerViewEventosPaginaPrincipal);
-
-        listaEventos.setLayoutManager(new LinearLayoutManager(this));
+        listaEventos.setLayoutManager(new LinearLayoutManager(getContext()));
 
         AdaptadorPaginaPrincipal adapter = new AdaptadorPaginaPrincipal(Bocu.eventos);
         listaEventos.setAdapter(adapter);
 
-        botonHistorial = findViewById(R.id.imageButtonHistorial);
+        botonHistorial = root.findViewById(R.id.imageButtonHistorial);
 
         botonHistorial.setOnClickListener(i -> {
             if(!historialEventos.isEmpty())
                 mostrarDialogHistorial(historialEventos.pop());
         });
-    }
 
-    public void cambiarADescubrir() {
-        Intent miIntent = new Intent(this, Descubrir.class);
-        startActivity(miIntent);
-        finishAffinity();
-    }
-    public void cambiarACuenta() {
-        Intent miIntent = new Intent(this, Cuenta.class);
-        startActivity(miIntent);
-        finishAffinity();
-    }
-
-    public void cambiarAEventos() {
-        int usuario = Bocu.estadoUsuario;
-        if (usuario == 2) {
-            Intent miIntent = new Intent(this, Eventos.class);
-            startActivity(miIntent);
-            finishAffinity();
-        } else{
-            Toast.makeText(this, "Usted no es un Artista", Toast.LENGTH_SHORT).show();
-        }
+        return root;
     }
 
     public void mostrarDialogHistorial(Evento evento){
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.view_evento_presionado_pagina_principal, null);
         TextView tituloEvento = view.findViewById(R.id.textViewTituloEventoPaginaPrincipal),
@@ -103,10 +92,6 @@ public class PaginaPrincipal extends AppCompatActivity {
 
         builder.show();
 
-    }
-
-    public void onDestroy(){
-        super.onDestroy();
     }
 
 }

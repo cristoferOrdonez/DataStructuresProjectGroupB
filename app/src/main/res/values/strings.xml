@@ -2,4 +2,10 @@
     <string name="app_name">Data Structure Project - Group B</string>
     <string name="title_activity_crear_cuenta_usuario">activity_CrearCuentaUsuario</string>
     <string name="title_activity_registro_usuario">activity_RegistroUsuario</string>
+    <string name="title_activity_pagina_inicio">PaginaInicio</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_titulo_pagina_principal">Pagina Principal</string>
+    <string name="menu_titulo_descubrir">Descubrir</string>
+    <string name="menu_titulo_eventos">Eventos</string>
+    <string name="menu_titulo_cuenta">Cuenta</string>
 </resources>

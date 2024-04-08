@@ -88,7 +88,8 @@ public class CrearEventos extends AppCompatActivity{
     }
 
     public void cambiarAEventos() {
-        Intent miIntent = new Intent(this, Eventos.class);
+        PaginaInicio.intensionInicializacion = PaginaInicio.EVENTOS;
+        Intent miIntent = new Intent(this, PaginaInicio.class);
         startActivity(miIntent);
         finishAffinity();
     }

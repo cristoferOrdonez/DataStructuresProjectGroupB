@@ -28,23 +28,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.DataStructureProjectGroupB" />
         <activity
-            android:name=".Cuenta"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".CrearCuentaExpositor"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Eventos"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Descubrir"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".PaginaPrincipal"
+            android:name=".PaginaInicio"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -54,4 +42,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
