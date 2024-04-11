@@ -1,45 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragmentos.CuentaFragment">
 
-    <EditText
-        android:id="@+id/editTextCorreo"
-        android:layout_width="265dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="150dp"
-        android:ems="10"
-        android:hint="Correo Electronico"
-        android:inputType="text"
-        android:textColor="@color/black"
-        android:textColorHint="#393939"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:background="@drawable/el_pulgros10_no_olvidar_borrar_esto" />
 
-    <EditText
-        android:id="@+id/editTextContrasena"
-        android:layout_width="265dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="Contraseña"
-        android:inputType="text"
-        android:textColor="@color/black"
-        android:textColorHint="@color/cardview_dark_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextCorreo" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_marginHorizontal="30dp"
+        android:orientation="vertical"
+        android:theme="@style/TextInputEditText">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Correo electronico"
+            android:paddingVertical="15dp"
+            android:textColorHint="@color/gris_claro_hint"
+            app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+            app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/black"
+            app:startIconDrawable="@drawable/icono_carta_email"
+            app:startIconTint="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextCorreo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña"
+            android:paddingVertical="15dp"
+            android:textColorHint="@color/gris_claro_hint"
+            app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+            app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/black"
+            app:startIconDrawable="@drawable/icono_candado_contrasena"
+            app:startIconTint="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextContrasena"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:textColor="@color/black" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/botonAccederCuenta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginHorizontal="40dp"
+
         android:text="Acceder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,57 +88,39 @@
 
     <TextView
         android:id="@+id/textViewCrearCuenta"
-        android:layout_width="151dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="40dp"
-        android:text="¿Aún no tienes cuenta?"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/botonAccederCuenta" />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:autoSizeTextType="uniform"
+        android:layout_marginHorizontal="40dp"
+        android:text="¿Aún no tienes cuenta? Registrate como ..."
+        android:textColor="@color/black" />
 
-    <TextView
-        android:id="@+id/textViewCrearcuentausuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Crear cuenta como usuario"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/botonCrearCuentaExpositor"
-        app:layout_constraintEnd_toStartOf="@+id/botonCrearCuentaUsuario"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCrearCuenta" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textViewCrearcuetnaExpositor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Crear cuenta como expositor"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/botonCrearCuentaExpositor"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/botonCrearCuentaUsuario" />
+        <Button
+            android:id="@+id/botonCrearCuentaUsuario"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Usuario"
+            android:textSize="10sp" />
 
-    <Button
-        android:id="@+id/botonCrearCuentaUsuario"
-        android:layout_width="183dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="10dp"
-        android:text="Registratse como usuario"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCrearCuenta" />
+        <Button
+            android:id="@+id/botonCrearCuentaExpositor"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Expositor"
+            android:textSize="10sp" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/botonCrearCuentaExpositor"
-        android:layout_width="183dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="10dp"
-        android:text="Registratse como expositor"
-        android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/botonCrearCuentaUsuario" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

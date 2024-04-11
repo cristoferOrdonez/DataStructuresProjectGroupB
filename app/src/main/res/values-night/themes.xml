@@ -3,7 +3,14 @@
     <style name="Base.Theme.DataStructureProjectGroupB" parent="Theme.Design.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-        <item name="android:windowBackground">@color/white</item> <!-- Define el color blanco como fondo -->
+        <item name="android:windowBackground">@color/white</item>
 
     </style>
+    <style name="TextInputEditText" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/cian_titulo_evento_pagina_principal</item>
+        <item name="android:windowBackground">@color/white</item>
+
+    </style>
+
 </resources>

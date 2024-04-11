@@ -4,13 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,69 +14,42 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
 import com.example.datastructureproject_groupb.db.DbExpositor;
 import com.example.datastructureproject_groupb.entidades.Artista;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CrearCuentaExpositor extends AppCompatActivity {
-    private EditText NombreRegistroUsuario, CorreoRegistroUsuario, ConfirmarContrasenaRegistroUsuario, ContrasenaRegistroUsuario;
-    private Spinner spinnerLocalidadRegistroUsuario,spinnerInteresesRegistroUsuario;
-    private Button cancelarRegistroUsuario, registrasrseRegistroUsuario;
-
+    private TextInputEditText nombreRegistroExpositor, correoRegistroExpositor, confirmarContrasenaRegistroExpositor, contrasenaRegistroExpositor;
+    private MaterialAutoCompleteTextView spinnerLocalidadRegistroUsuario,spinnerInteresesRegistroUsuario;
+    private Button cancelarRegistroExpositor, registrasrseRegistroExpositor;
+    private ArrayAdapter<String> interesesAdapter, localidadesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_expositor);
 
-        NombreRegistroUsuario=findViewById(R.id.textViewNombre);
-        CorreoRegistroUsuario=findViewById(R.id.textViewCorreoRegistroExpositor);
-        ConfirmarContrasenaRegistroUsuario=findViewById(R.id.textViewConfirmarContrasenaRegistroExpositor);
-        ContrasenaRegistroUsuario=findViewById(R.id.textViewContrasenaRegistroExpositor);
+        nombreRegistroExpositor =findViewById(R.id.textViewNombre);
+        correoRegistroExpositor =findViewById(R.id.textViewCorreoRegistroExpositor);
+        confirmarContrasenaRegistroExpositor =findViewById(R.id.textViewConfirmarContrasenaRegistroExpositor);
+        contrasenaRegistroExpositor =findViewById(R.id.textViewContrasenaRegistroExpositor);
         spinnerInteresesRegistroUsuario=findViewById(R.id.spinnerInteresesRegistroExpositor);
         spinnerLocalidadRegistroUsuario=findViewById(R.id.spinnerLocalidadRegistroExpositor);
-        cancelarRegistroUsuario=findViewById(R.id.botonCancelarRegistroExpositor);
-        registrasrseRegistroUsuario=findViewById(R.id.botonRegistratseRegistroExpositor);
+        cancelarRegistroExpositor =findViewById(R.id.botonCancelarRegistroExpositor);
+        registrasrseRegistroExpositor =findViewById(R.id.botonRegistratseRegistroExpositor);
 
-        cancelarRegistroUsuario.setOnClickListener(view -> cambiarAPaginaPrincipal());
-        registrasrseRegistroUsuario.setOnClickListener(view -> registrarseComoExpositor());
+        cancelarRegistroExpositor.setOnClickListener(view -> cambiarAPaginaPrincipal());
+        registrasrseRegistroExpositor.setOnClickListener(view -> registrarseComoExpositor());
 
 
 
-        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setTextColor(getResources().getColor(R.color.black));
-                return view;
-            }
-        };
-
-        localidadesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        localidadesAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.LOCALIDADES);
         spinnerLocalidadRegistroUsuario.setAdapter(localidadesAdapter);
 
-        ArrayAdapter<String> interesesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Bocu.INTERESES) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setTextColor(getResources().getColor(R.color.black));
-                return view;
-            }
-        };
-        interesesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        interesesAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.INTERESES);
         spinnerInteresesRegistroUsuario.setAdapter(interesesAdapter);
-
-        String localidadPreseleccionada = "Usaquén";
-        int index = Arrays.asList(Bocu.LOCALIDADES).indexOf(localidadPreseleccionada);
-        spinnerLocalidadRegistroUsuario.setSelection(index);
-
-
-        String InteresPreseleccionada = "Musica";
-        int index2 = Arrays.asList(Bocu.INTERESES).indexOf(InteresPreseleccionada);
-        spinnerInteresesRegistroUsuario.setSelection(index2);
 
     }
 
@@ -93,71 +62,47 @@ public class CrearCuentaExpositor extends AppCompatActivity {
     public void registrarseComoExpositor(){
         VerificarInformacionRegistroExpositor(new View(this));
     }
-    public void mostrarLocalidades() {
-        spinnerLocalidadRegistroUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedLocalidad = parent.getItemAtPosition(position).toString();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
-    public void mostrarIntereses() {
-        spinnerInteresesRegistroUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedInteres = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
     public void VerificarInformacionRegistroExpositor(View view) {
 
         boolean flag = true;
         String mensajeError = "";
 
-        if(NombreRegistroUsuario.getText().toString().trim().equals("")) {
+        if(nombreRegistroExpositor.getText().toString().trim().equals("")) {
             mensajeError += "No ha ingresado nombres validos\n";
             flag = false;
         }
 
-        if(spinnerLocalidadRegistroUsuario.getSelectedItem() == null || spinnerLocalidadRegistroUsuario.getSelectedItem().toString().trim().equals("")) {
+        if(spinnerLocalidadRegistroUsuario.getText().toString().equals("") || localidadesAdapter.getPosition(spinnerLocalidadRegistroUsuario.getText().toString()) == -1) {
             mensajeError += "Seleccione una Localidad\n";
             flag = false;
         }
-        if(spinnerInteresesRegistroUsuario.getSelectedItem() == null || spinnerInteresesRegistroUsuario.getSelectedItem().toString().trim().equals("")) {
+        if(spinnerInteresesRegistroUsuario.getText().toString().equals("") || interesesAdapter.getPosition(spinnerInteresesRegistroUsuario.getText().toString()) == -1) {
             mensajeError += "Seleccione un Interes\n";
             flag = false;
         }
 
         Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 
-        Matcher mather = pattern.matcher(CorreoRegistroUsuario.getText().toString());
+        Matcher mather = pattern.matcher(correoRegistroExpositor.getText().toString());
 
         if(!mather.find()){
             mensajeError += "No ha ingresado un correo electronico valido\n";
             flag = false;
         }
-        if(ContrasenaRegistroUsuario.getText().toString().length() < 8){
+        if(contrasenaRegistroExpositor.getText().toString().length() < 8){
             mensajeError += "Debe ingresar una contraseña de por lo menos 8 caracteres\n";
             flag = false;
         }
-        if(ContrasenaRegistroUsuario.getText().toString().contains(" ")){
+        if(contrasenaRegistroExpositor.getText().toString().contains(" ")){
             mensajeError += "La contraseña no puede contener espacios en blanco\n";
             flag = false;
         }
-        if(!ContrasenaRegistroUsuario.getText().toString().equals(ConfirmarContrasenaRegistroUsuario.getText().toString())){
+        if(!contrasenaRegistroExpositor.getText().toString().equals(confirmarContrasenaRegistroExpositor.getText().toString())){
             mensajeError += "Las contraseñas no coinciden\n";
             flag = false;
         }
-        if(!ContrasenaRegistroUsuario.getText().toString().equals(ConfirmarContrasenaRegistroUsuario.getText().toString())){
+        if(!contrasenaRegistroExpositor.getText().toString().equals(confirmarContrasenaRegistroExpositor.getText().toString())){
             mensajeError += "Las contraseñas no coinciden\n";
             flag = false;
         }
@@ -170,12 +115,12 @@ public class CrearCuentaExpositor extends AppCompatActivity {
     }
 
     public void RegistrarExpositor(View view) {
-        String nombres = NombreRegistroUsuario.getText().toString().trim();
+        String nombres = nombreRegistroExpositor.getText().toString().trim();
 
-        String correoElectronicoR = CorreoRegistroUsuario.getText().toString();
-        String contrasenaR = ContrasenaRegistroUsuario.getText().toString();
-        int localidad = spinnerLocalidadRegistroUsuario.getSelectedItemPosition();
-        int interes = spinnerInteresesRegistroUsuario.getSelectedItemPosition();
+        String correoElectronicoR = correoRegistroExpositor.getText().toString();
+        String contrasenaR = contrasenaRegistroExpositor.getText().toString();
+        int localidad = localidadesAdapter.getPosition(spinnerLocalidadRegistroUsuario.getText().toString());
+        int interes = interesesAdapter.getPosition(spinnerInteresesRegistroUsuario.getText().toString());
 
         Artista expositor = new Artista(Bocu.expositores.size(), nombres, correoElectronicoR.toLowerCase(), contrasenaR, interes, localidad);
 
@@ -192,13 +137,6 @@ public class CrearCuentaExpositor extends AppCompatActivity {
 
         }
 
-    }
-    public int stringAIntLocalidad(String s){
-        return 0;
-
-    }
-    public int stringAIntInteres(String s){
-        return 0;
     }
 
     public boolean verificarRepeticion() {
@@ -219,7 +157,7 @@ public class CrearCuentaExpositor extends AppCompatActivity {
 
         for(String correo : correos){
 
-            repeticion = correo.equalsIgnoreCase(CorreoRegistroUsuario.getText().toString().trim());
+            repeticion = correo.equalsIgnoreCase(correoRegistroExpositor.getText().toString().trim());
 
             if(repeticion)
                 break;

@@ -1,129 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/textViewCorreoRegistroExpositor"
-        android:layout_width="203dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="92dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:hint="Correo Electronico"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
-
-    <EditText
-        android:id="@+id/textViewConfirmarContrasenaRegistroExpositor"
-        android:layout_width="203dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="224dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:hint="Confirmar Contraseña"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
-
-    <EditText
-        android:id="@+id/textViewContrasenaRegistroExpositor"
-        android:layout_width="203dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="156dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:hint="Contraseña"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
-
     <TextView
-        android:id="@+id/PlainTextRegistro"
-        android:layout_width="230dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textAlignment="center"
+        android:layout_weight="0.5"
+        android:layout_marginVertical="20dp"
+        android:layout_marginHorizontal="45dp"
+        android:autoSizeTextType="uniform"
         android:text="Registrarse como expositor"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="@color/black" />
 
-    <EditText
-        android:id="@+id/textViewNombre"
-        android:layout_width="203dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="28dp"
-        android:hint="Nombre Organizacion"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
-        android:textSize="18sp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
 
-    <Button
-        android:id="@+id/botonRegistratseRegistroExpositor"
-        android:layout_width="105dp"
-        android:layout_height="55dp"
-        android:text="Registrarse"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.794"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.928" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="30dp"
+            android:orientation="vertical"
+            android:theme="@style/TextInputEditText">
 
-    <Button
-        android:id="@+id/botonCancelarRegistroExpositor"
-        android:layout_width="105dp"
-        android:layout_height="55dp"
-        android:text="Cancelar"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.212"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.928" />
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:hint="Nombre organización"
+                android:textColorHint="@color/gris_claro_hint"
+                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/black">
 
-    <Spinner
-        android:id="@+id/spinnerLocalidadRegistroExpositor"
-        android:layout_width="203dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="384dp"
-        android:hint="Localidad"
-        android:textColorHint="@color/cian_titulo_evento_pagina_principal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textViewNombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/black" />
 
-    <Spinner
-        android:id="@+id/spinnerInteresesRegistroExpositor"
-        android:layout_width="203dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="444dp"
-        android:hint="Intereses"
-        android:textColorHint="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PlainTextRegistro" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:hint="Correo electronico"
+                android:textColorHint="@color/gris_claro_hint"
+                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/black"
+                app:startIconDrawable="@drawable/icono_carta_email"
+                app:startIconTint="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textViewCorreoRegistroExpositor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textColor="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:hint="Confirmar contraseña"
+                android:textColorHint="@color/gris_claro_hint"
+                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
+                app:endIconMode="password_toggle"
+                app:endIconTint="@color/black"
+                app:startIconDrawable="@drawable/icono_candado_contrasena"
+                app:startIconTint="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textViewContrasenaRegistroExpositor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColor="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:hint="Confirmar contraseña"
+                android:textColorHint="@color/gris_claro_hint"
+                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
+                app:endIconMode="password_toggle"
+                app:endIconTint="@color/black"
+                app:startIconDrawable="@drawable/icono_candado_contrasena"
+                app:startIconTint="@color/black">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textViewConfirmarContrasenaRegistroExpositor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColor="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:hint="Tipo de evento"
+                android:textColorHint="@color/gris_claro_hint"
+                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
+                app:endIconTint="@color/black">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/spinnerInteresesRegistroExpositor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:textColor="@color/black"
+                    app:dropDownBackgroundTint="@color/white" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:hint="Localidad"
+                android:textColorHint="@color/gris_claro_hint"
+                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
+                app:endIconTint="@color/black">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/spinnerLocalidadRegistroExpositor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:textColor="@color/black"
+                    app:dropDownBackgroundTint="@color/white" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginVertical="30dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/botonRegistratseRegistroExpositor"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Registrarse"
+            android:textSize="8sp" />
+
+        <Button
+            android:id="@+id/botonCancelarRegistroExpositor"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Cancelar"
+            android:textSize="8sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

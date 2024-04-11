@@ -15,7 +15,7 @@ import com.example.datastructureproject_groupb.fragmentos.EventosFragment;
 import com.example.datastructureproject_groupb.fragmentos.PaginaPrincipalFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class PaginaInicio extends AppCompatActivity {
+public class PaginaInicio extends AppCompatActivity{
 
     public static final int PAGINA_PRINCIPAL = 0;
     public static final int DESCUBRIR = 1;
@@ -57,6 +57,9 @@ public class PaginaInicio extends AppCompatActivity {
                 openFragment(fragmento);
                 break;
         }
+
+        if(Bocu.estadoUsuario == Bocu.SIN_REGISTRAR)
+            menu.getMenu().removeItem(R.id.menuEventos);
 
     }
 

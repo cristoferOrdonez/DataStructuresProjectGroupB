@@ -136,7 +136,7 @@ public class Evento {
     }
 
     public String getFechaEventoString(){
-        return fechaEvento.getYear() + "/" + fechaEvento.getMonth() + "/" + fechaEvento.getDate();
+        return fechaEvento.getDate() + "/" + fechaEvento.getMonth() + "/" + fechaEvento.getYear();
     }
 
     public void setHorarioEvento(String horarioEvento){

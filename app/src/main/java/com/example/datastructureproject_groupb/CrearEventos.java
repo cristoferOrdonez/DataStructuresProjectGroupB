@@ -1,40 +1,44 @@
 package com.example.datastructureproject_groupb;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.db.DbEventos;
-import com.example.datastructureproject_groupb.db.DbExpositor;
 import com.example.datastructureproject_groupb.entidades.Evento;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.Arrays;
+import java.nio.charset.MalformedInputException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 public class CrearEventos extends AppCompatActivity{
-    EditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horarioEvento, descripcionEvento;
-    Spinner spinnerLocalidadEvento, spinnerCategoriaEvento;
+    TextInputEditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horarioEvento, descripcionEvento;
+    MaterialAutoCompleteTextView spinnerLocalidadEvento, spinnerCategoriaEvento;
     Button cancelarCrearEvento, aceptarCrearEvento;
+    private ArrayAdapter<String> categoriasAdapter, localidadesAdapter;
+    private int dia = 0, mes = -1, ano = 0, horaInicio = -1, horaFinal = -1, minutosInicio = -1, minutosFinal = -1;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_eventos);
-
 
         nombreEvento = findViewById(R.id.editTextNombreEvento);
         fechaEvento = findViewById(R.id.editTextFechaEvento);
@@ -49,41 +53,111 @@ public class CrearEventos extends AppCompatActivity{
         aceptarCrearEvento = findViewById(R.id.botonAceptarCrearEvento);
 
 
-        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setTextColor(getResources().getColor(R.color.black));
-                return view;
-            }
-        };
-        localidadesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        localidadesAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.LOCALIDADES);
         spinnerLocalidadEvento.setAdapter(localidadesAdapter);
 
-        ArrayAdapter<String> categoriasAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Bocu.INTERESES) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setTextColor(getResources().getColor(R.color.black));
-                return view;
-            }
-        };
-        categoriasAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categoriasAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.INTERESES);
         spinnerCategoriaEvento.setAdapter(categoriasAdapter);
-
-        String localidadPreseleccionada = "Usaquén";
-        int index = Arrays.asList(Bocu.LOCALIDADES).indexOf(localidadPreseleccionada);
-        spinnerLocalidadEvento.setSelection(index);
-
-
-        String InteresPreseleccionada = "Musica";
-        int index2 = Arrays.asList(Bocu.INTERESES).indexOf(InteresPreseleccionada);
-        spinnerCategoriaEvento.setSelection(index2);
 
         cancelarCrearEvento.setOnClickListener(view -> cambiarAEventos());
         aceptarCrearEvento.setOnClickListener(view -> crearEventoExpositor());
+        fechaEvento.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus)
+                mostrarDatePicker();
+        });
+        fechaEvento.setOnClickListener(view -> mostrarDatePicker());
+        horarioEvento.setOnClickListener(view -> mostrarTimePicker());
+        horarioEvento.setOnFocusChangeListener((view, hasFocus) -> {
+            if(hasFocus)
+                mostrarTimePicker();
+        });
+
+    }
+
+    private void mostrarTimePicker(){
+
+        int horaInicio, horaFinal, minutosInicio, minutosFinal;
+
+        if(horarioEvento.getText().toString().equals("")){
+
+            Calendar calendario = Calendar.getInstance();
+
+            horaInicio = calendario.get(Calendar.HOUR_OF_DAY);
+            horaFinal = calendario.get(Calendar.HOUR_OF_DAY);
+            minutosFinal = calendario.get(Calendar.MINUTE);
+            minutosInicio = calendario.get(Calendar.MINUTE);
+
+        } else {
+
+            horaInicio = this.horaInicio;
+            horaFinal = this.horaFinal;
+            minutosFinal = this.minutosFinal;
+            minutosInicio = this.minutosInicio;
+
+        }
+
+        AtomicReference<String> horario = new AtomicReference<>("");
+
+        TimePickerDialog pickerInicio = new TimePickerDialog(this, (x, y, z) -> {
+
+            this.horaInicio = y;
+
+            this.minutosInicio = z;
+
+            String amOpm = (y > 12)?"p.m.":"a.m.";
+
+            if(z > 9)
+                horario.set(y%12 + ":" + z + amOpm);
+            else
+                horario.set(y%12 + ":0" + z + amOpm);
+
+            TimePickerDialog pickerFinal = new TimePickerDialog(this, (x_alt, y_alt, z_alt) -> {
+
+                this.horaFinal = y_alt;
+                this.minutosFinal = z_alt;
+
+                String amOpm_alt = (y_alt > 12)?"p.m.":"a.m.";
+
+                if(z_alt > 9)
+                    horarioEvento.setText(horario.get() + " - " + (y_alt%12) + ":" + z_alt + amOpm_alt);
+                else
+                    horarioEvento.setText(horario.get() + " - " + (y_alt%12) + ":0" + z_alt + amOpm_alt);
+
+            }, horaFinal, minutosFinal, false);
+            pickerFinal.show();
+
+        }, horaInicio, minutosInicio, false);
+        pickerInicio.show();
+
+    }
+
+    private void mostrarDatePicker(){
+
+        int dia, mes, ano;
+
+        if(fechaEvento.getText().toString().equals("")){
+            Calendar calendario = Calendar.getInstance();
+            dia = calendario.get(Calendar.DAY_OF_MONTH);
+            mes = calendario.get(Calendar.MONTH);
+            ano = calendario.get(Calendar.YEAR);
+        } else {
+
+            dia = this.dia;
+            mes = this.mes;
+            ano = this.ano;
+
+        }
+
+        DatePickerDialog picker = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+
+                this.dia = dayOfMonth;
+                this.mes = month;
+                this.ano = year;
+
+                fechaEvento.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+
+        }, ano, mes, dia);
+        picker.show();
 
     }
 
@@ -145,7 +219,7 @@ public class CrearEventos extends AppCompatActivity{
             mensajeError += "No ha ingresado una ubicación valida\n";
             flag = false;
         }
-        if(spinnerLocalidadEvento.getSelectedItem() == null || spinnerLocalidadEvento.getSelectedItem().toString().trim().equals("")) {
+        if(spinnerLocalidadEvento.getText().toString().equals("") || localidadesAdapter.getPosition(spinnerLocalidadEvento.getText().toString()) == -1) {
             mensajeError += "Seleccione una Localidad\n";
             flag = false;
         }
@@ -158,7 +232,7 @@ public class CrearEventos extends AppCompatActivity{
             mensajeError += "No ha ingresado un horario valido\n";
             flag = false;
         }
-        if(spinnerCategoriaEvento.getSelectedItem() == null || spinnerCategoriaEvento.getSelectedItem().toString().trim().equals("")) {
+        if(spinnerCategoriaEvento.getText().toString().equals("") || categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString()) == -1) {
             mensajeError += "Seleccione un Interes\n";
             flag = false;
         }
@@ -187,8 +261,8 @@ public class CrearEventos extends AppCompatActivity{
         int costoEvento = Integer.parseInt(this.costoEvento.getText().toString());
         String horarioEvento = this.horarioEvento.getText().toString();
         String descripcionEvento = this.descripcionEvento.getText().toString();
-        int localidad = spinnerLocalidadEvento.getSelectedItemPosition();
-        int categoria = spinnerCategoriaEvento.getSelectedItemPosition();
+        int localidad = localidadesAdapter.getPosition(spinnerLocalidadEvento.getText().toString());
+        int categoria = categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString());
 
         long newId = new DbEventos(this).insertarEvento(nombreEvento,
                 AnoEvento,

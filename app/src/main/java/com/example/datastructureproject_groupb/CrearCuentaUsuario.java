@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -19,16 +20,20 @@ import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDato
 import com.example.datastructureproject_groupb.db.DbExpositor;
 import com.example.datastructureproject_groupb.db.DbUsuariosComunes;
 import com.example.datastructureproject_groupb.entidades.UsuarioComun;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CrearCuentaUsuario extends AppCompatActivity {
-    EditText EdadRegistroUsuario,NombreRegistroUsuario, ApellidoRegistroUsuario, CorreoRegistroUsuario, ConfirmarContrasenaRegistroUsuario, ContrasenaRegistroUsuario;
-    Spinner spinnerLocalidadRegistroUsuario,spinnerInteresesRegistroUsuario;
+    TextInputEditText EdadRegistroUsuario,NombreRegistroUsuario, ApellidoRegistroUsuario, CorreoRegistroUsuario, ContrasenaRegistroUsuario, ConfirmarContrasenaRegistroUsuario;
+    MaterialAutoCompleteTextView spinnerLocalidadRegistroUsuario,spinnerInteresesRegistroUsuario;
     Button cancelarRegistroUsuario, registrasrseRegistroUsuario;
 
+    ArrayAdapter<String> localidadesAdapter, interesesAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,41 +50,16 @@ public class CrearCuentaUsuario extends AppCompatActivity {
         cancelarRegistroUsuario=findViewById(R.id.botonCancelarRegistroUsuario);
         registrasrseRegistroUsuario=findViewById(R.id.botonRegistratseRegistroUsuario);
 
-        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setTextColor(getResources().getColor(R.color.black));
-                return view;
-            }
-        };
-        localidadesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        localidadesAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.LOCALIDADES);
         spinnerLocalidadRegistroUsuario.setAdapter(localidadesAdapter);
 
-        ArrayAdapter<String> interesesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Bocu.INTERESES) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setTextColor(getResources().getColor(R.color.black));
-                return view;
-            }
-        };
-        interesesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        interesesAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.INTERESES);
         spinnerInteresesRegistroUsuario.setAdapter(interesesAdapter);
 
-        String localidadPreseleccionada = "Usaquén";
-        int index = Arrays.asList(Bocu.LOCALIDADES).indexOf(localidadPreseleccionada);
-        spinnerLocalidadRegistroUsuario.setSelection(index);
-
-
-        String InteresPreseleccionada = "Musica";
-        int index2 = Arrays.asList(Bocu.INTERESES).indexOf(InteresPreseleccionada);
-        spinnerInteresesRegistroUsuario.setSelection(index2);
 
         cancelarRegistroUsuario.setOnClickListener(view -> cambiarAPaginaPrincipal());
         registrasrseRegistroUsuario.setOnClickListener(view -> registrarseComoUsuario());
+
     }
 
     public void cambiarAPaginaPrincipal() {
@@ -135,11 +115,11 @@ public class CrearCuentaUsuario extends AppCompatActivity {
             flag=false;
             Toast.makeText(this, "Ingrese una edad válida", Toast.LENGTH_SHORT).show();
         }
-        if(spinnerLocalidadRegistroUsuario.getSelectedItem() == null || spinnerLocalidadRegistroUsuario.getSelectedItem().toString().trim().equals("")) {
+        if(spinnerLocalidadRegistroUsuario.getText().toString().trim().equals("") || localidadesAdapter.getPosition(spinnerLocalidadRegistroUsuario.getText().toString()) == -1) {
             mensajeError += "Seleccione una Localidad\n";
             flag = false;
         }
-        if(spinnerInteresesRegistroUsuario.getSelectedItem() == null || spinnerInteresesRegistroUsuario.getSelectedItem().toString().trim().equals("")) {
+        if(spinnerInteresesRegistroUsuario.getText().toString().trim().equals("") || interesesAdapter.getPosition(spinnerInteresesRegistroUsuario.getText().toString()) == -1) {
             mensajeError += "Seleccione un Interes\n";
             flag = false;
         }
@@ -188,8 +168,8 @@ public class CrearCuentaUsuario extends AppCompatActivity {
         int edad = Integer.parseInt(this.EdadRegistroUsuario.getText().toString());
         String correoElectronicoR = this.CorreoRegistroUsuario.getText().toString();
         String contrasenaR = this.ContrasenaRegistroUsuario.getText().toString();
-        int localidad = spinnerLocalidadRegistroUsuario.getSelectedItemPosition();
-        int interes = spinnerInteresesRegistroUsuario.getSelectedItemPosition();
+        int localidad = localidadesAdapter.getPosition(spinnerLocalidadRegistroUsuario.getText().toString());
+        int interes = interesesAdapter.getPosition(spinnerInteresesRegistroUsuario.getText().toString());
 
         UsuarioComun usuarioComun = new UsuarioComun(Bocu.usuariosComunes.size(), nombres, apellidos, edad, correoElectronicoR.toLowerCase(), contrasenaR, localidad, interes);
 
