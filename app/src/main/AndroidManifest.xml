@@ -13,6 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DataStructureProjectGroupB"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDRtVkJ0bb8UmOkLyA0ADTC9deVaTQi5RU"/>
+
         <activity
             android:name=".CrearEventos"
             android:exported="false"

@@ -1,28 +1,44 @@
 package com.example.datastructureproject_groupb;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.db.DbEventos;
 import com.example.datastructureproject_groupb.entidades.Evento;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.nio.charset.MalformedInputException;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
@@ -32,14 +48,15 @@ public class CrearEventos extends AppCompatActivity{
     Button cancelarCrearEvento, aceptarCrearEvento;
     private ArrayAdapter<String> categoriasAdapter, localidadesAdapter;
     private int dia = 0, mes = -1, ano = 0, horaInicio = -1, horaFinal = -1, minutosInicio = -1, minutosFinal = -1;
-
-
+    private GoogleMap gMap;
+    private View mapaView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_eventos);
 
+        mapaView = findViewById(R.id.map);
         nombreEvento = findViewById(R.id.editTextNombreEvento);
         fechaEvento = findViewById(R.id.editTextFechaEvento);
         ubicacionEvento = findViewById(R.id.editTextUbicacionEvento);
@@ -52,6 +69,13 @@ public class CrearEventos extends AppCompatActivity{
         cancelarCrearEvento = findViewById(R.id.botonCancelarCrearEvento);
         aceptarCrearEvento = findViewById(R.id.botonAceptarCrearEvento);
 
+        ubicacionEvento.setOnClickListener(view -> mostrarMapa());
+        ubicacionEvento.setOnFocusChangeListener((view, hasFocus) -> {
+
+            if(hasFocus)
+                mostrarMapa();
+
+        });
 
         localidadesAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.LOCALIDADES);
         spinnerLocalidadEvento.setAdapter(localidadesAdapter);
@@ -70,6 +94,42 @@ public class CrearEventos extends AppCompatActivity{
         horarioEvento.setOnFocusChangeListener((view, hasFocus) -> {
             if(hasFocus)
                 mostrarTimePicker();
+        });
+
+    }
+
+    private void mostrarMapa(){
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
+        mapaView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        supportMapFragment.getMapAsync(googleMap -> {
+
+            gMap = googleMap;
+
+            LatLng bogota = new LatLng(4.709870584581264, -74.07212528110854);
+
+            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bogota, 10.0f));
+            gMap.getUiSettings().setZoomControlsEnabled(true);
+            LatLngBounds bogotaBounds = new LatLngBounds(
+                    new LatLng(4.4625, -74.2346),
+                    new LatLng(4.8159, -73.9875)
+            );
+            gMap.setMinZoomPreference(10.0f);
+            gMap.setLatLngBoundsForCameraTarget(bogotaBounds);
+            gMap.setOnMapClickListener(latLng -> {
+
+                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                try {
+                    List<Address> listaDireccion = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                    ubicacionEvento.setText(listaDireccion.get(0).getAddressLine(0).split(",")[0]);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                mapaView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
+
+            });
+
         });
 
     }

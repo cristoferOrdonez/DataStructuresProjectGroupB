@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
@@ -24,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -97,7 +99,8 @@
                     android:id="@+id/editTextUbicacionEvento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
+                    android:inputType="none"
+                    android:editable="false"
                     android:maxLines="1"
                     android:textColor="@color/black" />
 
@@ -217,6 +220,12 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
