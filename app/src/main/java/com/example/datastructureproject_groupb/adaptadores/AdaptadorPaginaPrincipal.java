@@ -2,9 +2,11 @@ package com.example.datastructureproject_groupb.adaptadores;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datastructureproject_groupb.Bocu;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
+import com.example.datastructureproject_groupb.MostrarUbicacionEvento;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.entidades.Evento;
 import com.example.datastructureproject_groupb.fragmentos.PaginaPrincipalFragment;
@@ -35,14 +38,14 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
 
     @Override
     public void onBindViewHolder(@NonNull EventoViewHolder holder, int position) {
-            Evento evento = listaEventos.get(position);
+        Evento evento = listaEventos.get(position);
 
-            holder.textViewTituloEvento.setText(evento.getNombreEvento());
-            holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEventoString());
-            holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
-            holder.textViewLugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
-            holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
-            holder.textViewTipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
+        holder.textViewTituloEvento.setText(evento.getNombreEvento());
+        holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEventoString());
+        holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
+        holder.textViewLugarEvento.setText("Lugar: " + evento.getDireccionEvento());
+        holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
+        holder.textViewTipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
     }
 
     @Override
@@ -81,10 +84,19 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
                         tipoEvento = view.findViewById(R.id.textViewTipoEventoPaginaPrincipal),
                         descripcionEvento = view.findViewById(R.id.textViewDescripcionEventoPaginaPrincipal);
 
+                Button boton = view.findViewById(R.id.botonMostrarUbicacion);
+
+                boton.setOnClickListener(i -> {
+                        Intent miIntent = new Intent(v.getContext(), MostrarUbicacionEvento.class);
+                        miIntent.putExtra("UBICACION_EVENTO", evento.getUbicacionEvento());
+                        miIntent.putExtra("NOMBRE_EVENTO", evento.getNombreEvento());
+                        v.getContext().startActivity(miIntent);
+                });
+
                 tituloEvento.setText(evento.getNombreEvento());
                 fechaEvento.setText("Fecha: " + evento.getFechaEventoString());
                 horarioEvento.setText("Horario: " + evento.getHorarioEvento());
-                lugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
+                lugarEvento.setText("Lugar: " + evento.getDireccionEvento());
                 costoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
                 tipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
                 descripcionEvento.setText("Descripción: " + evento.getDescripcionEvento());

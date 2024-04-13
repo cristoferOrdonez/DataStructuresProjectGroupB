@@ -15,8 +15,7 @@
         android:id="@+id/textViewTituloEventoPaginaPrincipal"
         android:textColor="@color/black"
         android:textSize="16sp"
-        android:fontFamily="casual"
-        android:textStyle="bold|italic"
+        android:fontFamily="@font/crimson_text_bold"
         android:background="@color/cian_titulo_evento_pagina_principal"
         android:layout_width="match_parent"
         android:padding="10dp"
@@ -88,5 +87,12 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:text="Descripción" />
+
+    <Button
+        android:id="@+id/botonMostrarUbicacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mostrar ubicacion en el mapa" />
+
 
 </LinearLayout>

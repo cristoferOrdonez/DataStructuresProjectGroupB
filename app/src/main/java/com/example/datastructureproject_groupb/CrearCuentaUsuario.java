@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,8 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,10 +37,29 @@ public class CrearCuentaUsuario extends AppCompatActivity {
     Button cancelarRegistroUsuario, registrasrseRegistroUsuario;
 
     ArrayAdapter<String> localidadesAdapter, interesesAdapter;
+    private LinearLayout layoutBotones;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_usuario);
+
+        layoutBotones = findViewById(R.id.layoutBotones);
+
+        KeyboardVisibilityEvent.setEventListener(this, isOpen -> {
+            if(isOpen)
+                layoutBotones.setLayoutParams(new LinearLayout.LayoutParams(0, 0, 0));
+            else {
+
+                LinearLayout.LayoutParams nuevoParametro = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1);
+                nuevoParametro.leftMargin = 30;
+                nuevoParametro.rightMargin = 30;
+                nuevoParametro.bottomMargin = 40;
+                nuevoParametro.topMargin = 40;
+
+                layoutBotones.setLayoutParams(nuevoParametro);
+
+            }
+        });
 
         NombreRegistroUsuario=findViewById(R.id.textViewNombreRegistroUsuario);
         ApellidoRegistroUsuario=findViewById(R.id.textViewApellidoRegistroUsuario);
@@ -187,13 +209,6 @@ public class CrearCuentaUsuario extends AppCompatActivity {
 
         }
 
-    }
-    public int stringAIntLocalidad(String s){
-        return 0;
-
-    }
-    public int stringAIntInteres(String s){
-        return 0;
     }
 
     public boolean verificarRepeticion() {

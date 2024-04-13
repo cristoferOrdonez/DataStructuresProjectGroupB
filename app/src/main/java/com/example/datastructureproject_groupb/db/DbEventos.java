@@ -99,7 +99,8 @@ public class DbEventos extends DbArt {
 
             do {
 
-                evento = new Evento(cursorEventos.getInt(0),
+                evento = new Evento(context,
+                        cursorEventos.getInt(0),
                         cursorEventos.getString(1),
                         new Date(cursorEventos.getInt(2), cursorEventos.getInt(3), cursorEventos.getInt(4)),
                         cursorEventos.getString(5),

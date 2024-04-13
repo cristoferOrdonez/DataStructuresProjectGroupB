@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,8 @@ import com.example.datastructureproject_groupb.entidades.Artista;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,11 +29,30 @@ public class CrearCuentaExpositor extends AppCompatActivity {
     private MaterialAutoCompleteTextView spinnerLocalidadRegistroUsuario,spinnerInteresesRegistroUsuario;
     private Button cancelarRegistroExpositor, registrasrseRegistroExpositor;
     private ArrayAdapter<String> interesesAdapter, localidadesAdapter;
+    private LinearLayout layoutBotones;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_expositor);
+
+        layoutBotones = findViewById(R.id.layoutBotones);
+
+        KeyboardVisibilityEvent.setEventListener(this, isOpen -> {
+            if(isOpen)
+                layoutBotones.setLayoutParams(new LinearLayout.LayoutParams(0, 0, 0));
+            else {
+
+                LinearLayout.LayoutParams nuevoParametro = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1);
+                nuevoParametro.leftMargin = 30;
+                nuevoParametro.rightMargin = 30;
+                nuevoParametro.bottomMargin = 40;
+                nuevoParametro.topMargin = 40;
+
+                layoutBotones.setLayoutParams(nuevoParametro);
+
+            }
+        });
 
         nombreRegistroExpositor =findViewById(R.id.textViewNombre);
         correoRegistroExpositor =findViewById(R.id.textViewCorreoRegistroExpositor);

@@ -46,7 +46,7 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
         holder.textViewTituloEvento.setText(evento.getNombreEvento());
         holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEventoString());
         holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
-        holder.textViewLugarEvento.setText("Lugar: " + evento.getUbicacionEvento());
+        holder.textViewLugarEvento.setText("Lugar: " + evento.getDireccionEvento());
         holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
         holder.textViewTipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
 

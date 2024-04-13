@@ -1,7 +1,13 @@
 package com.example.datastructureproject_groupb.entidades;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Evento {
@@ -31,8 +37,10 @@ public class Evento {
     private long id;
     private String nombreEvento, ubicacionEvento, horarioEvento, descripcionEvento, correoAutor;
     private Date fechaEvento;
+    private Context context;
 
-    public Evento(long id, String nombreEvento, Date fechaEvento, String ubicacionEvento, int localidadEvento, int costoEvento, String horarioEvento, int categoriaEvento, String descripcionEvento, String correoAutor){
+    public Evento(Context context, long id, String nombreEvento, Date fechaEvento, String ubicacionEvento, int localidadEvento, int costoEvento, String horarioEvento, int categoriaEvento, String descripcionEvento, String correoAutor){
+        this.context = context;
         this.id = id;
         this.nombreEvento = nombreEvento;
         this.fechaEvento = fechaEvento;
@@ -70,6 +78,21 @@ public class Evento {
 
     public String getUbicacionEvento() {
         return ubicacionEvento;
+    }
+
+    public String getDireccionEvento(){
+
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+
+        List<Address> listaDireccion = null;
+        try {
+            listaDireccion = geocoder.getFromLocation(Double.parseDouble(ubicacionEvento.substring(0, ubicacionEvento.indexOf(" - "))), Double.parseDouble(ubicacionEvento.substring(ubicacionEvento.indexOf(" - ") + 3)), 1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listaDireccion.get(0).getAddressLine(0).split(",")[0];
+
     }
 
     public void setUbicacionEvento(String ubicacionEvento) {

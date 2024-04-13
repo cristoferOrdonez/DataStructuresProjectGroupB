@@ -1,27 +1,23 @@
 package com.example.datastructureproject_groupb;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.db.DbEventos;
@@ -31,8 +27,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
+
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -49,14 +49,44 @@ public class CrearEventos extends AppCompatActivity{
     private ArrayAdapter<String> categoriasAdapter, localidadesAdapter;
     private int dia = 0, mes = -1, ano = 0, horaInicio = -1, horaFinal = -1, minutosInicio = -1, minutosFinal = -1;
     private GoogleMap gMap;
-    private View mapaView;
+    private ImageButton botonAceptarUbicacion, botonCancelarUbicación;
+    private ConstraintLayout layoutMap;
+
+    private LatLng bogota, ubicacionMarker, ubicacionDefinitiva;
+    Marker marker;
+    private LinearLayout layoutBotones;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_eventos);
 
-        mapaView = findViewById(R.id.map);
+        layoutBotones = findViewById(R.id.layoutBotones);
+
+        KeyboardVisibilityEvent.setEventListener(this, isOpen -> {
+            if(isOpen)
+                layoutBotones.setLayoutParams(new LinearLayout.LayoutParams(0, 0, 0));
+            else {
+
+                LinearLayout.LayoutParams nuevoParametro = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1);
+                nuevoParametro.leftMargin = 30;
+                nuevoParametro.rightMargin = 30;
+                nuevoParametro.bottomMargin = 40;
+                nuevoParametro.topMargin = 40;
+
+                layoutBotones.setLayoutParams(nuevoParametro);
+
+            }
+        });
+
+        marker = null;
+        ubicacionMarker = null;
+        ubicacionDefinitiva = null;
+        bogota = new LatLng(4.709870584581264, -74.07212528110854);
+        layoutMap = findViewById(R.id.linearLayoutMap);
+        botonAceptarUbicacion = findViewById(R.id.imageButtonAceptarUbicacion);
+        botonCancelarUbicación = findViewById(R.id.imageButtonCancelarUbicacion);
+
         nombreEvento = findViewById(R.id.editTextNombreEvento);
         fechaEvento = findViewById(R.id.editTextFechaEvento);
         ubicacionEvento = findViewById(R.id.editTextUbicacionEvento);
@@ -72,7 +102,7 @@ public class CrearEventos extends AppCompatActivity{
         ubicacionEvento.setOnClickListener(view -> mostrarMapa());
         ubicacionEvento.setOnFocusChangeListener((view, hasFocus) -> {
 
-            if(hasFocus)
+            if (hasFocus)
                 mostrarMapa();
 
         });
@@ -92,22 +122,46 @@ public class CrearEventos extends AppCompatActivity{
         fechaEvento.setOnClickListener(view -> mostrarDatePicker());
         horarioEvento.setOnClickListener(view -> mostrarTimePicker());
         horarioEvento.setOnFocusChangeListener((view, hasFocus) -> {
-            if(hasFocus)
+            if (hasFocus)
                 mostrarTimePicker();
         });
 
-    }
+        botonAceptarUbicacion.setOnClickListener(view -> {
 
-    private void mostrarMapa(){
-        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+            ubicacionDefinitiva = ubicacionMarker;
 
-        mapaView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            if(ubicacionDefinitiva != null) {
+
+                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+                List<Address> listaDireccion = null;
+                try {
+                    listaDireccion = geocoder.getFromLocation(ubicacionDefinitiva.latitude, ubicacionDefinitiva.longitude, 1);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
+
+                ubicacionEvento.setText(ubicacion);
+            }
+            layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
+            marker.remove();
+
+        });
+
+        botonCancelarUbicación.setOnClickListener(view -> {
+
+            layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
+            marker.remove();
+
+        });
+
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapaCrearEventos);
 
         supportMapFragment.getMapAsync(googleMap -> {
 
             gMap = googleMap;
-
-            LatLng bogota = new LatLng(4.709870584581264, -74.07212528110854);
 
             gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bogota, 10.0f));
             gMap.getUiSettings().setZoomControlsEnabled(true);
@@ -115,22 +169,51 @@ public class CrearEventos extends AppCompatActivity{
                     new LatLng(4.4625, -74.2346),
                     new LatLng(4.8159, -73.9875)
             );
+
             gMap.setMinZoomPreference(10.0f);
             gMap.setLatLngBoundsForCameraTarget(bogotaBounds);
             gMap.setOnMapClickListener(latLng -> {
 
+                ubicacionMarker = latLng;
+
                 Geocoder geocoder = new Geocoder(this, Locale.getDefault());
                 try {
+
                     List<Address> listaDireccion = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-                    ubicacionEvento.setText(listaDireccion.get(0).getAddressLine(0).split(",")[0]);
+                    String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
+
+                    if(marker != null)
+                        marker.remove();
+                    marker = gMap.addMarker(new MarkerOptions().position(latLng).title(ubicacion));
+
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                mapaView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
 
             });
 
         });
+
+    }
+
+    private void mostrarMapa(){
+
+        layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        if(ubicacionDefinitiva != null) {
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+            List<Address> listaDireccion = null;
+            try {
+                listaDireccion = geocoder.getFromLocation(ubicacionDefinitiva.latitude, ubicacionDefinitiva.longitude, 1);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
+
+            marker = gMap.addMarker(new MarkerOptions().position(ubicacionDefinitiva).title(ubicacion));
+
+        }
 
     }
 
@@ -232,32 +315,6 @@ public class CrearEventos extends AppCompatActivity{
         VerificarInformacionRegistro(new View(this));
     }
 
-    public void mostrarLocalidades() {
-        spinnerLocalidadEvento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedLocalidad = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
-    public void mostrarCategorias() {
-        spinnerCategoriaEvento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedInteres = parent.getItemAtPosition(position).toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
     public void VerificarInformacionRegistro(View view) {
 
         boolean flag = true;
@@ -317,7 +374,7 @@ public class CrearEventos extends AppCompatActivity{
         int mesEvento = Integer.parseInt(partesFecha[1]);
         int AnoEvento = Integer.parseInt(partesFecha[2]);
 
-        String ubicacionEvento = this.ubicacionEvento.getText().toString();
+        String ubicacionEvento = ubicacionDefinitiva.latitude + " - " + ubicacionDefinitiva.longitude;
         int costoEvento = Integer.parseInt(this.costoEvento.getText().toString());
         String horarioEvento = this.horarioEvento.getText().toString();
         String descripcionEvento = this.descripcionEvento.getText().toString();
@@ -337,6 +394,7 @@ public class CrearEventos extends AppCompatActivity{
                 Bocu.usuario.getCorreoElectronico());
 
         Evento evento = new Evento(
+                this,
                 newId,
                 nombreEvento,
                 new Date(AnoEvento, mesEvento, diaEvento),
