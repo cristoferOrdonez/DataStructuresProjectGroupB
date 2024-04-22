@@ -10,18 +10,42 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/black" />
-
-    <TextView
-        android:id="@+id/textViewTituloEventoPaginaEventos"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/cian_titulo_evento_pagina_principal"
-        android:fontFamily="casual"
-        android:padding="10dp"
-        android:text="Titulo del Evento"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:textStyle="bold|italic" />
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <TextView
+            android:id="@+id/textViewTituloEventoPaginaEventos"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:text="Titulo del Evento"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold|italic" />
+
+        <ImageButton
+            android:id="@+id/imageButtonEditarEvento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/icono_editar_mis_eventos" />
+
+        <ImageButton
+            android:id="@+id/imageButtonEliminarEvento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            android:layout_marginHorizontal="15dp"
+            app:srcCompat="@drawable/icono_eliminar_mis_eventos" />
+
+    </LinearLayout>
 
     <View
         android:id="@+id/divider2"
@@ -84,27 +108,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/botonEliminarEventos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:text="Eliminar" />
-
-        <Button
-            android:id="@+id/botonEditarEventos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:text="Editar" />
-    </LinearLayout>
 
     <View
         android:id="@+id/divider6"
