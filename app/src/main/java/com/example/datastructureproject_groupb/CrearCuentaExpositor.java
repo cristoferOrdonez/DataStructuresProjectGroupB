@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
 import com.example.datastructureproject_groupb.db.DbExpositor;
+import com.example.datastructureproject_groupb.db.DbSesion;
 import com.example.datastructureproject_groupb.entidades.Artista;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -152,7 +153,10 @@ public class CrearCuentaExpositor extends AppCompatActivity {
             Bocu.expositores.insert(expositor);
             new DbExpositor(this).agregarExpositor(nombres, correoElectronicoR.toLowerCase(), contrasenaR, localidad, interes);
             Toast.makeText(this, "Se ha registrado como expositor exitosamente.", Toast.LENGTH_SHORT).show();
+            DbSesion dbSesion= new DbSesion(this);
+            dbSesion.mantenerSesionIniciada(2, correoElectronicoR);
             cambiarAPaginaPrincipal();
+
 
         } else {
 

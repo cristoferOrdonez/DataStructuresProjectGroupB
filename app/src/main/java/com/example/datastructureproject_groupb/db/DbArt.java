@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 
 public class DbArt extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION=3;
+    private static final int DATABASE_VERSION=4;
     private static final String DATABASE_NOMBRE = "datos.db";
 
     public static final String TABLE_USUARIOS = "t_usuarios";
@@ -17,6 +17,8 @@ public class DbArt extends SQLiteOpenHelper {
     public static final String TABLE_EVENTOS ="t_eventos";
 
     public static final String TABLE_ARTISTAS="t_artistas";
+    public static final String TABLE_INFO_SESION="t_sesion";
+
 
     public DbArt(@Nullable Context context) {
         super(context, DATABASE_NOMBRE, null, DATABASE_VERSION);
@@ -57,6 +59,11 @@ public class DbArt extends SQLiteOpenHelper {
                 "categoriaEvento INTEGER NOT NULL, " + //9
                 "descripcionEvento TEXT NOT NULL," + //10
                 "correoAutor TEXT NOT NULL)"); //11
+
+        sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_INFO_SESION + "(" +
+                "idUsuario INTEGER PRIMARY KEY," + //0
+                "tipoSesion INTEGER NOT NULL, " + //1
+                "CorreoSesion TEXT NOT NULL)"); //7
     }
 
     @Override

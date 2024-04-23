@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
 import com.example.datastructureproject_groupb.db.DbExpositor;
+import com.example.datastructureproject_groupb.db.DbSesion;
 import com.example.datastructureproject_groupb.db.DbUsuariosComunes;
 import com.example.datastructureproject_groupb.entidades.UsuarioComun;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
@@ -195,13 +196,17 @@ public class CrearCuentaUsuario extends AppCompatActivity {
 
         UsuarioComun usuarioComun = new UsuarioComun(Bocu.usuariosComunes.size(), nombres, apellidos, edad, correoElectronicoR.toLowerCase(), contrasenaR, localidad, interes);
 
+
         if(!verificarRepeticion()){
 
             Bocu.usuariosComunes.insert(usuarioComun);
             new DbUsuariosComunes(this).agregarUsuario(nombres, apellidos, edad, correoElectronicoR.toLowerCase(), contrasenaR, localidad, interes);
             Toast.makeText(this, "Se ha registrado como usuario exitosamente.", Toast.LENGTH_SHORT).show();
+            DbSesion dbSesion= new DbSesion(this);
+            dbSesion.mantenerSesionIniciada(1, correoElectronicoR);
 
             cambiarAPaginaPrincipal();
+
 
         } else {
 

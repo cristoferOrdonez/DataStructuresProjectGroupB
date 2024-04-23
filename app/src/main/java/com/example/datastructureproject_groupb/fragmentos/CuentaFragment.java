@@ -1,11 +1,13 @@
 package com.example.datastructureproject_groupb.fragmentos;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,7 @@ import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDato
 import com.example.datastructureproject_groupb.PaginaInicio;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.db.DbExpositor;
+import com.example.datastructureproject_groupb.db.DbSesion;
 import com.example.datastructureproject_groupb.db.DbUsuariosComunes;
 import com.example.datastructureproject_groupb.entidades.Artista;
 import com.example.datastructureproject_groupb.entidades.UsuarioComun;
@@ -34,7 +37,7 @@ import java.util.regex.Pattern;
 
 public class CuentaFragment extends Fragment {
 
-    Button botonAcceder, botonCrearCuentaUsuario, botonCrearCuentaExpositor;
+    Button botonAcceder, botonCrearCuentaUsuario, botonCrearCuentaExpositor, botonEditar, botonCerrarSesion, botonEliminar;
     EditText nombreAcceder, correoElectronicoAcceder, contrasenaAcceder, apellidoAcceder, edadAcceder;
     Spinner spinnerLocalidad, spinnerIntereses;
 
@@ -87,6 +90,14 @@ public class CuentaFragment extends Fragment {
         spinnerLocalidad = root.findViewById(R.id.spinnerLocalidad);
         spinnerIntereses = root.findViewById(R.id.spinnerIntereses);
 
+        botonEditar=root.findViewById(R.id.BotonEditarExpositor);
+        botonCerrarSesion=root.findViewById(R.id.BotonCerrarSesionExpositor);
+        botonEliminar=root.findViewById(R.id.BotonEliminarCuentaExpositor);
+        DbSesion dbSesion=new DbSesion(getContext());
+        botonCerrarSesion.setOnClickListener(view -> dbSesion.cerrarSesion());
+
+        botonEliminar.setOnClickListener(view->eliminarCuentaExpositor((Artista)Bocu.usuario));
+
         ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -122,6 +133,32 @@ public class CuentaFragment extends Fragment {
         return root;
 
     }
+    public void eliminarCuentaExpositor(Artista artista){
+        /*
+        for(int i=0; i<Bocu.expositores.size();i++){
+            if (Bocu.expositores.get(i)==artista){
+                Bocu.expositores.remove(i);
+            }
+        }*/
+        DbExpositor dbExpositor = new DbExpositor(getContext());
+        dbExpositor.eliminarExpositor(artista.getCorreoElectronico());
+        DbSesion dbSesion = new DbSesion(getContext());
+        dbSesion.cerrarSesion();
+
+    }
+    public void eliminarCuentaUsuario(UsuarioRegistrado usuarioRegistrado){
+        /*
+        for(int i=0; i<Bocu.usuariosComunes.size();i++){
+            if (Bocu.usuariosComunes.get(i)==usuarioRegistrado){
+                Bocu.usuariosComunes.remove(i);
+            }
+        }*/
+        DbUsuariosComunes dbUsuariosComunes = new DbUsuariosComunes(getContext());
+        dbUsuariosComunes.eliminarUsuario(usuarioRegistrado.getCorreoElectronico());
+        DbSesion dbSesion = new DbSesion(getContext());
+        dbSesion.cerrarSesion();
+
+    }
 
     private View establecerContenidoUsuarioComun(LayoutInflater inflater, ViewGroup container){
         View root = inflater.inflate(R.layout.fragment_cuenta_usuario_comun, container, false);
@@ -146,6 +183,16 @@ public class CuentaFragment extends Fragment {
 
         spinnerLocalidad = root.findViewById(R.id.spinnerLocalidad);
         spinnerIntereses = root.findViewById(R.id.spinnerIntereses);
+
+        botonEditar=root.findViewById(R.id.BotonEditarUsuario);
+        botonCerrarSesion=root.findViewById(R.id.BotonCerrarSesion);
+        botonEliminar=root.findViewById(R.id.BotonEliminarCuenta);
+        DbSesion dbSesion=new DbSesion(getContext());
+        botonCerrarSesion.setOnClickListener(view -> dbSesion.cerrarSesion());
+        botonEliminar.setOnClickListener(view->eliminarCuentaUsuario((UsuarioComun)Bocu.usuario));
+
+
+
 
         ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
             @Override
@@ -183,6 +230,7 @@ public class CuentaFragment extends Fragment {
 
     }
 
+
     private View establecerContenidoUsuarioNoRegistrado(LayoutInflater inflater, ViewGroup container){
         View root = inflater.inflate(R.layout.fragment_cuenta_usuario_no_registrado, container, false);
 
@@ -214,13 +262,14 @@ public class CuentaFragment extends Fragment {
 
         Bocu.usuario = usuario;
         Bocu.estadoUsuario = tipoUsuario;
-        if (tipoUsuario == Bocu.USUARIO_COMUN) {
-            Toast.makeText(getContext(), "Ingreso correctamente como Usuario", Toast.LENGTH_SHORT).show();
-        } else {
-            establecerEventosExpositor();
-            Toast.makeText(getContext(), "Ingreso correctamente como Artista", Toast.LENGTH_SHORT).show();
+        if (getContext() != null) {
+            if (tipoUsuario == Bocu.USUARIO_COMUN) {
+                Toast.makeText(getContext(), "Ingreso correctamente como Usuario", Toast.LENGTH_SHORT).show();
+            } else {
+                establecerEventosExpositor();
+                Toast.makeText(getContext(), "Ingreso correctamente como Artista", Toast.LENGTH_SHORT).show();
+            }
         }
-
         Bocu.expositores = null;
         Bocu.usuariosComunes = null;
 
@@ -229,11 +278,16 @@ public class CuentaFragment extends Fragment {
     }
 
     public void cambiarAPaginaPrincipal(){
-        PaginaInicio.intensionInicializacion = PaginaInicio.PAGINA_PRINCIPAL;
-        FragmentActivity activity = getActivity();
-        Intent miIntent = new Intent(activity, PaginaInicio.class);
-        activity.startActivity(miIntent);
-        activity.finishAffinity();
+        if (getContext() != null) {
+            PaginaInicio.intensionInicializacion = PaginaInicio.PAGINA_PRINCIPAL;
+            FragmentActivity activity = getActivity();
+            Intent miIntent = new Intent(activity, PaginaInicio.class);
+            activity.startActivity(miIntent);
+            activity.finishAffinity();
+        } else {
+
+            Log.e("Error", "El contexto es nulo en cambiarAPaginaPrincipal()");
+        }
     }
 
     public void revisar(){
@@ -244,6 +298,8 @@ public class CuentaFragment extends Fragment {
                 UsuarioComun usuario = verUsuarioComun(correoElectronicoAcceder.getText().toString().toLowerCase());
                 if (contrasenaAcceder.getText().toString().equals(usuario.getContrasena())) {
                     acceder(usuario, Bocu.USUARIO_COMUN);
+                    DbSesion dbSesion= new DbSesion(getContext());
+                    dbSesion.mantenerSesionIniciada(1, correoElectronicoAcceder.getText().toString().toLowerCase());
                 } else {
                     Toast.makeText(getContext(), "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
                 }
@@ -251,6 +307,8 @@ public class CuentaFragment extends Fragment {
                 Artista artista = verExpositor(correoElectronicoAcceder.getText().toString().toLowerCase());
                 if (contrasenaAcceder.getText().toString().equals(artista.getContrasena())) {
                     acceder(artista, Bocu.ARTISTA);
+                    DbSesion dbSesion= new DbSesion(getContext());
+                    dbSesion.mantenerSesionIniciada(2, correoElectronicoAcceder.getText().toString().toLowerCase());
                 } else {
                     Toast.makeText(getContext(), "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
                 }

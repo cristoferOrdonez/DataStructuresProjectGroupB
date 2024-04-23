@@ -41,6 +41,19 @@ public class DbExpositor extends DbArt {
         return expositores;
 
     }
+    public boolean eliminarExpositor(String correoExpositor) {
+        boolean eliminado = false;
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            int rowsAffected = db.delete(TABLE_ARTISTAS, "correoArtista = ?", new String[]{correoExpositor});
+            eliminado = (rowsAffected > 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.close();
+        }
+        return eliminado;
+    }
 
     public long agregarExpositor(String nombresExpositor, String correoExpositor,  String contrasenaExpositor,int localidadDeEventoExpositor, int tipoDeEventoExpositor) {
         long id = 0;

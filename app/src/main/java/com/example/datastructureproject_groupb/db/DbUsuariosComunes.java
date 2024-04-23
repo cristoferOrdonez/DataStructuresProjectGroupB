@@ -41,6 +41,19 @@ public class DbUsuariosComunes extends DbArt {
         return usuariosComunes;
 
     }
+    public boolean eliminarUsuario(String correoUsuario) {
+        boolean eliminado = false;
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            int rowsAffected = db.delete(TABLE_USUARIOS, "correoUsuarioUsuarios = ?", new String[]{correoUsuario});
+            eliminado = (rowsAffected > 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.close();
+        }
+        return eliminado;
+    }
 
     public long agregarUsuario(String nombresUsuario, String apellidosUsuario, int edadUsuario, String correoUsuario, String contrasenaUsuario, int localidad, int intereses) {
         long id = 0;

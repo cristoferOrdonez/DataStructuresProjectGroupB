@@ -1,9 +1,13 @@
 package com.example.datastructureproject_groupb;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.db.DbEventos;
+import com.example.datastructureproject_groupb.db.DbExpositor;
+import com.example.datastructureproject_groupb.db.DbSesion;
+import com.example.datastructureproject_groupb.db.DbUsuariosComunes;
 import com.example.datastructureproject_groupb.entidades.Artista;
 import com.example.datastructureproject_groupb.entidades.Evento;
 import com.example.datastructureproject_groupb.entidades.UsuarioComun;
@@ -27,15 +31,22 @@ public class Bocu extends Application {
     public void onCreate() {
         super.onCreate();
 
+
         DbEventos dbEventos = new DbEventos(this);
+        DbExpositor dbExpositor = new DbExpositor(this);
+        DbUsuariosComunes dbUsuariosComunes=new DbUsuariosComunes(this);
 
         eventos = dbEventos.obtenerEventos();
 
         usuario = null;
 
-        usuariosComunes = null;
+        usuariosComunes = dbUsuariosComunes.obtenerUsuariosComunes();
 
-        expositores = null;
+        expositores = dbExpositor.obtenerExpositores();
+
+        DbSesion dbSesion=new DbSesion(getApplicationContext());
+        dbSesion.sesionActiva();
+
 
     }
 
