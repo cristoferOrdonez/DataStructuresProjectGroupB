@@ -35,6 +35,7 @@ import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
@@ -124,8 +125,8 @@ public class EditarEventosVirtual extends AppCompatActivity {
         categoriasAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.INTERESES);
         spinnerCategoriaEvento.setAdapter(categoriasAdapter);
 
-        spinnerPlataformaEvento.setText(Bocu.PLATAFORMAS[getIntent().getIntExtra("PLATAFORMA_EVENTO", -1)], false);
-
+        spinnerPlataformaEvento.setText(Bocu.PLATAFORMAS[
+                obtenerIndice(Bocu.PLATAFORMAS, (getIntent().getStringExtra("PLATAFORMA_EVENTO")))], false);
 
         spinnerCategoriaEvento.setText(Bocu.INTERESES[getIntent().getIntExtra("CATEGORIA_EVENTO", -1)], false);
 
@@ -202,6 +203,15 @@ public class EditarEventosVirtual extends AppCompatActivity {
         }, horaInicio, minutosInicio, false);
         pickerInicio.show();
 
+    }
+
+    public static int obtenerIndice(String[] arregloPlataformas, String plataforma) {
+        for (int i = 0; i < arregloPlataformas.length; i++) {
+            if (arregloPlataformas[i].equals(plataforma)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private void mostrarDatePicker(){
@@ -305,7 +315,9 @@ public class EditarEventosVirtual extends AppCompatActivity {
         int costoEvento = Integer.parseInt(this.costoEvento.getText().toString());
         String horarioEvento = this.horarioEvento.getText().toString();
         String descripcionEvento = this.descripcionEvento.getText().toString();
-        int localidad = 21;
+
+        // El 21 hace referencia a VIRTUAL
+        int modalidad = 21;
         int categoria = categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString());
 
         int position = getIntent().getIntExtra("POSITION", -1);
@@ -319,7 +331,7 @@ public class EditarEventosVirtual extends AppCompatActivity {
                     nombreEvento,
                     new Date(AnoEvento, mesEvento, diaEvento),
                     plataformaEvento,
-                    localidad,
+                    modalidad,
                     costoEvento,
                     horarioEvento,
                     categoria,
@@ -337,7 +349,7 @@ public class EditarEventosVirtual extends AppCompatActivity {
                     costoEvento,
                     horarioEvento,
                     descripcionEvento,
-                    localidad,
+                    modalidad,
                     categoria,
                     String.valueOf(idEvento),
                     Bocu.usuario.getCorreoElectronico());

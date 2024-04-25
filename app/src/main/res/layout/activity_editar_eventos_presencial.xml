@@ -16,7 +16,7 @@
         android:paddingVertical="20dp"
         android:paddingHorizontal="45dp"
         android:autoSizeTextType="uniform"
-        android:text="Crea tu Evento"
+        android:text="Edita tu Evento"
         android:textColor="@color/black"
         android:textStyle="bold|italic" />
 

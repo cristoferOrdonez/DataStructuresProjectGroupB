@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datastructureproject_groupb.Bocu;
 import com.example.datastructureproject_groupb.EditarEventosPresencial;
+import com.example.datastructureproject_groupb.EditarEventosVirtual;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.db.DbEventos;
@@ -99,13 +100,21 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
         holder.botonEditarEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), EditarEventosPresencial.class);
+                Intent intent;
+                if (evento.getLocalidadEvento() != 21) {
+                    intent = new Intent(v.getContext(), EditarEventosPresencial.class);
+                    intent.putExtra("UBICACION_EVENTO", evento.getUbicacionEvento());
+                } else {
+                    intent = new Intent(v.getContext(), EditarEventosVirtual.class);
+                    intent.putExtra("PLATAFORMA_EVENTO", evento.getUbicacionEvento());
+                }
+
                 int position = holder.getAdapterPosition();
                 intent.putExtra("ID_EVENTO",evento.getId());
                 intent.putExtra("POSITION", position);
                 intent.putExtra("NOMBRE_EVENTO", evento.getNombreEvento());
                 intent.putExtra("FECHA_EVENTO", evento.getFechaEvento().getDate() + "/" + evento.getFechaEvento().getMonth() + "/" + evento.getFechaEvento().getYear());
-                intent.putExtra("UBICACION_EVENTO", evento.getUbicacionEvento());
+
                 intent.putExtra("COSTO_EVENTO", String.valueOf(evento.getCostoEvento()));
                 intent.putExtra("HORARIO_EVENTO", evento.getHorarioEvento());
                 intent.putExtra("DESCRIPCION_EVENTO", evento.getDescripcionEvento());

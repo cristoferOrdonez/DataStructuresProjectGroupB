@@ -34,6 +34,10 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".EditarEventosVirtual"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".CrearCuentaUsuario"
             android:exported="false"
             android:label="@string/title_activity_crear_cuenta_usuario"
