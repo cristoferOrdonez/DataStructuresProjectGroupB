@@ -22,11 +22,15 @@
             android:value="AIzaSyDRtVkJ0bb8UmOkLyA0ADTC9deVaTQi5RU" />
 
         <activity
-            android:name=".CrearEventos"
+            android:name=".CrearEventosPresencial"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EditarEventos"
+            android:name=".CrearEventosVirtual"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditarEventosPresencial"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

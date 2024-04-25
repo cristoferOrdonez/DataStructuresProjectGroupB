@@ -3,63 +3,42 @@ package com.example.datastructureproject_groupb;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.db.DbEventos;
 import com.example.datastructureproject_groupb.entidades.Evento;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
-public class CrearEventos extends AppCompatActivity{
-    TextInputEditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horarioEvento, descripcionEvento;
-    MaterialAutoCompleteTextView spinnerLocalidadEvento, spinnerCategoriaEvento;
+public class CrearEventosVirtual extends AppCompatActivity{
+    TextInputEditText nombreEvento, fechaEvento, costoEvento, horarioEvento, descripcionEvento;
+    MaterialAutoCompleteTextView spinnerCategoriaEvento, spinnerPlataformaEvento;
     Button cancelarCrearEvento, aceptarCrearEvento;
-    private ArrayAdapter<String> categoriasAdapter, localidadesAdapter;
+    private ArrayAdapter<String> categoriasAdapter, plataformasAdapter;
     private int dia = 0, mes = -1, ano = 0, horaInicio = -1, horaFinal = -1, minutosInicio = -1, minutosFinal = -1;
-    private GoogleMap gMap;
-    private ImageButton botonAceptarUbicacion, botonCancelarUbicación;
-    private ConstraintLayout layoutMap;
-
-    private LatLng bogota, ubicacionMarker, ubicacionDefinitiva;
-    Marker marker;
     private LinearLayout layoutBotones;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crear_eventos);
+        setContentView(R.layout.activity_crear_eventos_virtual);
 
         layoutBotones = findViewById(R.id.layoutBotones);
 
@@ -79,42 +58,27 @@ public class CrearEventos extends AppCompatActivity{
             }
         });
 
-        marker = null;
-        ubicacionMarker = null;
-        ubicacionDefinitiva = null;
-        bogota = new LatLng(4.709870584581264, -74.07212528110854);
-        layoutMap = findViewById(R.id.linearLayoutMap);
-        botonAceptarUbicacion = findViewById(R.id.imageButtonAceptarUbicacion);
-        botonCancelarUbicación = findViewById(R.id.imageButtonCancelarUbicacion);
-
         nombreEvento = findViewById(R.id.editTextNombreEvento);
         fechaEvento = findViewById(R.id.editTextFechaEvento);
-        ubicacionEvento = findViewById(R.id.editTextUbicacionEvento);
         costoEvento = findViewById(R.id.editTextCostoEvento);
         horarioEvento = findViewById(R.id.editTextHorarioEvento);
         descripcionEvento = findViewById(R.id.editTextDescripcionEvento);
-        spinnerLocalidadEvento = findViewById(R.id.spinnerLocalidadEvento);
+        spinnerPlataformaEvento = findViewById(R.id.spinnerPlataformaEvento);
         spinnerCategoriaEvento = findViewById(R.id.spinnerCategoriaEvento);
 
         cancelarCrearEvento = findViewById(R.id.botonCancelarCrearEvento);
         aceptarCrearEvento = findViewById(R.id.botonAceptarCrearEvento);
 
-        ubicacionEvento.setOnClickListener(view -> mostrarMapa());
-        ubicacionEvento.setOnFocusChangeListener((view, hasFocus) -> {
-
-            if (hasFocus)
-                mostrarMapa();
-
-        });
-
-        localidadesAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.LOCALIDADES);
-        spinnerLocalidadEvento.setAdapter(localidadesAdapter);
-
         categoriasAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.INTERESES);
         spinnerCategoriaEvento.setAdapter(categoriasAdapter);
 
+        plataformasAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.PLATAFORMAS);
+        spinnerPlataformaEvento.setAdapter(plataformasAdapter);
+
+
         cancelarCrearEvento.setOnClickListener(view -> cambiarAEventos());
         aceptarCrearEvento.setOnClickListener(view -> crearEventoExpositor());
+
         fechaEvento.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus)
                 mostrarDatePicker();
@@ -125,96 +89,6 @@ public class CrearEventos extends AppCompatActivity{
             if (hasFocus)
                 mostrarTimePicker();
         });
-
-        botonAceptarUbicacion.setOnClickListener(view -> {
-
-            ubicacionDefinitiva = ubicacionMarker;
-
-            if(ubicacionDefinitiva != null) {
-
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
-                List<Address> listaDireccion = null;
-                try {
-                    listaDireccion = geocoder.getFromLocation(ubicacionDefinitiva.latitude, ubicacionDefinitiva.longitude, 1);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-                String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
-
-                ubicacionEvento.setText(ubicacion);
-            }
-            layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
-            marker.remove();
-
-        });
-
-        botonCancelarUbicación.setOnClickListener(view -> {
-
-            layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
-            marker.remove();
-
-        });
-
-        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapaCrearEventos);
-
-        supportMapFragment.getMapAsync(googleMap -> {
-
-            gMap = googleMap;
-
-            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bogota, 10.0f));
-            gMap.getUiSettings().setZoomControlsEnabled(true);
-            LatLngBounds bogotaBounds = new LatLngBounds(
-                    new LatLng(4.4625, -74.2346),
-                    new LatLng(4.8159, -73.9875)
-            );
-
-            gMap.setMinZoomPreference(10.0f);
-            gMap.setLatLngBoundsForCameraTarget(bogotaBounds);
-            gMap.setOnMapClickListener(latLng -> {
-
-                ubicacionMarker = latLng;
-
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                try {
-
-                    List<Address> listaDireccion = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-                    String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
-
-                    if(marker != null)
-                        marker.remove();
-                    marker = gMap.addMarker(new MarkerOptions().position(latLng).title(ubicacion));
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            });
-
-        });
-
-    }
-
-    private void mostrarMapa(){
-
-        layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-        if(ubicacionDefinitiva != null) {
-            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
-            List<Address> listaDireccion = null;
-            try {
-                listaDireccion = geocoder.getFromLocation(ubicacionDefinitiva.latitude, ubicacionDefinitiva.longitude, 1);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
-
-            marker = gMap.addMarker(new MarkerOptions().position(ubicacionDefinitiva).title(ubicacion));
-
-        }
-
     }
 
     private void mostrarTimePicker(){
@@ -293,11 +167,11 @@ public class CrearEventos extends AppCompatActivity{
 
         DatePickerDialog picker = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
 
-                this.dia = dayOfMonth;
-                this.mes = month;
-                this.ano = year;
+            this.dia = dayOfMonth;
+            this.mes = month;
+            this.ano = year;
 
-                fechaEvento.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+            fechaEvento.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
 
         }, ano, mes, dia);
         picker.show();
@@ -332,14 +206,6 @@ public class CrearEventos extends AppCompatActivity{
             mensajeError += "No ha ingresado fecha valida\n";
             flag = false;
         }
-        if(ubicacionEvento.getText().toString().trim().equals("")) {
-            mensajeError += "No ha ingresado una ubicación valida\n";
-            flag = false;
-        }
-        if(spinnerLocalidadEvento.getText().toString().equals("") || localidadesAdapter.getPosition(spinnerLocalidadEvento.getText().toString()) == -1) {
-            mensajeError += "Seleccione una Localidad\n";
-            flag = false;
-        }
         String verificarCostoEvento = costoEvento.getText().toString().trim();
         if(verificarCostoEvento.equals("") || !TextUtils.isDigitsOnly(verificarCostoEvento)) {
             mensajeError += "No ha ingresado un costo valido\n";
@@ -351,6 +217,10 @@ public class CrearEventos extends AppCompatActivity{
         }
         if(spinnerCategoriaEvento.getText().toString().equals("") || categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString()) == -1) {
             mensajeError += "Seleccione un Interes\n";
+            flag = false;
+        }
+        if(spinnerPlataformaEvento.getText().toString().equals("") || plataformasAdapter.getPosition(spinnerPlataformaEvento.getText().toString()) == -1) {
+            mensajeError += "Seleccione una plataforma\n";
             flag = false;
         }
         if(descripcionEvento.getText().toString().trim().equals("")) {
@@ -365,6 +235,7 @@ public class CrearEventos extends AppCompatActivity{
         else
             Toast.makeText(this, mensajeError, Toast.LENGTH_SHORT).show();
     }
+
     public void CrearEvento(View view) {
         String nombreEvento = this.nombreEvento.getText().toString().trim();
         String fechaEvento = this.fechaEvento.getText().toString().trim();
@@ -374,18 +245,18 @@ public class CrearEventos extends AppCompatActivity{
         int mesEvento = Integer.parseInt(partesFecha[1]);
         int AnoEvento = Integer.parseInt(partesFecha[2]);
 
-        String ubicacionEvento = ubicacionDefinitiva.latitude + " - " + ubicacionDefinitiva.longitude;
+        String plataformaEvento = spinnerPlataformaEvento.getText().toString();
         int costoEvento = Integer.parseInt(this.costoEvento.getText().toString());
         String horarioEvento = this.horarioEvento.getText().toString();
         String descripcionEvento = this.descripcionEvento.getText().toString();
-        int localidad = localidadesAdapter.getPosition(spinnerLocalidadEvento.getText().toString());
+        int localidad = 21;
         int categoria = categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString());
 
         long newId = new DbEventos(this).insertarEvento(nombreEvento,
                 AnoEvento,
                 mesEvento,
                 diaEvento,
-                ubicacionEvento,
+                plataformaEvento,
                 costoEvento,
                 horarioEvento,
                 descripcionEvento,
@@ -398,7 +269,7 @@ public class CrearEventos extends AppCompatActivity{
                 newId,
                 nombreEvento,
                 new Date(AnoEvento, mesEvento, diaEvento),
-                ubicacionEvento,
+                plataformaEvento,
                 localidad,
                 costoEvento,
                 horarioEvento,

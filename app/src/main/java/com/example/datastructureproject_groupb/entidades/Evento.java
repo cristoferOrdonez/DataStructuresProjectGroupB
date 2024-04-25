@@ -4,6 +4,8 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 
+import com.example.datastructureproject_groupb.Bocu;
+
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Date;
@@ -32,6 +34,7 @@ public class Evento {
     private static final int RAFAEL_URIBE_URIBE = 18;
     private static final int CIUDAD_BOLÍVAR = 19;
     private static final int SUMAPAZ = 20;
+    private static final int VIRTUAL = 21;
 
     private int localidadEvento, costoEvento, categoriaEvento;
     private long id;
@@ -81,7 +84,6 @@ public class Evento {
     }
 
     public String getDireccionEvento(){
-
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
 
         List<Address> listaDireccion = null;
@@ -92,7 +94,6 @@ public class Evento {
         }
 
         return listaDireccion.get(0).getAddressLine(0).split(",")[0];
-
     }
 
     public void setUbicacionEvento(String ubicacionEvento) {

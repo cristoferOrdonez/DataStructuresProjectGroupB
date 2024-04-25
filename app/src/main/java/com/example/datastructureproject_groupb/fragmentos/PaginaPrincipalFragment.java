@@ -100,7 +100,13 @@ public class PaginaPrincipalFragment extends Fragment {
         tituloEvento.setText(evento.getNombreEvento());
         fechaEvento.setText("Fecha: " + evento.getFechaEventoString());
         horarioEvento.setText("Horario: " + evento.getHorarioEvento());
-        lugarEvento.setText("Lugar: " + evento.getDireccionEvento());
+
+        if (evento.getLocalidadEvento() != 21) {
+            lugarEvento.setText("Lugar: " + evento.getDireccionEvento());
+        } else {
+            lugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
+        }
+
         costoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
         tipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
         descripcionEvento.setText("Descripción: " + evento.getDescripcionEvento());

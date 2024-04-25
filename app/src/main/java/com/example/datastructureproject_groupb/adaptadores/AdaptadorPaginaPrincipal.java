@@ -43,9 +43,14 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
         holder.textViewTituloEvento.setText(evento.getNombreEvento());
         holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEventoString());
         holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
-        holder.textViewLugarEvento.setText("Lugar: " + evento.getDireccionEvento());
         holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
         holder.textViewTipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
+
+        if (evento.getLocalidadEvento() != 21) {
+            holder.textViewLugarEvento.setText("Lugar: " + evento.getDireccionEvento());
+        } else {
+            holder.textViewLugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
+        }
     }
 
     @Override
@@ -96,10 +101,15 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
                 tituloEvento.setText(evento.getNombreEvento());
                 fechaEvento.setText("Fecha: " + evento.getFechaEventoString());
                 horarioEvento.setText("Horario: " + evento.getHorarioEvento());
-                lugarEvento.setText("Lugar: " + evento.getDireccionEvento());
                 costoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
                 tipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
                 descripcionEvento.setText("Descripción: " + evento.getDescripcionEvento());
+
+                if (evento.getLocalidadEvento() != 21) {
+                    lugarEvento.setText("Lugar: " + evento.getDireccionEvento());
+                } else {
+                    lugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
+                }
 
                 builder.setView(view);
 

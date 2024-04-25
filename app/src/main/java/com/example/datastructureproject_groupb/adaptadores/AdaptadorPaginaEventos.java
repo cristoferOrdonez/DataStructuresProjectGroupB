@@ -9,13 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datastructureproject_groupb.Bocu;
-import com.example.datastructureproject_groupb.EditarEventos;
+import com.example.datastructureproject_groupb.EditarEventosPresencial;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.db.DbEventos;
@@ -46,9 +45,14 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
         holder.textViewTituloEvento.setText(evento.getNombreEvento());
         holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEventoString());
         holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
-        holder.textViewLugarEvento.setText("Lugar: " + evento.getDireccionEvento());
         holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
         holder.textViewTipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
+
+        if (evento.getLocalidadEvento() != 21) {
+            holder.textViewLugarEvento.setText("Lugar: " + evento.getDireccionEvento());
+        } else {
+            holder.textViewLugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
+        }
 
         holder.botonEliminarEvento.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +99,7 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
         holder.botonEditarEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), EditarEventos.class);
+                Intent intent = new Intent(v.getContext(), EditarEventosPresencial.class);
                 int position = holder.getAdapterPosition();
                 intent.putExtra("ID_EVENTO",evento.getId());
                 intent.putExtra("POSITION", position);
