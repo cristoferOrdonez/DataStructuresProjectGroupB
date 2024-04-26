@@ -187,6 +187,14 @@
                     app:dropDownBackgroundTint="@color/white" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/spinnerLocalidadRegistroUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="@color/black"
+                app:dropDownBackgroundTint="@color/white" />
+
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
@@ -198,13 +206,6 @@
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                 app:endIconTint="@color/black">
 
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/spinnerLocalidadRegistroUsuario"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:textColor="@color/black"
-                    app:dropDownBackgroundTint="@color/white" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -220,19 +221,19 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/botonCancelarRegistroUsuario"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Cancelar"
+            android:textSize="8sp" />
+
+        <Button
             android:id="@+id/botonRegistratseRegistroUsuario"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Registrarse"
-            android:textSize="8sp" />
-
-        <Button
-            android:id="@+id/botonCancelarRegistroUsuario"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:text="Cancelar"
             android:textSize="8sp" />
 
     </LinearLayout>
