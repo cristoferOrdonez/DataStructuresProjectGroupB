@@ -10,7 +10,12 @@ import java.util.concurrent.atomic.AtomicReference;
 public class MostrarTimePicker {
 
     private Integer horaInicio, horaFinal, minutosInicio, minutosFinal;
-    public MostrarTimePicker(Context context, EditText horarioEvento, int horaInicio, int horaFinal, int minutosInicio, int minutosFinal){
+    public MostrarTimePicker(Context context,
+                             EditText horarioEvento,
+                             int horaInicio,
+                             int horaFinal,
+                             int minutosInicio,
+                             int minutosFinal){
 
         if(horarioEvento.getText().toString().equals("")){
 
@@ -58,9 +63,11 @@ public class MostrarTimePicker {
                     horarioEvento.setText(horario.get() + " - " + (y_alt%12) + ":0" + z_alt + amOpm_alt);
 
             }, horaFinal, minutosFinal, false);
+            pickerFinal.setTitle("Hora de finalización");
             pickerFinal.show();
 
         }, horaInicio, minutosInicio, false);
+        pickerInicio.setTitle("Hora de inicio");
         pickerInicio.show();
 
     }

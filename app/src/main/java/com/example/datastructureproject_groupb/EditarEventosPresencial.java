@@ -55,7 +55,6 @@ public class EditarEventosPresencial extends AppCompatActivity {
     private LatLng bogota, ubicacionMarker, ubicacionDefinitiva;
     Marker marker;
     private LinearLayout layoutBotones;
-    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,38 +184,43 @@ public class EditarEventosPresencial extends AppCompatActivity {
 
         horarioEvento.setOnClickListener(view -> mostrarTimePicker());
         horarioEvento.setOnFocusChangeListener((view, hasFocus) -> {
-            if(hasFocus)
+            if (hasFocus)
                 mostrarTimePicker();
         });
 
         botonAceptarUbicacion.setOnClickListener(view -> {
+            if (marker != null) {
+                ubicacionDefinitiva = ubicacionMarker;
 
-            ubicacionDefinitiva = ubicacionMarker;
+                if (ubicacionDefinitiva != null) {
 
-            if(ubicacionDefinitiva != null) {
+                    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                    List<Address> listaDireccion = null;
+                    try {
+                        listaDireccion = geocoder.getFromLocation(ubicacionDefinitiva.latitude, ubicacionDefinitiva.longitude, 1);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                List<Address> listaDireccion = null;
-                try {
-                    listaDireccion = geocoder.getFromLocation(ubicacionDefinitiva.latitude, ubicacionDefinitiva.longitude, 1);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
+
+                    ubicacionEvento.setText(ubicacion);
                 }
-
-                String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
-
-                ubicacionEvento.setText(ubicacion);
+                layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
+                marker.remove();
+            } else {
+                Toast.makeText(this, "Seleccione una ubicación", Toast.LENGTH_SHORT).show();
             }
-            layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
-            marker.remove();
 
         });
 
         botonCancelarUbicación.setOnClickListener(view -> {
 
             layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
-            marker.remove();
+            if (marker != null) {
+                marker.remove();
+            }
 
         });
 
@@ -284,11 +288,8 @@ public class EditarEventosPresencial extends AppCompatActivity {
 
 
     private void mostrarTimePicker(){
-
-        context = this;
-
         MostrarTimePicker timePicker = new MostrarTimePicker(
-                context,
+                this,
                 this.horarioEvento,
                 this.horaInicio,
                 this.horaFinal,
@@ -298,10 +299,7 @@ public class EditarEventosPresencial extends AppCompatActivity {
     }
 
     private void mostrarDatePicker(){
-
-        context = this;
-
-        MostrarDatePicker datePicker = new MostrarDatePicker(context, this.fechaEvento, this.dia, this.mes, this.anio);
+        MostrarDatePicker datePicker = new MostrarDatePicker(this, this.fechaEvento, this.dia, this.mes, this.anio);
     }
 
     public void cambiarAEventos() {

@@ -95,11 +95,8 @@ public class CrearEventosVirtual extends AppCompatActivity{
     }
 
     private void mostrarTimePicker(){
-
-        context = this;
-
         MostrarTimePicker timePicker = new MostrarTimePicker(
-                context,
+                this,
                 this.horarioEvento,
                 this.horaInicio,
                 this.horaFinal,
@@ -109,9 +106,7 @@ public class CrearEventosVirtual extends AppCompatActivity{
     }
 
     private void mostrarDatePicker(){
-        context = this;
-
-        MostrarDatePicker datePicker = new MostrarDatePicker(context, this.fechaEvento, this.dia, this.mes, this.anio);
+        MostrarDatePicker datePicker = new MostrarDatePicker(this, this.fechaEvento, this.dia, this.mes, this.anio);
     }
 
     public void cambiarAEventos() {

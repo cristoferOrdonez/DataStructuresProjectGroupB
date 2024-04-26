@@ -30,12 +30,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.RectangularBounds;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -52,11 +61,9 @@ public class CrearEventosPresencial extends AppCompatActivity{
     private GoogleMap gMap;
     private ImageButton botonAceptarUbicacion, botonCancelarUbicación;
     private ConstraintLayout layoutMap;
-
     private LatLng bogota, ubicacionMarker, ubicacionDefinitiva;
     Marker marker;
     private LinearLayout layoutBotones;
-    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,34 +136,37 @@ public class CrearEventosPresencial extends AppCompatActivity{
         });
 
         botonAceptarUbicacion.setOnClickListener(view -> {
+            if (marker != null) {
+                ubicacionDefinitiva = ubicacionMarker;
 
-            ubicacionDefinitiva = ubicacionMarker;
+                if (ubicacionDefinitiva != null) {
 
-            if(ubicacionDefinitiva != null) {
+                    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                    List<Address> listaDireccion = null;
+                    try {
+                        listaDireccion = geocoder.getFromLocation(ubicacionDefinitiva.latitude, ubicacionDefinitiva.longitude, 1);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                List<Address> listaDireccion = null;
-                try {
-                    listaDireccion = geocoder.getFromLocation(ubicacionDefinitiva.latitude, ubicacionDefinitiva.longitude, 1);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
+
+                    ubicacionEvento.setText(ubicacion);
                 }
-
-                String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
-
-                ubicacionEvento.setText(ubicacion);
+                layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
+                marker.remove();
+            } else {
+                Toast.makeText(this, "Seleccione una ubicación", Toast.LENGTH_SHORT).show();
             }
-            layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
-            marker.remove();
 
         });
 
         botonCancelarUbicación.setOnClickListener(view -> {
-
             layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
-            marker.remove();
-
+            if (marker != null) {
+                marker.remove();
+            }
         });
 
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapaCrearEventos);
@@ -220,11 +230,8 @@ public class CrearEventosPresencial extends AppCompatActivity{
     }
 
     private void mostrarTimePicker(){
-
-        context = this;
-
         MostrarTimePicker timePicker = new MostrarTimePicker(
-                context,
+                this,
                 this.horarioEvento,
                 this.horaInicio,
                 this.horaFinal,
@@ -234,10 +241,7 @@ public class CrearEventosPresencial extends AppCompatActivity{
     }
 
     private void mostrarDatePicker(){
-
-        context = this;
-
-        MostrarDatePicker datePicker = new MostrarDatePicker(context, this.fechaEvento, this.dia, this.mes, this.anio);
+        MostrarDatePicker datePicker = new MostrarDatePicker(this, this.fechaEvento, this.dia, this.mes, this.anio);
     }
 
     public void cambiarAEventos() {

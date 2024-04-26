@@ -36,7 +36,6 @@ public class EditarEventosVirtual extends AppCompatActivity {
     private ArrayAdapter<String> categoriasAdapter, plataformasAdapter;
     private int dia = 0, mes = -1, anio = 0, horaInicio = -1, horaFinal = -1, minutosInicio = -1, minutosFinal = -1;
     private LinearLayout layoutBotones;
-    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +129,7 @@ public class EditarEventosVirtual extends AppCompatActivity {
 
         horarioEvento.setOnClickListener(view -> mostrarTimePicker());
         horarioEvento.setOnFocusChangeListener((view, hasFocus) -> {
-            if(hasFocus)
+            if (hasFocus)
                 mostrarTimePicker();
         });
 
@@ -138,10 +137,8 @@ public class EditarEventosVirtual extends AppCompatActivity {
 
     private void mostrarTimePicker(){
 
-        context = this;
-
         MostrarTimePicker timePicker = new MostrarTimePicker(
-                context,
+                this,
                 this.horarioEvento,
                 this.horaInicio,
                 this.horaFinal,
@@ -160,9 +157,8 @@ public class EditarEventosVirtual extends AppCompatActivity {
     }
 
     private void mostrarDatePicker(){
-        context = this;
 
-        MostrarDatePicker datePicker = new MostrarDatePicker(context, this.fechaEvento, this.dia, this.mes, this.anio);
+        MostrarDatePicker datePicker = new MostrarDatePicker(this, this.fechaEvento, this.dia, this.mes, this.anio);
     }
 
     public void cambiarAEventos() {
