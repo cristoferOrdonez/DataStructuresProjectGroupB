@@ -1,7 +1,7 @@
 package com.example.datastructureproject_groupb;
 
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -20,6 +20,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.datastructureproject_groupb.db.DbEventos;
 import com.example.datastructureproject_groupb.entidades.Evento;
+import com.example.datastructureproject_groupb.pickers.MostrarDatePicker;
+import com.example.datastructureproject_groupb.pickers.MostrarTimePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -46,13 +48,14 @@ public class EditarEventosPresencial extends AppCompatActivity {
     Button cancelarEditarEvento, aceptarEditarEvento;
     private ArrayAdapter<String> localidadesAdapter, categoriasAdapter;
     long idEvento;
-    private int dia, mes, ano, horaInicio, horaFinal, minutosInicio, minutosFinal;
+    private int dia, mes, anio, horaInicio, horaFinal, minutosInicio, minutosFinal;
     private GoogleMap gMap;
     private ImageButton botonAceptarUbicacion, botonCancelarUbicación;
     private ConstraintLayout layoutMap;
     private LatLng bogota, ubicacionMarker, ubicacionDefinitiva;
     Marker marker;
     private LinearLayout layoutBotones;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +98,7 @@ public class EditarEventosPresencial extends AppCompatActivity {
 
         dia = Integer.parseInt(fechaEventoArr[0]);
         mes = Integer.parseInt(fechaEventoArr[1]) - 1;
-        ano = Integer.parseInt(fechaEventoArr[2]);
+        anio = Integer.parseInt(fechaEventoArr[2]);
 
         String horarioEventoS = getIntent().getStringExtra("HORARIO_EVENTO");
 
@@ -282,89 +285,23 @@ public class EditarEventosPresencial extends AppCompatActivity {
 
     private void mostrarTimePicker(){
 
-        int horaInicio, horaFinal, minutosInicio, minutosFinal;
+        context = this;
 
-        if(horarioEvento.getText().toString().equals("")){
-
-            Calendar calendario = Calendar.getInstance();
-
-            horaInicio = calendario.get(Calendar.HOUR_OF_DAY);
-            horaFinal = calendario.get(Calendar.HOUR_OF_DAY);
-            minutosFinal = calendario.get(Calendar.MINUTE);
-            minutosInicio = calendario.get(Calendar.MINUTE);
-
-        } else {
-
-            horaInicio = this.horaInicio;
-            horaFinal = this.horaFinal;
-            minutosFinal = this.minutosFinal;
-            minutosInicio = this.minutosInicio;
-
-        }
-
-        AtomicReference<String> horario = new AtomicReference<>("");
-
-        TimePickerDialog pickerInicio = new TimePickerDialog(this, (x, y, z) -> {
-
-            this.horaInicio = y;
-
-            this.minutosInicio = z;
-
-            String amOpm = (y > 12)?"p.m.":"a.m.";
-
-            if(z > 9)
-                horario.set(y%12 + ":" + z + amOpm);
-            else
-                horario.set(y%12 + ":0" + z + amOpm);
-
-            TimePickerDialog pickerFinal = new TimePickerDialog(this, (x_alt, y_alt, z_alt) -> {
-
-                this.horaFinal = y_alt;
-                this.minutosFinal = z_alt;
-
-                String amOpm_alt = (y_alt > 12)?"p.m.":"a.m.";
-
-                if(z_alt > 9)
-                    horarioEvento.setText(horario.get() + " - " + (y_alt%12) + ":" + z_alt + amOpm_alt);
-                else
-                    horarioEvento.setText(horario.get() + " - " + (y_alt%12) + ":0" + z_alt + amOpm_alt);
-
-            }, horaFinal, minutosFinal, false);
-            pickerFinal.show();
-
-        }, horaInicio, minutosInicio, false);
-        pickerInicio.show();
-
+        MostrarTimePicker timePicker = new MostrarTimePicker(
+                context,
+                this.horarioEvento,
+                this.horaInicio,
+                this.horaFinal,
+                this.horaInicio,
+                this.minutosFinal
+        );
     }
 
     private void mostrarDatePicker(){
 
-        int dia, mes, ano;
+        context = this;
 
-        if(fechaEvento.getText().toString().equals("")){
-            Calendar calendario = Calendar.getInstance();
-            dia = calendario.get(Calendar.DAY_OF_MONTH);
-            mes = calendario.get(Calendar.MONTH);
-            ano = calendario.get(Calendar.YEAR);
-        } else {
-
-            dia = this.dia;
-            mes = this.mes;
-            ano = this.ano;
-
-        }
-
-        DatePickerDialog picker = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
-
-            this.dia = dayOfMonth;
-            this.mes = month;
-            this.ano = year;
-
-            fechaEvento.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
-
-        }, ano, mes, dia);
-        picker.show();
-
+        MostrarDatePicker datePicker = new MostrarDatePicker(context, this.fechaEvento, this.dia, this.mes, this.anio);
     }
 
     public void cambiarAEventos() {

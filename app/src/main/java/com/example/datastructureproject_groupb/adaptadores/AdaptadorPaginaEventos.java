@@ -43,17 +43,18 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
 
         Evento evento = listaEventos.get(position);
 
-        holder.textViewTituloEvento.setText(evento.getNombreEvento());
+        if (evento.getLocalidadEvento() != 21) {
+            holder.textViewTituloEvento.setText(evento.getNombreEvento() + " - Presencial");
+            holder.textViewLugarEvento.setText("Lugar: " + evento.getDireccionEvento());
+        } else {
+            holder.textViewLugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
+            holder.textViewTituloEvento.setText(evento.getNombreEvento() + " - Virtual");
+        }
         holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEventoString());
         holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
         holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
         holder.textViewTipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
 
-        if (evento.getLocalidadEvento() != 21) {
-            holder.textViewLugarEvento.setText("Lugar: " + evento.getDireccionEvento());
-        } else {
-            holder.textViewLugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
-        }
 
         holder.botonEliminarEvento.setOnClickListener(new View.OnClickListener() {
             @Override

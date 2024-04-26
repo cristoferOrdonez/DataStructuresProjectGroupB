@@ -97,16 +97,15 @@ public class PaginaPrincipalFragment extends Fragment {
             startActivity(miIntent);
         });
 
-        tituloEvento.setText(evento.getNombreEvento());
-        fechaEvento.setText("Fecha: " + evento.getFechaEventoString());
-        horarioEvento.setText("Horario: " + evento.getHorarioEvento());
-
         if (evento.getLocalidadEvento() != 21) {
+            tituloEvento.setText(evento.getNombreEvento() + " - Presencial");
             lugarEvento.setText("Lugar: " + evento.getDireccionEvento());
         } else {
+            tituloEvento.setText(evento.getNombreEvento() + " - Virtual");
             lugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
         }
-
+        fechaEvento.setText("Fecha: " + evento.getFechaEventoString());
+        horarioEvento.setText("Horario: " + evento.getHorarioEvento());
         costoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
         tipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
         descripcionEvento.setText("Descripción: " + evento.getDescripcionEvento());
