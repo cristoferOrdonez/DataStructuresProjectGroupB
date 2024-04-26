@@ -1,6 +1,5 @@
 package com.example.datastructureproject_groupb;
 
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -24,13 +24,11 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 public class CrearEventosVirtual extends AppCompatActivity{
-    TextInputEditText nombreEvento, fechaEvento, costoEvento, horarioEvento, descripcionEvento;
+    TextInputEditText nombreEvento, fechaEvento, costoEvento, horaInicioEvento, horaFinalEvento, descripcionEvento;
     MaterialAutoCompleteTextView spinnerCategoriaEvento, spinnerPlataformaEvento;
     Button cancelarCrearEvento, aceptarCrearEvento;
     private ArrayAdapter<String> categoriasAdapter, plataformasAdapter;
@@ -64,7 +62,8 @@ public class CrearEventosVirtual extends AppCompatActivity{
         nombreEvento = findViewById(R.id.editTextNombreEvento);
         fechaEvento = findViewById(R.id.editTextFechaEvento);
         costoEvento = findViewById(R.id.editTextCostoEvento);
-        horarioEvento = findViewById(R.id.editTextHorarioEvento);
+        horaInicioEvento = findViewById(R.id.editTextHoraInicioEvento);
+        horaFinalEvento = findViewById(R.id.editTextHoraFinalEvento);
         descripcionEvento = findViewById(R.id.editTextDescripcionEvento);
         spinnerPlataformaEvento = findViewById(R.id.spinnerPlataformaEvento);
         spinnerCategoriaEvento = findViewById(R.id.spinnerCategoriaEvento);
@@ -87,17 +86,23 @@ public class CrearEventosVirtual extends AppCompatActivity{
                 mostrarDatePicker();
         });
         fechaEvento.setOnClickListener(view -> mostrarDatePicker());
-        horarioEvento.setOnClickListener(view -> mostrarTimePicker());
-        horarioEvento.setOnFocusChangeListener((view, hasFocus) -> {
+        horaInicioEvento.setOnClickListener(view -> mostrarTimePicker(horaInicioEvento));
+        horaInicioEvento.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus)
-                mostrarTimePicker();
+                mostrarTimePicker(horaInicioEvento);
+        });
+
+        horaFinalEvento.setOnClickListener(view -> mostrarTimePicker(horaFinalEvento));
+        horaFinalEvento.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus)
+                mostrarTimePicker(horaFinalEvento);
         });
     }
 
-    private void mostrarTimePicker(){
+    private void mostrarTimePicker(EditText horarioEvento) {
         MostrarTimePicker timePicker = new MostrarTimePicker(
                 this,
-                this.horarioEvento,
+                horarioEvento,
                 this.horaInicio,
                 this.horaFinal,
                 this.horaInicio,
@@ -142,8 +147,12 @@ public class CrearEventosVirtual extends AppCompatActivity{
             mensajeError += "No ha ingresado un costo valido\n";
             flag = false;
         }
-        if(horarioEvento.getText().toString().trim().equals("")) {
-            mensajeError += "No ha ingresado un horario valido\n";
+        if(horaInicioEvento.getText().toString().trim().equals("")) {
+            mensajeError += "No ha ingresado hora de inicio\n";
+            flag = false;
+        }
+        if(horaFinalEvento.getText().toString().trim().equals("")) {
+            mensajeError += "No ha ingresado hora final\n";
             flag = false;
         }
         if(spinnerCategoriaEvento.getText().toString().equals("") || categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString()) == -1) {
@@ -178,7 +187,7 @@ public class CrearEventosVirtual extends AppCompatActivity{
 
         String plataformaEvento = spinnerPlataformaEvento.getText().toString();
         int costoEvento = Integer.parseInt(this.costoEvento.getText().toString());
-        String horarioEvento = this.horarioEvento.getText().toString();
+        String horarioEvento = this.horaInicioEvento.getText().toString() + " - " + this.horaFinalEvento.getText().toString();
         String descripcionEvento = this.descripcionEvento.getText().toString();
         int localidad = 21;
         int categoria = categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString());

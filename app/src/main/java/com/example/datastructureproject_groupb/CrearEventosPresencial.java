@@ -1,7 +1,5 @@
 package com.example.datastructureproject_groupb;
 
-import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -15,6 +13,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -30,30 +29,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.RectangularBounds;
-import com.google.android.libraries.places.api.model.TypeFilter;
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 public class CrearEventosPresencial extends AppCompatActivity{
-    TextInputEditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horarioEvento, descripcionEvento;
+    TextInputEditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horaInicioEvento, horaFinalEvento, descripcionEvento;
     MaterialAutoCompleteTextView spinnerLocalidadEvento, spinnerCategoriaEvento;
     Button cancelarCrearEvento, aceptarCrearEvento;
     private ArrayAdapter<String> categoriasAdapter, localidadesAdapter;
@@ -100,7 +88,8 @@ public class CrearEventosPresencial extends AppCompatActivity{
         fechaEvento = findViewById(R.id.editTextFechaEvento);
         ubicacionEvento = findViewById(R.id.editTextUbicacionEvento);
         costoEvento = findViewById(R.id.editTextCostoEvento);
-        horarioEvento = findViewById(R.id.editTextHorarioEvento);
+        horaInicioEvento = findViewById(R.id.editTextHoraInicioEvento);
+        horaFinalEvento = findViewById(R.id.editTextHoraFinalEvento);
         descripcionEvento = findViewById(R.id.editTextDescripcionEvento);
         spinnerLocalidadEvento = findViewById(R.id.spinnerLocalidadEvento);
         spinnerCategoriaEvento = findViewById(R.id.spinnerCategoriaEvento);
@@ -129,10 +118,17 @@ public class CrearEventosPresencial extends AppCompatActivity{
                 mostrarDatePicker();
         });
         fechaEvento.setOnClickListener(view -> mostrarDatePicker());
-        horarioEvento.setOnClickListener(view -> mostrarTimePicker());
-        horarioEvento.setOnFocusChangeListener((view, hasFocus) -> {
+
+        horaInicioEvento.setOnClickListener(view -> mostrarTimePicker(horaInicioEvento));
+        horaInicioEvento.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus)
-                mostrarTimePicker();
+                mostrarTimePicker(horaInicioEvento);
+        });
+
+        horaFinalEvento.setOnClickListener(view -> mostrarTimePicker(horaFinalEvento));
+        horaFinalEvento.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus)
+                mostrarTimePicker(horaFinalEvento);
         });
 
         botonAceptarUbicacion.setOnClickListener(view -> {
@@ -229,10 +225,10 @@ public class CrearEventosPresencial extends AppCompatActivity{
 
     }
 
-    private void mostrarTimePicker(){
+    private void mostrarTimePicker(EditText horarioEvento) {
         MostrarTimePicker timePicker = new MostrarTimePicker(
                 this,
-                this.horarioEvento,
+                horarioEvento,
                 this.horaInicio,
                 this.horaFinal,
                 this.horaInicio,
@@ -285,8 +281,12 @@ public class CrearEventosPresencial extends AppCompatActivity{
             mensajeError += "No ha ingresado un costo valido\n";
             flag = false;
         }
-        if(horarioEvento.getText().toString().trim().equals("")) {
-            mensajeError += "No ha ingresado un horario valido\n";
+        if(horaInicioEvento.getText().toString().trim().equals("")) {
+            mensajeError += "No ha ingresado hora de inicio\n";
+            flag = false;
+        }
+        if(horaFinalEvento.getText().toString().trim().equals("")) {
+            mensajeError += "No ha ingresado hora final\n";
             flag = false;
         }
         if(spinnerCategoriaEvento.getText().toString().equals("") || categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString()) == -1) {
@@ -316,7 +316,7 @@ public class CrearEventosPresencial extends AppCompatActivity{
 
         String ubicacionEvento = ubicacionDefinitiva.latitude + " - " + ubicacionDefinitiva.longitude;
         int costoEvento = Integer.parseInt(this.costoEvento.getText().toString());
-        String horarioEvento = this.horarioEvento.getText().toString();
+        String horarioEvento = this.horaInicioEvento.getText().toString() + " - " + this.horaFinalEvento.getText().toString();
         String descripcionEvento = this.descripcionEvento.getText().toString();
         int localidad = localidadesAdapter.getPosition(spinnerLocalidadEvento.getText().toString());
         int categoria = categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString());

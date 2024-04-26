@@ -149,30 +149,67 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            <LinearLayout
+                android:id="@+id/layoutHorario"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Horario"
-                android:paddingVertical="15dp"
-                android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
-                app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
-                app:endIconMode="clear_text"
-                app:endIconTint="@color/black"
-                app:startIconDrawable="@drawable/icono_reloj_horario"
-                app:startIconTint="@color/black">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextHorarioEvento"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:editable="false"
-                    android:inputType="none"
-                    android:maxLines="1"
-                    android:textColor="@color/black" />
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:hint="Hora inicio"
+                    android:paddingVertical="15dp"
+                    android:textColorHint="@color/gris_claro_hint"
+                    app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                    app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/black"
+                    app:startIconDrawable="@drawable/icono_reloj_horario"
+                    app:startIconTint="@color/black">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextHoraInicioEvento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:editable="false"
+                        android:inputType="none"
+                        android:maxLines="1"
+                        android:textColor="@color/black" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:hint="Hora final"
+                    android:paddingVertical="15dp"
+                    android:textColorHint="@color/gris_claro_hint"
+                    app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                    app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/black"
+                    app:startIconDrawable="@drawable/icono_reloj_horario"
+                    app:startIconTint="@color/black">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextHoraFinalEvento"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:editable="false"
+                        android:inputType="none"
+                        android:maxLines="1"
+                        android:textColor="@color/black" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
