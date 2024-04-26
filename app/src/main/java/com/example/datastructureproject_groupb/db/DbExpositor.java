@@ -91,7 +91,7 @@ public class DbExpositor extends DbArt {
             values.put("contrasenaArtista", contrasenaExpositor);
             values.put("localidadEventoArtista", localidadDeEventoExpositor);
 
-            int rowsAffected = db.update(TABLE_USUARIOS, values, "correoArtista = ?", new String[]{correoInicial});
+            int rowsAffected = db.update(TABLE_ARTISTAS, values, "correoArtista = ?", new String[]{correoInicial});
 
             correcto = (rowsAffected > 0);
 
