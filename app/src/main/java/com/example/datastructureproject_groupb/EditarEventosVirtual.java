@@ -94,11 +94,10 @@ public class EditarEventosVirtual extends AppCompatActivity {
         costoEvento = findViewById(R.id.editTextCostoEvento);
         costoEvento.setText(getIntent().getStringExtra("COSTO_EVENTO"));
 
-        String[] horario = horarioEventoS.split(" - ");
         horaInicioEvento = findViewById(R.id.editTextHoraInicioEvento);
-        horaInicioEvento.setText(horario[0]);
+        horaInicioEvento.setText(horaInicioS);
         horaFinalEvento = findViewById(R.id.editTextHoraFinalEvento);
-        horaInicioEvento.setText(horario[0]);
+        horaFinalEvento.setText(horaFinalS);
 
         descripcionEvento = findViewById(R.id.editTextDescripcionEvento);
         descripcionEvento.setText(getIntent().getStringExtra("DESCRIPCION_EVENTO"));
