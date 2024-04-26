@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
@@ -16,14 +18,15 @@ import java.util.concurrent.atomic.AtomicReference;
 public class MostrarTimePicker {
 
     private Integer horaInicio, horaFinal, minutosInicio, minutosFinal;
+
     public MostrarTimePicker(Context context,
                              EditText horarioEvento,
                              int horaInicio,
                              int horaFinal,
                              int minutosInicio,
-                             int minutosFinal){
+                             int minutosFinal) {
 
-        if(horarioEvento.getText().toString().equals("")){
+        if (horarioEvento.getText().toString().equals("")) {
 
             Calendar calendario = Calendar.getInstance();
 
@@ -47,20 +50,16 @@ public class MostrarTimePicker {
 
             this.minutosInicio = z;
 
-            String amOpm = (y > 12)?"p.m.":"a.m.";
+            String amOpm = (y > 12) ? "p.m." : "a.m.";
 
-            if(z > 9) {
+            if (z > 9) {
                 horarioEvento.setText((y % 12) + ":" + z + amOpm);
-            }
-            else {
+            } else {
                 horarioEvento.setText(y % 12 + ":0" + z + amOpm);
             }
 
 
         }, horaInicio, minutosInicio, false);
-        pickerInicio.setTitle("Hora de inicio");
         pickerInicio.show();
-
     }
-
 }
