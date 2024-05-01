@@ -80,20 +80,19 @@ public class DbSesion extends DbArt{
             InfoSesion infoSesion = new InfoSesion(0, cursorInfo.getInt(1), cursorInfo.getString(2));
             DbExpositor dbExpositor= new DbExpositor(context);
             DbUsuariosComunes dbUsuariosComunes= new DbUsuariosComunes(context);
-            Bocu bocu= new Bocu();
             CuentaFragment cuentaFragment = new CuentaFragment();
             correo=cursorInfo.getString(2);
             if (verificarSesionActiva()) {
-                if (infoSesion.getTipoSesion() == 1) {
+                if (infoSesion.getTipoSesion() == Bocu.USUARIO_COMUN) {
                     UsuarioRegistrado usuarioRegistrado = dbUsuariosComunes.verUsuario(correo);
-                    bocu.usuario = usuarioRegistrado;
-                    bocu.estadoUsuario = 1;
-                    cuentaFragment.acceder(usuarioRegistrado, 1);
+                    Bocu.usuario = usuarioRegistrado;
+                    Bocu.estadoUsuario = Bocu.USUARIO_COMUN;
+                    cuentaFragment.acceder(usuarioRegistrado, Bocu.USUARIO_COMUN);
                 } else {
                     Artista artista = dbExpositor.verUsuarioExpositor(correo);
-                    bocu.usuario = artista;
-                    bocu.estadoUsuario = 2;
-                    cuentaFragment.acceder(artista, 2);
+                    Bocu.usuario = artista;
+                    Bocu.estadoUsuario = Bocu.ARTISTA;
+                    cuentaFragment.acceder(artista, Bocu.ARTISTA);
                 }
             }
         }

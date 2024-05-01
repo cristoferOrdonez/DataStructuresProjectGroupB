@@ -599,9 +599,6 @@ public class CuentaFragment extends Fragment {
                 Toast.makeText(getContext(), "Ingreso correctamente como Artista", Toast.LENGTH_SHORT).show();
             }
         }
-        Bocu.expositores = null;
-        Bocu.usuariosComunes = null;
-
         cambiarAPaginaPrincipal();
 
     }
