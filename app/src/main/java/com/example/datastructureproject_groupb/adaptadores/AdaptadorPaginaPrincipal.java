@@ -42,12 +42,18 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
     public void onBindViewHolder(@NonNull EventoViewHolder holder, int position) {
         Evento evento = listaEventos.get(position);
 
-        holder.textViewTituloEvento.setText(evento.getNombreEvento());
+        if (evento.getLocalidadEvento() != 21) {
+            holder.textViewLugarEvento.setText("Lugar: " + evento.getDireccionEvento());
+            holder.textViewTituloEvento.setText(evento.getNombreEvento() + " - Presencial");
+        } else {
+            holder.textViewTituloEvento.setText(evento.getNombreEvento() +  " - Virtual");
+            holder.textViewLugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
+        }
         holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEventoString());
         holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
-        holder.textViewLugarEvento.setText("Lugar: " + evento.getDireccionEvento());
         holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
         holder.textViewTipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
+
     }
 
     @Override
@@ -95,13 +101,19 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
                         v.getContext().startActivity(miIntent);
                 });
 
-                tituloEvento.setText(evento.getNombreEvento());
+                if (evento.getLocalidadEvento() != 21) {
+                    tituloEvento.setText(evento.getNombreEvento() + " - Presencial");
+                    lugarEvento.setText("Lugar: " + evento.getDireccionEvento());
+                } else {
+                    tituloEvento.setText(evento.getNombreEvento() + " - Virtual");
+                    lugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
+                }
                 fechaEvento.setText("Fecha: " + evento.getFechaEventoString());
                 horarioEvento.setText("Horario: " + evento.getHorarioEvento());
-                lugarEvento.setText("Lugar: " + evento.getDireccionEvento());
                 costoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
                 tipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
                 descripcionEvento.setText("Descripción: " + evento.getDescripcionEvento());
+
 
                 builder.setView(view);
 

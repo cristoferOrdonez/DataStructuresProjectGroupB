@@ -1,6 +1,7 @@
 package com.example.datastructureproject_groupb.fragmentos;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,17 +9,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.Bocu;
-import com.example.datastructureproject_groupb.CrearEventos;
+import com.example.datastructureproject_groupb.CrearEventosPresencial;
+import com.example.datastructureproject_groupb.CrearEventosVirtual;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaEventos;
 
@@ -50,11 +48,8 @@ public class EventosFragment extends Fragment {
 
         botonCrearEvento = root.findViewById(R.id.imageButtonCrearEvento);
 
-        botonCrearEvento.setOnClickListener(view -> cambiarACrearEventos());
+        botonCrearEvento.setOnClickListener(view -> mostrarDialogo());
 
-        botonCrearEvento.setVisibility(View.INVISIBLE);
-
-        showFadeInAnimation(botonCrearEvento, 500);
 
         listaEventos = root.findViewById(R.id.RecyclerViewEventosPaginaEventos);
 
@@ -68,27 +63,35 @@ public class EventosFragment extends Fragment {
 
     }
 
-    public void cambiarACrearEventos() {
-        Intent miIntent = new Intent(getActivity(), CrearEventos.class);
+    public void cambiarACrearEventosPresencial() {
+        Intent miIntent = new Intent(getActivity(), CrearEventosPresencial.class);
+        startActivity(miIntent);
+        getActivity().finishAffinity();
+    }
+    public void cambiarACrearEventosVirtual() {
+        Intent miIntent = new Intent(getActivity(), CrearEventosVirtual.class);
         startActivity(miIntent);
         getActivity().finishAffinity();
     }
 
-    private void showFadeInAnimation(View view, long duration){
 
-        AlphaAnimation fadeIn = new AlphaAnimation(0f, 1f);
-        fadeIn.setDuration(duration);
-
-        view.clearAnimation();
-        view.startAnimation(fadeIn);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                view.setVisibility(View.VISIBLE);
-            }
-        }, duration);
-
+    private void mostrarDialogo() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setTitle("Selecciona la modalidad del evento")
+                .setPositiveButton("Virtual", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        cambiarACrearEventosVirtual();
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("Presencial", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        cambiarACrearEventosPresencial();
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 }

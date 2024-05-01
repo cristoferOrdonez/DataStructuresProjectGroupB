@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datastructureproject_groupb.Bocu;
-import com.example.datastructureproject_groupb.EditarEventos;
+import com.example.datastructureproject_groupb.EditarEventosPresencial;
+import com.example.datastructureproject_groupb.EditarEventosVirtual;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.db.DbEventos;
@@ -44,12 +44,18 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
 
         Evento evento = listaEventos.get(position);
 
-        holder.textViewTituloEvento.setText(evento.getNombreEvento());
+        if (evento.getLocalidadEvento() != 21) {
+            holder.textViewTituloEvento.setText(evento.getNombreEvento() + " - Presencial");
+            holder.textViewLugarEvento.setText("Lugar: " + evento.getDireccionEvento());
+        } else {
+            holder.textViewLugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
+            holder.textViewTituloEvento.setText(evento.getNombreEvento() + " - Virtual");
+        }
         holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEventoString());
         holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
-        holder.textViewLugarEvento.setText("Lugar: " + evento.getDireccionEvento());
         holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
         holder.textViewTipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
+
 
         holder.botonEliminarEvento.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,13 +102,21 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
         holder.botonEditarEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), EditarEventos.class);
+                Intent intent;
+                if (evento.getLocalidadEvento() != 21) {
+                    intent = new Intent(v.getContext(), EditarEventosPresencial.class);
+                    intent.putExtra("UBICACION_EVENTO", evento.getUbicacionEvento());
+                } else {
+                    intent = new Intent(v.getContext(), EditarEventosVirtual.class);
+                    intent.putExtra("PLATAFORMA_EVENTO", evento.getUbicacionEvento());
+                }
+
                 int position = holder.getAdapterPosition();
                 intent.putExtra("ID_EVENTO",evento.getId());
                 intent.putExtra("POSITION", position);
                 intent.putExtra("NOMBRE_EVENTO", evento.getNombreEvento());
                 intent.putExtra("FECHA_EVENTO", evento.getFechaEvento().getDate() + "/" + evento.getFechaEvento().getMonth() + "/" + evento.getFechaEvento().getYear());
-                intent.putExtra("UBICACION_EVENTO", evento.getUbicacionEvento());
+
                 intent.putExtra("COSTO_EVENTO", String.valueOf(evento.getCostoEvento()));
                 intent.putExtra("HORARIO_EVENTO", evento.getHorarioEvento());
                 intent.putExtra("DESCRIPCION_EVENTO", evento.getDescripcionEvento());

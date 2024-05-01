@@ -1,7 +1,5 @@
 package com.example.datastructureproject_groupb;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -9,19 +7,20 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.example.datastructureproject_groupb.db.DbEventos;
 import com.example.datastructureproject_groupb.entidades.Evento;
+import com.example.datastructureproject_groupb.pickers.MostrarDatePicker;
+import com.example.datastructureproject_groupb.pickers.MostrarTimePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -35,23 +34,22 @@ import com.google.android.material.textfield.TextInputEditText;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
 import java.io.IOException;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
-public class CrearEventos extends AppCompatActivity{
-    TextInputEditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horarioEvento, descripcionEvento;
+public class EditarEventosPresencial extends AppCompatActivity {
+    TextInputEditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horaInicioEvento, horaFinalEvento, descripcionEvento;
     MaterialAutoCompleteTextView spinnerLocalidadEvento, spinnerCategoriaEvento;
-    Button cancelarCrearEvento, aceptarCrearEvento;
-    private ArrayAdapter<String> categoriasAdapter, localidadesAdapter;
-    private int dia = 0, mes = -1, ano = 0, horaInicio = -1, horaFinal = -1, minutosInicio = -1, minutosFinal = -1;
+    Button cancelarEditarEvento, aceptarEditarEvento;
+    private ArrayAdapter<String> localidadesAdapter, categoriasAdapter;
+    long idEvento;
+    private int dia, mes, anio, horaInicio, horaFinal, minutosInicio, minutosFinal;
     private GoogleMap gMap;
     private ImageButton botonAceptarUbicacion, botonCancelarUbicación;
     private ConstraintLayout layoutMap;
-
     private LatLng bogota, ubicacionMarker, ubicacionDefinitiva;
     Marker marker;
     private LinearLayout layoutBotones;
@@ -59,7 +57,7 @@ public class CrearEventos extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crear_eventos);
+        setContentView(R.layout.activity_editar_eventos_presencial);
 
         layoutBotones = findViewById(R.id.layoutBotones);
 
@@ -88,16 +86,89 @@ public class CrearEventos extends AppCompatActivity{
         botonCancelarUbicación = findViewById(R.id.imageButtonCancelarUbicacion);
 
         nombreEvento = findViewById(R.id.editTextNombreEvento);
+        nombreEvento.setText(getIntent().getStringExtra("NOMBRE_EVENTO"));
         fechaEvento = findViewById(R.id.editTextFechaEvento);
+
+        String fechaEventoS = getIntent().getStringExtra("FECHA_EVENTO");
+
+        String[] fechaEventoArr = fechaEventoS.split("/");
+
+        dia = Integer.parseInt(fechaEventoArr[0]);
+        mes = Integer.parseInt(fechaEventoArr[1]) - 1;
+        anio = Integer.parseInt(fechaEventoArr[2]);
+
+        String horarioEventoS = getIntent().getStringExtra("HORARIO_EVENTO");
+
+        String[] horarioEventoArr = horarioEventoS.split(" - ");
+
+        String horaInicioS = horarioEventoArr[0], horaFinalS = horarioEventoArr[1];
+
+        if(horaInicioS.charAt(horaInicioS.length() - 4) == 'p')
+            horaInicio = Integer.parseInt(horaInicioS.substring(0, horaInicioS.indexOf(':'))) + 12;
+        else
+            horaInicio = Integer.parseInt(horaInicioS.substring(0, horaInicioS.indexOf(':')));
+
+        if(horaFinalS.charAt(horaFinalS.length() - 4) == 'p')
+            horaFinal = Integer.parseInt(horaFinalS.substring(0, horaFinalS.indexOf(':'))) + 12;
+        else
+            horaFinal = Integer.parseInt(horaFinalS.substring(0, horaFinalS.indexOf(':')));
+
+        minutosInicio = Integer.parseInt(horaInicioS.substring(horaInicioS.indexOf(':') + 1, horaInicioS.indexOf('.') - 1));
+
+        minutosFinal = Integer.parseInt(horaFinalS.substring(horaFinalS.indexOf(':') + 1, horaFinalS.indexOf('.') - 1));
+
+        fechaEvento.setText(getIntent().getStringExtra("FECHA_EVENTO"));
+
+        String[] ubicacionEventoArr = getIntent().getStringExtra("UBICACION_EVENTO").split(" - ");
+
+        double latitud = Double.parseDouble(ubicacionEventoArr[0]), longitud = Double.parseDouble(ubicacionEventoArr[1]);
+
+        ubicacionMarker = new LatLng(latitud, longitud);
+        ubicacionDefinitiva = new LatLng(latitud, longitud);
+
+        Geocoder geocoderInit = new Geocoder(this, Locale.getDefault());
+
+        List<Address> listaDireccionInit = null;
+        try {
+            listaDireccionInit = geocoderInit.getFromLocation(latitud, longitud, 1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        String ubicacionInit = listaDireccionInit.get(0).getAddressLine(0).split(",")[0];
+
         ubicacionEvento = findViewById(R.id.editTextUbicacionEvento);
+        ubicacionEvento.setText(ubicacionInit);
         costoEvento = findViewById(R.id.editTextCostoEvento);
-        horarioEvento = findViewById(R.id.editTextHorarioEvento);
+        costoEvento.setText(getIntent().getStringExtra("COSTO_EVENTO"));
+
+        horaInicioEvento = findViewById(R.id.editTextHoraInicioEvento);
+        horaInicioEvento.setText(horaInicioS);
+        horaFinalEvento = findViewById(R.id.editTextHoraFinalEvento);
+        horaFinalEvento.setText(horaFinalS);
+
         descripcionEvento = findViewById(R.id.editTextDescripcionEvento);
+        descripcionEvento.setText(getIntent().getStringExtra("DESCRIPCION_EVENTO"));
         spinnerLocalidadEvento = findViewById(R.id.spinnerLocalidadEvento);
         spinnerCategoriaEvento = findViewById(R.id.spinnerCategoriaEvento);
 
-        cancelarCrearEvento = findViewById(R.id.botonCancelarCrearEvento);
-        aceptarCrearEvento = findViewById(R.id.botonAceptarCrearEvento);
+        cancelarEditarEvento = findViewById(R.id.botonCancelarEditarEvento);
+        aceptarEditarEvento = findViewById(R.id.botonAceptarEditarEvento);
+
+        localidadesAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.LOCALIDADES);
+        spinnerLocalidadEvento.setAdapter(localidadesAdapter);
+
+        categoriasAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.INTERESES);
+        spinnerCategoriaEvento.setAdapter(categoriasAdapter);
+
+        spinnerLocalidadEvento.setText(Bocu.LOCALIDADES[getIntent().getIntExtra("LOCALIDAD_EVENTO", -1)], false);
+
+
+        spinnerCategoriaEvento.setText(Bocu.INTERESES[getIntent().getIntExtra("CATEGORIA_EVENTO", -1)], false);
+
+
+        cancelarEditarEvento.setOnClickListener(view -> cambiarAEventos());
+        aceptarEditarEvento.setOnClickListener(view -> editarEventoExpositor());
 
         ubicacionEvento.setOnClickListener(view -> mostrarMapa());
         ubicacionEvento.setOnFocusChangeListener((view, hasFocus) -> {
@@ -107,57 +178,61 @@ public class CrearEventos extends AppCompatActivity{
 
         });
 
-        localidadesAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.LOCALIDADES);
-        spinnerLocalidadEvento.setAdapter(localidadesAdapter);
-
-        categoriasAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.INTERESES);
-        spinnerCategoriaEvento.setAdapter(categoriasAdapter);
-
-        cancelarCrearEvento.setOnClickListener(view -> cambiarAEventos());
-        aceptarCrearEvento.setOnClickListener(view -> crearEventoExpositor());
         fechaEvento.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus)
                 mostrarDatePicker();
         });
         fechaEvento.setOnClickListener(view -> mostrarDatePicker());
-        horarioEvento.setOnClickListener(view -> mostrarTimePicker());
-        horarioEvento.setOnFocusChangeListener((view, hasFocus) -> {
+
+        horaInicioEvento.setOnClickListener(view -> mostrarTimePicker(horaInicioEvento));
+        horaInicioEvento.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus)
-                mostrarTimePicker();
+                mostrarTimePicker(horaInicioEvento);
+        });
+
+        horaFinalEvento.setOnClickListener(view -> mostrarTimePicker(horaFinalEvento));
+        horaFinalEvento.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus)
+                mostrarTimePicker(horaFinalEvento);
         });
 
         botonAceptarUbicacion.setOnClickListener(view -> {
+            if (marker != null) {
+                ubicacionDefinitiva = ubicacionMarker;
 
-            ubicacionDefinitiva = ubicacionMarker;
+                if (ubicacionDefinitiva != null) {
 
-            if(ubicacionDefinitiva != null) {
+                    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                    List<Address> listaDireccion = null;
+                    try {
+                        listaDireccion = geocoder.getFromLocation(ubicacionDefinitiva.latitude, ubicacionDefinitiva.longitude, 1);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                List<Address> listaDireccion = null;
-                try {
-                    listaDireccion = geocoder.getFromLocation(ubicacionDefinitiva.latitude, ubicacionDefinitiva.longitude, 1);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
+
+                    ubicacionEvento.setText(ubicacion);
                 }
-
-                String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
-
-                ubicacionEvento.setText(ubicacion);
+                layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
+                marker.remove();
+            } else {
+                Toast.makeText(this, "Seleccione una ubicación", Toast.LENGTH_SHORT).show();
             }
-            layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
-            marker.remove();
 
         });
 
         botonCancelarUbicación.setOnClickListener(view -> {
 
             layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
-            marker.remove();
+            if (marker != null) {
+                marker.remove();
+            }
 
         });
 
-        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapaCrearEventos);
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapaEditarEventos);
 
         supportMapFragment.getMapAsync(googleMap -> {
 
@@ -169,6 +244,8 @@ public class CrearEventos extends AppCompatActivity{
                     new LatLng(4.4625, -74.2346),
                     new LatLng(4.8159, -73.9875)
             );
+
+            Geocoder geocoderAlt = new Geocoder(this, Locale.getDefault());
 
             gMap.setMinZoomPreference(10.0f);
             gMap.setLatLngBoundsForCameraTarget(bogotaBounds);
@@ -217,91 +294,20 @@ public class CrearEventos extends AppCompatActivity{
 
     }
 
-    private void mostrarTimePicker(){
 
-        int horaInicio, horaFinal, minutosInicio, minutosFinal;
-
-        if(horarioEvento.getText().toString().equals("")){
-
-            Calendar calendario = Calendar.getInstance();
-
-            horaInicio = calendario.get(Calendar.HOUR_OF_DAY);
-            horaFinal = calendario.get(Calendar.HOUR_OF_DAY);
-            minutosFinal = calendario.get(Calendar.MINUTE);
-            minutosInicio = calendario.get(Calendar.MINUTE);
-
-        } else {
-
-            horaInicio = this.horaInicio;
-            horaFinal = this.horaFinal;
-            minutosFinal = this.minutosFinal;
-            minutosInicio = this.minutosInicio;
-
-        }
-
-        AtomicReference<String> horario = new AtomicReference<>("");
-
-        TimePickerDialog pickerInicio = new TimePickerDialog(this, (x, y, z) -> {
-
-            this.horaInicio = y;
-
-            this.minutosInicio = z;
-
-            String amOpm = (y > 12)?"p.m.":"a.m.";
-
-            if(z > 9)
-                horario.set(y%12 + ":" + z + amOpm);
-            else
-                horario.set(y%12 + ":0" + z + amOpm);
-
-            TimePickerDialog pickerFinal = new TimePickerDialog(this, (x_alt, y_alt, z_alt) -> {
-
-                this.horaFinal = y_alt;
-                this.minutosFinal = z_alt;
-
-                String amOpm_alt = (y_alt > 12)?"p.m.":"a.m.";
-
-                if(z_alt > 9)
-                    horarioEvento.setText(horario.get() + " - " + (y_alt%12) + ":" + z_alt + amOpm_alt);
-                else
-                    horarioEvento.setText(horario.get() + " - " + (y_alt%12) + ":0" + z_alt + amOpm_alt);
-
-            }, horaFinal, minutosFinal, false);
-            pickerFinal.show();
-
-        }, horaInicio, minutosInicio, false);
-        pickerInicio.show();
-
+    private void mostrarTimePicker(EditText horarioEvento) {
+        MostrarTimePicker timePicker = new MostrarTimePicker(
+                this,
+                horarioEvento,
+                this.horaInicio,
+                this.horaFinal,
+                this.horaInicio,
+                this.minutosFinal
+        );
     }
 
     private void mostrarDatePicker(){
-
-        int dia, mes, ano;
-
-        if(fechaEvento.getText().toString().equals("")){
-            Calendar calendario = Calendar.getInstance();
-            dia = calendario.get(Calendar.DAY_OF_MONTH);
-            mes = calendario.get(Calendar.MONTH);
-            ano = calendario.get(Calendar.YEAR);
-        } else {
-
-            dia = this.dia;
-            mes = this.mes;
-            ano = this.ano;
-
-        }
-
-        DatePickerDialog picker = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
-
-                this.dia = dayOfMonth;
-                this.mes = month;
-                this.ano = year;
-
-                fechaEvento.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
-
-        }, ano, mes, dia);
-        picker.show();
-
+        MostrarDatePicker datePicker = new MostrarDatePicker(this, this.fechaEvento, this.dia, this.mes, this.anio);
     }
 
     public void cambiarAEventos() {
@@ -311,7 +317,7 @@ public class CrearEventos extends AppCompatActivity{
         finishAffinity();
     }
 
-    public void crearEventoExpositor(){
+    public void editarEventoExpositor(){
         VerificarInformacionRegistro(new View(this));
     }
 
@@ -320,7 +326,7 @@ public class CrearEventos extends AppCompatActivity{
         boolean flag = true;
         String mensajeError = "";
 
-        if(nombreEvento.getText().toString().trim().equals("")) {
+        if (nombreEvento.getText().toString().trim().equals("")) {
             mensajeError += "No ha ingresado nombre valido\n";
             flag = false;
         }
@@ -328,11 +334,11 @@ public class CrearEventos extends AppCompatActivity{
         String verificarFechaEvento = this.fechaEvento.getText().toString().trim();
 
         String[] verificarTamanoFechaEvento = verificarFechaEvento.split("/");
-        if(verificarFechaEvento.equals("") || verificarTamanoFechaEvento.length  != 3) {
+        if (verificarFechaEvento.equals("") || verificarTamanoFechaEvento.length != 3) {
             mensajeError += "No ha ingresado fecha valida\n";
             flag = false;
         }
-        if(ubicacionEvento.getText().toString().trim().equals("")) {
+        if (ubicacionEvento.getText().toString().trim().equals("")) {
             mensajeError += "No ha ingresado una ubicación valida\n";
             flag = false;
         }
@@ -341,31 +347,34 @@ public class CrearEventos extends AppCompatActivity{
             flag = false;
         }
         String verificarCostoEvento = costoEvento.getText().toString().trim();
-        if(verificarCostoEvento.equals("") || !TextUtils.isDigitsOnly(verificarCostoEvento)) {
+        if (verificarCostoEvento.equals("") || !TextUtils.isDigitsOnly(verificarCostoEvento)) {
             mensajeError += "No ha ingresado un costo valido\n";
             flag = false;
         }
-        if(horarioEvento.getText().toString().trim().equals("")) {
-            mensajeError += "No ha ingresado un horario valido\n";
+        if(horaInicioEvento.getText().toString().trim().equals("")) {
+            mensajeError += "No ha ingresado hora de inicio\n";
+            flag = false;
+        }
+        if(horaFinalEvento.getText().toString().trim().equals("")) {
+            mensajeError += "No ha ingresado hora final\n";
             flag = false;
         }
         if(spinnerCategoriaEvento.getText().toString().equals("") || categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString()) == -1) {
             mensajeError += "Seleccione un Interes\n";
             flag = false;
         }
-        if(descripcionEvento.getText().toString().trim().equals("")) {
+        if (descripcionEvento.getText().toString().trim().equals("")) {
             mensajeError += "No ha ingresado una descripción valida\n";
             flag = false;
         }
 
         Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-
         if(flag)
-            CrearEvento(view);
+            EditarEvento(view);
         else
             Toast.makeText(this, mensajeError, Toast.LENGTH_SHORT).show();
     }
-    public void CrearEvento(View view) {
+    public void EditarEvento(View view) {
         String nombreEvento = this.nombreEvento.getText().toString().trim();
         String fechaEvento = this.fechaEvento.getText().toString().trim();
 
@@ -376,47 +385,51 @@ public class CrearEventos extends AppCompatActivity{
 
         String ubicacionEvento = ubicacionDefinitiva.latitude + " - " + ubicacionDefinitiva.longitude;
         int costoEvento = Integer.parseInt(this.costoEvento.getText().toString());
-        String horarioEvento = this.horarioEvento.getText().toString();
+        String horarioEvento = this.horaInicioEvento.getText().toString() + " - " + this.horaFinalEvento.getText().toString();
         String descripcionEvento = this.descripcionEvento.getText().toString();
         int localidad = localidadesAdapter.getPosition(spinnerLocalidadEvento.getText().toString());
         int categoria = categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString());
 
-        long newId = new DbEventos(this).insertarEvento(nombreEvento,
-                AnoEvento,
-                mesEvento,
-                diaEvento,
-                ubicacionEvento,
-                costoEvento,
-                horarioEvento,
-                descripcionEvento,
-                localidad,
-                categoria,
-                Bocu.usuario.getCorreoElectronico());
-
-        Evento evento = new Evento(
-                this,
-                newId,
-                nombreEvento,
-                new Date(AnoEvento, mesEvento, diaEvento),
-                ubicacionEvento,
-                localidad,
-                costoEvento,
-                horarioEvento,
-                categoria,
-                descripcionEvento,
-                Bocu.usuario.getCorreoElectronico()
-        );
+        int position = getIntent().getIntExtra("POSITION", -1);
+        idEvento = getIntent().getLongExtra("ID_EVENTO",-1);
 
         try {
-            Bocu.eventosExpositor.insert(evento);
-            Bocu.posicionesEventosExpositor.insert(Bocu.eventos.size());
-            Bocu.eventos.insert(evento);
 
-            Toast.makeText(this, "Evento creado con éxito", Toast.LENGTH_SHORT).show();
+            Evento evento = new Evento(
+                    this,
+                    idEvento,
+                    nombreEvento,
+                    new Date(AnoEvento, mesEvento, diaEvento),
+                    ubicacionEvento,
+                    localidad,
+                    costoEvento,
+                    horarioEvento,
+                    categoria,
+                    descripcionEvento,
+                    Bocu.usuario.getCorreoElectronico()
+            );
+
+            Bocu.eventosExpositor.set(position, evento);
+            Bocu.eventos.set(Bocu.posicionesEventosExpositor.get(position), evento);
+            new DbEventos(this).editarEvento(nombreEvento,
+                    AnoEvento,
+                    mesEvento,
+                    diaEvento,
+                    ubicacionEvento,
+                    costoEvento,
+                    horarioEvento,
+                    descripcionEvento,
+                    localidad,
+                    categoria,
+                    String.valueOf(idEvento),
+                    Bocu.usuario.getCorreoElectronico());
+
+            Toast.makeText(this, "Evento editado con éxito", Toast.LENGTH_SHORT).show();
             cambiarAEventos();
 
         } catch(Exception e){
-            Toast.makeText(this, "Error al crear el evento", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error al editar el evento", Toast.LENGTH_SHORT).show();
         }
+
     }
 }
