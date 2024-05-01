@@ -175,25 +175,25 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/botonRegistratseRegistroExpositor"
+            android:id="@+id/botonCancelarRegistroExpositor"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:autoSizeMaxTextSize="18sp"
             android:layout_marginRight="10dp"
             style="@style/Theme.DataStructureProjectGroupB.Botones"
-            android:text="Registrarse"
+            android:text="Cancelar"
             android:textSize="8sp" />
 
         <Button
-            android:id="@+id/botonCancelarRegistroExpositor"
+            android:id="@+id/botonRegistratseRegistroExpositor"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:autoSizeMaxTextSize="18sp"
             android:layout_marginLeft="10dp"
             style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:layout_height="match_parent"
-            android:text="Cancelar"
+            android:text="Registrarse"
             android:textSize="8sp" />
 
     </LinearLayout>
