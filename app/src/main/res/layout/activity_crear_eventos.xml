@@ -237,7 +237,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="20dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageButtonCancelarUbicacion"
@@ -248,7 +248,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:scaleType="fitXY"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -269,6 +269,9 @@
             android:id="@+id/botonCancelarCrearEvento"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:autoSizeMaxTextSize="18sp"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
+            android:layout_marginRight="10dp"
             android:layout_height="match_parent"
             android:text="Cancelar"
             android:textSize="8sp"/>
@@ -278,6 +281,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:autoSizeMaxTextSize="18sp"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
+            android:layout_marginLeft="10dp"
             android:text="Aceptar"
             android:textSize="8sp"/>
     </LinearLayout>

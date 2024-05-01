@@ -1,6 +1,7 @@
 package com.example.datastructureproject_groupb;
 
 import android.os.Bundle;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,11 +15,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MostrarUbicacionEvento extends AppCompatActivity {
 
     private GoogleMap gMap;
+    private ImageButton botonCancelar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostrar_ubicacion_evento);
+
+        botonCancelar = findViewById(R.id.imageButtonCancelar);
+
+        botonCancelar.setOnClickListener(view -> finish());
 
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapaMostrarEventos);
 

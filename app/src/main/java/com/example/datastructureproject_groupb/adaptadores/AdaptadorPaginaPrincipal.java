@@ -3,9 +3,11 @@ package com.example.datastructureproject_groupb.adaptadores;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -105,10 +107,32 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
 
                 builder.show();
 
+                if(PaginaPrincipalFragment.historialEventos.isEmpty())
+                    showFadeInAnimation(PaginaPrincipalFragment.botonHistorial, 500);
+
+
                 PaginaPrincipalFragment.historialEventos.push(evento);
 
             });
 
         }
     }
+
+    private void showFadeInAnimation(View view, long duration){
+
+        AlphaAnimation fadeIn = new AlphaAnimation(0f, 1f);
+        fadeIn.setDuration(duration);
+
+        view.clearAnimation();
+        view.startAnimation(fadeIn);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.setVisibility(View.VISIBLE);
+            }
+        }, duration);
+
+    }
+
 }

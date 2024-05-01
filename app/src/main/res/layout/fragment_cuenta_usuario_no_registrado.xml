@@ -42,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
+                android:fontFamily="@font/jost_light"
                 android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -66,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:maxLines="1"
+                android:fontFamily="@font/jost_light"
                 android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -80,7 +82,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:layout_marginHorizontal="40dp"
-
+        style="@style/Theme.DataStructureProjectGroupB.Botones"
+        android:autoSizeMaxTextSize="20sp"
         android:text="Acceder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,6 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.5"
+        android:fontFamily="@font/jost_regular"
         android:gravity="center"
         android:autoSizeTextType="uniform"
         android:layout_marginHorizontal="40dp"
@@ -110,6 +114,9 @@
             android:id="@+id/botonCrearCuentaUsuario"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
+            android:autoSizeMaxTextSize="18sp"
             android:layout_weight="1"
             android:text="Usuario"
             android:textSize="10sp" />
@@ -119,6 +126,9 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
+            android:layout_marginLeft="10dp"
+            android:autoSizeMaxTextSize="18sp"
             android:text="Expositor"
             android:textSize="10sp" />
     </LinearLayout>

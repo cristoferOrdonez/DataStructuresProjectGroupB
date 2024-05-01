@@ -92,6 +92,9 @@
         android:id="@+id/botonMostrarUbicacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Theme.DataStructureProjectGroupB.Botones"
+        android:autoSizeMaxTextSize="14sp"
+        android:layout_margin="10dp"
         android:text="Mostrar ubicacion en el mapa" />
 
 

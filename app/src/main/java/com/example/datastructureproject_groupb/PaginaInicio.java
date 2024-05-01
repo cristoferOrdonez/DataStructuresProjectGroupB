@@ -60,7 +60,6 @@ public class PaginaInicio extends AppCompatActivity{
 
         if(Bocu.estadoUsuario == Bocu.SIN_REGISTRAR)
             menu.getMenu().removeItem(R.id.menuEventos);
-
     }
 
     private void initView(){

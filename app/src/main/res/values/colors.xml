@@ -6,4 +6,5 @@
     <color name="transparente">#00FFFFFF</color>
     <color name="gris_claro_hint">#222222</color>
     <color name="gris_claro_background_edit_text">#EAEAEA</color>
+    <color name="gris_claro_boton_presionado">#8E8E8E</color>
 </resources>

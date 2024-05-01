@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -122,7 +123,7 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
     public class EventoViewHolder extends RecyclerView.ViewHolder {
 
         TextView textViewTituloEvento, textViewFechaEvento,textViewHorarioEvento, textViewLugarEvento, textViewCostoEvento, textViewTipoEvento;
-        Button botonEditarEvento, botonEliminarEvento;
+        ImageButton botonEditarEvento, botonEliminarEvento;
 
         public EventoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -134,8 +135,8 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
             textViewCostoEvento = itemView.findViewById(R.id.textViewCostoEventoPaginaEventos);
             textViewTipoEvento = itemView.findViewById(R.id.textViewTipoEventoPaginaEventos);
 
-            botonEditarEvento = itemView.findViewById(R.id.botonEditarEventos);
-            botonEliminarEvento = itemView.findViewById(R.id.botonEliminarEventos);
+            botonEditarEvento = itemView.findViewById(R.id.imageButtonEditarEvento);
+            botonEliminarEvento = itemView.findViewById(R.id.imageButtonEliminarEvento);
         }
     }
 }

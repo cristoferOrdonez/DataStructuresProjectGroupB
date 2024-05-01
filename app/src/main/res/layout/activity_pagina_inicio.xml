@@ -10,11 +10,13 @@
         android:id="@+id/menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingVertical="4dp"
         android:background="@color/cian_titulo_evento_pagina_principal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_principal" />
+        app:menu="@menu/menu_principal"
+        app:labelVisibilityMode="selected" />
 
     <FrameLayout
         android:id="@+id/frameContenedor"

@@ -11,9 +11,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -32,7 +34,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 public class PaginaPrincipalFragment extends Fragment {
 
     public static StackLinkedList<Evento> historialEventos;
-    private ImageButton botonHistorial;
+    public static ImageButton botonHistorial;
     private RecyclerView listaEventos;
 
     public PaginaPrincipalFragment() {
@@ -66,10 +68,13 @@ public class PaginaPrincipalFragment extends Fragment {
         listaEventos.setAdapter(adapter);
 
         botonHistorial = root.findViewById(R.id.imageButtonHistorial);
+        botonHistorial.setVisibility(View.INVISIBLE);
 
         botonHistorial.setOnClickListener(i -> {
             if(!historialEventos.isEmpty())
                 mostrarDialogHistorial(historialEventos.pop());
+            if(historialEventos.isEmpty())
+                showFadeOutAnimation(botonHistorial, 500);
         });
 
         return root;
@@ -108,6 +113,24 @@ public class PaginaPrincipalFragment extends Fragment {
         builder.setView(view);
 
         builder.show();
+
+    }
+
+    private void showFadeOutAnimation(View view, long duration){
+
+        AlphaAnimation fadeOut = new AlphaAnimation(1f, 0f);
+        fadeOut.setStartOffset(0);
+        fadeOut.setDuration(duration);
+
+        view.clearAnimation();
+        view.startAnimation(fadeOut);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.setVisibility(View.INVISIBLE);
+            }
+        }, duration);
 
     }
 
