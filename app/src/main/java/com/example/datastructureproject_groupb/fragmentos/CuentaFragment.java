@@ -751,7 +751,7 @@ public class CuentaFragment extends Fragment {
         return null;
     }
 
-    private void establecerEventosExpositor(){
+    public static void establecerEventosExpositor(){
         Bocu.eventosExpositor = new DynamicUnsortedList<>();
         Bocu.posicionesEventosExpositor = new DynamicUnsortedList<>();
 
