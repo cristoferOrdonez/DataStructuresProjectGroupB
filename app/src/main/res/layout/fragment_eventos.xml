@@ -26,6 +26,7 @@
             android:layout_height="60dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:visibility="invisible"
             app:backgroundTint="@color/black"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="fitXY"

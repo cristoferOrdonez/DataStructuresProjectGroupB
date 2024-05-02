@@ -40,15 +40,19 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         layoutBotones = findViewById(R.id.layoutBotones);
 
         KeyboardVisibilityEvent.setEventListener(this, isOpen -> {
-            if(isOpen)
-                layoutBotones.setLayoutParams(new LinearLayout.LayoutParams(0, 0, 0));
-            else {
+            if(isOpen) {
 
-                LinearLayout.LayoutParams nuevoParametro = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1);
-                nuevoParametro.leftMargin = 30;
-                nuevoParametro.rightMargin = 30;
-                nuevoParametro.bottomMargin = 40;
-                nuevoParametro.topMargin = 40;
+                LinearLayout.LayoutParams nuevoParametro = (LinearLayout.LayoutParams) layoutBotones.getLayoutParams();
+                nuevoParametro.width = 0;
+                nuevoParametro.weight = 0;
+                layoutBotones.setLayoutParams(nuevoParametro);
+
+            } else {
+
+                LinearLayout.LayoutParams nuevoParametro = (LinearLayout.LayoutParams) layoutBotones.getLayoutParams();
+
+                nuevoParametro.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                nuevoParametro.weight = 1.9f;
 
                 layoutBotones.setLayoutParams(nuevoParametro);
 

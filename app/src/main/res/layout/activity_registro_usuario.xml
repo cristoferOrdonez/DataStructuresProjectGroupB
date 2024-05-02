@@ -187,14 +187,6 @@
                     app:dropDownBackgroundTint="@color/white" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/spinnerLocalidadRegistroUsuario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"
-                android:textColor="@color/black"
-                app:dropDownBackgroundTint="@color/white" />
-
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
@@ -206,6 +198,15 @@
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                 app:endIconTint="@color/black">
 
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/spinnerLocalidadRegistroUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:textColor="@color/black"
+                    app:dropDownBackgroundTint="@color/white" />
+
+
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -215,9 +216,7 @@
         android:id="@+id/layoutBotones"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginVertical="30dp"
+        android:layout_weight="1.9"
         android:orientation="horizontal">
 
         <Button
@@ -226,6 +225,8 @@
             android:layout_weight="1"
             android:autoSizeMaxTextSize="18sp"
             android:layout_marginRight="10dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginVertical="30dp"
             style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:layout_height="match_parent"
             android:text="Cancelar"
@@ -238,6 +239,8 @@
             android:layout_weight="1"
             android:autoSizeMaxTextSize="18sp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginVertical="30dp"
             style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:text="Registrarse"
             android:textSize="8sp" />

@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageButton;
 
 import com.example.datastructureproject_groupb.Bocu;
@@ -50,6 +52,7 @@ public class EventosFragment extends Fragment {
 
         botonCrearEvento.setOnClickListener(view -> mostrarDialogo());
 
+        showFadeInAnimation(botonCrearEvento, 500);
 
         listaEventos = root.findViewById(R.id.RecyclerViewEventosPaginaEventos);
 
@@ -92,6 +95,23 @@ public class EventosFragment extends Fragment {
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void showFadeInAnimation(View view, long duration){
+
+        AlphaAnimation fadeIn = new AlphaAnimation(0f, 1f);
+        fadeIn.setDuration(duration);
+
+        view.clearAnimation();
+        view.startAnimation(fadeIn);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.setVisibility(View.VISIBLE);
+            }
+        }, duration);
+
     }
 
 }
