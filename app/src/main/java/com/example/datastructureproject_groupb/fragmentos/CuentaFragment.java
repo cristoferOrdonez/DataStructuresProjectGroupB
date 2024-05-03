@@ -1,5 +1,7 @@
 package com.example.datastructureproject_groupb.fragmentos;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -117,7 +119,7 @@ public class CuentaFragment extends Fragment {
         botonEliminar= root[0].findViewById(R.id.BotonEliminarCuentaExpositor);
 
         botonCerrarSesion.setOnClickListener(view -> dbSesion.cerrarSesion());
-        botonEliminar.setOnClickListener(view->eliminarCuentaUsuario((UsuarioComun)Bocu.usuario));
+        botonEliminar.setOnClickListener(view->eliminarCuentaExpositor((Artista) Bocu.usuario));
 
         botonCancelar= root[0].findViewById(R.id.buttonCancelarExpositor);
         botonGuardar= root[0].findViewById(R.id.buttonGuardarExpositor);
@@ -317,9 +319,19 @@ public class CuentaFragment extends Fragment {
             }
         }*/
         DbExpositor dbExpositor = new DbExpositor(getContext());
-        dbExpositor.eliminarExpositor(artista.getCorreoElectronico());
+        Boolean d=dbExpositor.eliminarExpositor(artista.getCorreoElectronico());
+        if (d){
+            Toast.makeText(getContext(), "usuario eliminado", Toast.LENGTH_SHORT);
+        }
         DbSesion dbSesion = new DbSesion(getContext());
         dbSesion.cerrarSesion();
+
+        Intent intent = new Intent(getContext(), PaginaInicio.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 100, pendingIntent);
+        System.exit(0);
 
     }
     public void eliminarCuentaUsuario(UsuarioRegistrado usuarioRegistrado){
@@ -330,9 +342,19 @@ public class CuentaFragment extends Fragment {
             }
         }*/
         DbUsuariosComunes dbUsuariosComunes = new DbUsuariosComunes(getContext());
-        dbUsuariosComunes.eliminarUsuario(usuarioRegistrado.getCorreoElectronico());
+        Boolean d= dbUsuariosComunes.eliminarUsuario(usuarioRegistrado.getCorreoElectronico());
+        if (d){
+            Toast.makeText(getContext(), "usuario eliminado", Toast.LENGTH_SHORT);
+        }
         DbSesion dbSesion = new DbSesion(getContext());
         dbSesion.cerrarSesion();
+
+        Intent intent = new Intent(getContext(), PaginaInicio.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 100, pendingIntent);
+        System.exit(0);
 
     }
 
