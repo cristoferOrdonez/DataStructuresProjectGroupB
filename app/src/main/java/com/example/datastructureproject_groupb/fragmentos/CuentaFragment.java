@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,8 @@ import com.example.datastructureproject_groupb.entidades.Artista;
 import com.example.datastructureproject_groupb.entidades.UsuarioComun;
 import com.example.datastructureproject_groupb.entidades.UsuarioRegistrado;
 
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +45,7 @@ public class CuentaFragment extends Fragment {
     Spinner spinnerLocalidad, spinnerIntereses;
     ArrayAdapter<String> localidadesAdapter;
     ArrayAdapter<String> interesesAdapter;
+    LinearLayout linearLayoutBotonesCuenta, linearLayoutBotonesEdicion;
 
     public CuentaFragment() {
     }
@@ -75,11 +79,44 @@ public class CuentaFragment extends Fragment {
     }
 
     private View establecerContenidoExpositor(LayoutInflater inflater, ViewGroup container){
-        final View[] root = {inflater.inflate(R.layout.fragment_cuenta_expositor, container, false)};
+        View root = inflater.inflate(R.layout.fragment_cuenta_expositor, container, false);
 
-        nombreAcceder = root[0].findViewById(R.id.editTextNombre);
-        correoElectronicoAcceder = root[0].findViewById(R.id.editTextCorreo);
-        contrasenaAcceder = root[0].findViewById(R.id.editTextContrasena);
+        nombreAcceder = root.findViewById(R.id.editTextNombre);
+        correoElectronicoAcceder = root.findViewById(R.id.editTextCorreo);
+        contrasenaAcceder = root.findViewById(R.id.editTextContrasena);
+
+        linearLayoutBotonesCuenta = root.findViewById(R.id.layoutBotonesCuenta);
+        linearLayoutBotonesEdicion = root.findViewById(R.id.layoutBotonesEdicion);
+
+        spinnerLocalidad = root.findViewById(R.id.spinnerLocalidad);
+        spinnerIntereses = root.findViewById(R.id.spinnerIntereses);
+
+        botonEditar= root.findViewById(R.id.BotonEditarExpositor);
+        botonCerrarSesion= root.findViewById(R.id.BotonCerrarSesionExpositor);
+        botonEliminar= root.findViewById(R.id.BotonEliminarCuentaExpositor);
+
+        botonCancelar = root.findViewById(R.id.buttonCancelarExpositor);
+        botonGuardar = root.findViewById(R.id.buttonGuardarExpositor);
+
+        KeyboardVisibilityEvent.setEventListener(getActivity(), isOpen -> {
+            if(isOpen) {
+
+                LinearLayout.LayoutParams nuevoParametro = (LinearLayout.LayoutParams) linearLayoutBotonesEdicion.getLayoutParams();
+                nuevoParametro.width = 0;
+                nuevoParametro.weight = 0;
+                linearLayoutBotonesEdicion.setLayoutParams(nuevoParametro);
+
+            } else {
+
+                LinearLayout.LayoutParams nuevoParametro = (LinearLayout.LayoutParams) linearLayoutBotonesEdicion.getLayoutParams();
+
+                nuevoParametro.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                nuevoParametro.weight = 1.9f;
+
+                linearLayoutBotonesEdicion.setLayoutParams(nuevoParametro);
+
+            }
+        });
 
         nombreAcceder.setText(((Artista)Bocu.usuario).getNombreArtista());
         correoElectronicoAcceder.setText(((Artista)Bocu.usuario).getCorreoElectronico());
@@ -89,43 +126,9 @@ public class CuentaFragment extends Fragment {
         correoElectronicoAcceder.setEnabled(false);
         contrasenaAcceder.setEnabled(false);
 
-        spinnerLocalidad = root[0].findViewById(R.id.spinnerLocalidad);
-        spinnerIntereses = root[0].findViewById(R.id.spinnerIntereses);
-
-        botonEditar= root[0].findViewById(R.id.BotonEditarExpositor);
-        botonCerrarSesion= root[0].findViewById(R.id.BotonCerrarSesionExpositor);
-        botonEliminar= root[0].findViewById(R.id.BotonEliminarCuentaExpositor);
-        DbSesion dbSesion=new DbSesion(getContext());
+        DbSesion dbSesion = new DbSesion(getContext());
         botonCerrarSesion.setOnClickListener(view -> dbSesion.cerrarSesion());
-
         botonEliminar.setOnClickListener(view->eliminarCuentaExpositor((Artista)Bocu.usuario));
-
-
-        nombreAcceder.setText(((Artista)Bocu.usuario).getNombreArtista());
-        correoElectronicoAcceder.setText(((Artista)Bocu.usuario).getCorreoElectronico());
-        contrasenaAcceder.setText(((Artista)Bocu.usuario).getContrasena());
-
-        nombreAcceder.setEnabled(false);
-        correoElectronicoAcceder.setEnabled(false);
-        contrasenaAcceder.setEnabled(false);
-
-        spinnerLocalidad = root[0].findViewById(R.id.spinnerLocalidad);
-        spinnerIntereses = root[0].findViewById(R.id.spinnerIntereses);
-
-        botonEditar= root[0].findViewById(R.id.BotonEditarExpositor);
-        botonCerrarSesion= root[0].findViewById(R.id.BotonCerrarSesionExpositor);
-        botonEliminar= root[0].findViewById(R.id.BotonEliminarCuentaExpositor);
-
-        botonCerrarSesion.setOnClickListener(view -> dbSesion.cerrarSesion());
-        botonEliminar.setOnClickListener(view->eliminarCuentaUsuario((UsuarioComun)Bocu.usuario));
-
-        botonCancelar= root[0].findViewById(R.id.buttonCancelarExpositor);
-        botonGuardar= root[0].findViewById(R.id.buttonGuardarExpositor);
-
-        botonCancelar.setVisibility(View.INVISIBLE);
-        botonGuardar.setVisibility(View.INVISIBLE);
-        botonCancelar.setEnabled(false);
-        botonGuardar.setEnabled(false);
 
         localidadesAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
             @Override
@@ -152,41 +155,41 @@ public class CuentaFragment extends Fragment {
         interesesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerIntereses.setAdapter(interesesAdapter);
 
-        botonEditar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nombreAcceder.setEnabled(true);
-                correoElectronicoAcceder.setEnabled(true);
-                contrasenaAcceder.setEnabled(true);
-                spinnerLocalidad.setEnabled(true);
-                spinnerIntereses.setEnabled(true);
+        botonEditar.setOnClickListener(view -> {
 
-                botonGuardar.setVisibility(View.VISIBLE);
-                botonGuardar.setEnabled(true);
-                botonCancelar.setVisibility(View.VISIBLE);
-                botonCancelar.setEnabled(true);
+            nombreAcceder.setEnabled(true);
+            correoElectronicoAcceder.setEnabled(true);
+            contrasenaAcceder.setEnabled(true);
+            spinnerLocalidad.setEnabled(true);
+            spinnerIntereses.setEnabled(true);
 
-                botonEditar.setEnabled(false);
-                botonCerrarSesion.setEnabled(false);
-                botonEliminar.setEnabled(false);
-                botonEditar.setVisibility(View.INVISIBLE);
-                botonCerrarSesion.setVisibility(View.INVISIBLE);
-                botonEliminar.setVisibility(View.INVISIBLE);
-            }
+            LinearLayout.LayoutParams nuevoParametroEdicion = (LinearLayout.LayoutParams) linearLayoutBotonesEdicion.getLayoutParams();
+            nuevoParametroEdicion.weight = 1.9f;
+            linearLayoutBotonesEdicion.setLayoutParams(nuevoParametroEdicion);
+
+            LinearLayout.LayoutParams nuevoParametroCuenta = (LinearLayout.LayoutParams) linearLayoutBotonesCuenta.getLayoutParams();
+            nuevoParametroCuenta.weight = 0;
+            linearLayoutBotonesCuenta.setLayoutParams(nuevoParametroCuenta);
+
         });
 
 
-        botonCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        botonCancelar.setOnClickListener(view -> {
 
-                View rootView = inflater.inflate(R.layout.fragment_cuenta_expositor, container, false);
-                ViewGroup parent = (ViewGroup) root[0].getParent();
-                int index = parent.indexOfChild(root[0]);
-                parent.removeView(root[0]);
-                root[0] = establecerContenidoExpositor(inflater, container);
-                parent.addView(root[0], index);
-            }
+            LinearLayout.LayoutParams nuevoParametroEdicion = (LinearLayout.LayoutParams) linearLayoutBotonesEdicion.getLayoutParams();
+            nuevoParametroEdicion.weight = 0;
+            linearLayoutBotonesEdicion.setLayoutParams(nuevoParametroEdicion);
+
+            LinearLayout.LayoutParams nuevoParametroCuenta = (LinearLayout.LayoutParams) linearLayoutBotonesCuenta.getLayoutParams();
+            nuevoParametroCuenta.weight = 4.4f;
+            linearLayoutBotonesCuenta.setLayoutParams(nuevoParametroCuenta);
+
+            nombreAcceder.setEnabled(false);
+            correoElectronicoAcceder.setEnabled(false);
+            contrasenaAcceder.setEnabled(false);
+            spinnerIntereses.setEnabled(false);
+            spinnerLocalidad.setEnabled(false);
+
         });
         String correoInicial = correoElectronicoAcceder.getText().toString().trim();
 
@@ -243,44 +246,27 @@ public class CuentaFragment extends Fragment {
 
                     Toast.makeText(getContext(), "Los cambios se guardaron correctamente", Toast.LENGTH_SHORT).show();
 
+                    LinearLayout.LayoutParams nuevoParametroEdicion = (LinearLayout.LayoutParams) linearLayoutBotonesEdicion.getLayoutParams();
+                    nuevoParametroEdicion.weight = 0;
+                    linearLayoutBotonesEdicion.setLayoutParams(nuevoParametroEdicion);
 
-                    View rootView = inflater.inflate(R.layout.fragment_cuenta_expositor, container, false);
-                    ViewGroup parent = (ViewGroup) root[0].getParent();
-                    int index = parent.indexOfChild(root[0]);
-                    parent.removeView(root[0]);
-                    root[0] = establecerContenidoExpositor(inflater, container);
-                    parent.addView(root[0], index);
+                    LinearLayout.LayoutParams nuevoParametroCuenta = (LinearLayout.LayoutParams) linearLayoutBotonesCuenta.getLayoutParams();
+                    nuevoParametroCuenta.weight = 4.4f;
+                    linearLayoutBotonesCuenta.setLayoutParams(nuevoParametroCuenta);
+
+                    nombreAcceder.setEnabled(false);
+                    correoElectronicoAcceder.setEnabled(false);
+                    contrasenaAcceder.setEnabled(false);
+                    spinnerIntereses.setEnabled(false);
+                    spinnerLocalidad.setEnabled(false);
+
+                } else {
+                    Toast.makeText(getContext(), mensajeError, Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
-
-        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setTextColor(getResources().getColor(R.color.black));
-                return view;
-            }
-        };
-
-        localidadesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerLocalidad.setAdapter(localidadesAdapter);
-
-        ArrayAdapter<String> interesesAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Bocu.INTERESES) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setTextColor(getResources().getColor(R.color.black));
-                return view;
-            }
-        };
-        interesesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerIntereses.setAdapter(interesesAdapter);
-
         spinnerLocalidad.setSelection(((Artista)Bocu.usuario).getLocalidad());
 
         spinnerIntereses.setSelection(((Artista)Bocu.usuario).getTipoDeEvento());
@@ -288,25 +274,7 @@ public class CuentaFragment extends Fragment {
         spinnerIntereses.setEnabled(false);
         spinnerLocalidad.setEnabled(false);
 
-
-
-
-
-        localidadesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerLocalidad.setAdapter(localidadesAdapter);
-
-
-        interesesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerIntereses.setAdapter(interesesAdapter);
-
-        spinnerLocalidad.setSelection(((Artista)Bocu.usuario).getLocalidad());
-
-        spinnerIntereses.setSelection(((Artista)Bocu.usuario).getTipoDeEvento());
-
-        spinnerIntereses.setEnabled(false);
-        spinnerLocalidad.setEnabled(false);
-
-        return root[0];
+        return root;
 
     }
     public void eliminarCuentaExpositor(Artista artista){
@@ -337,13 +305,46 @@ public class CuentaFragment extends Fragment {
     }
 
     private View establecerContenidoUsuarioComun(LayoutInflater inflater, ViewGroup container){
-        final View[] root = {inflater.inflate(R.layout.fragment_cuenta_usuario_comun, container, false)};
+        View root = inflater.inflate(R.layout.fragment_cuenta_usuario_comun, container, false);
 
-        nombreAcceder = root[0].findViewById(R.id.editTextNombre);
-        correoElectronicoAcceder = root[0].findViewById(R.id.editTextCorreo);
-        contrasenaAcceder = root[0].findViewById(R.id.editTextContrasena);
-        apellidoAcceder = root[0].findViewById(R.id.editTextApellido);
-        edadAcceder = root[0].findViewById(R.id.editTextEdad);
+        nombreAcceder = root.findViewById(R.id.editTextNombre);
+        correoElectronicoAcceder = root.findViewById(R.id.editTextCorreo);
+        contrasenaAcceder = root.findViewById(R.id.editTextContrasena);
+        apellidoAcceder = root.findViewById(R.id.editTextApellido);
+        edadAcceder = root.findViewById(R.id.editTextEdad);
+
+        linearLayoutBotonesCuenta = root.findViewById(R.id.layoutBotonesCuenta);
+        linearLayoutBotonesEdicion = root.findViewById(R.id.layoutBotonesEdicion);
+
+        spinnerLocalidad = root.findViewById(R.id.spinnerLocalidad);
+        spinnerIntereses = root.findViewById(R.id.spinnerIntereses);
+
+        botonEditar= root.findViewById(R.id.BotonEditarUsuario);
+        botonCerrarSesion= root.findViewById(R.id.BotonCerrarSesion);
+        botonEliminar= root.findViewById(R.id.BotonEliminarCuenta);
+
+        botonCancelar= root.findViewById(R.id.buttonCancelarVistaEditarUsuario);
+        botonGuardar= root.findViewById(R.id.buttonGuardarVistaEditarUsuario);
+
+        KeyboardVisibilityEvent.setEventListener(getActivity(), isOpen -> {
+            if(isOpen) {
+
+                LinearLayout.LayoutParams nuevoParametro = (LinearLayout.LayoutParams) linearLayoutBotonesEdicion.getLayoutParams();
+                nuevoParametro.width = 0;
+                nuevoParametro.weight = 0;
+                linearLayoutBotonesEdicion.setLayoutParams(nuevoParametro);
+
+            } else {
+
+                LinearLayout.LayoutParams nuevoParametro = (LinearLayout.LayoutParams) linearLayoutBotonesEdicion.getLayoutParams();
+
+                nuevoParametro.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                nuevoParametro.weight = 1.9f;
+
+                linearLayoutBotonesEdicion.setLayoutParams(nuevoParametro);
+
+            }
+        });
 
         nombreAcceder.setText(((UsuarioComun)Bocu.usuario).getNombres());
         apellidoAcceder.setText(((UsuarioComun)Bocu.usuario).getApellidos());
@@ -357,23 +358,9 @@ public class CuentaFragment extends Fragment {
         apellidoAcceder.setEnabled(false);
         edadAcceder.setEnabled(false);
 
-        spinnerLocalidad = root[0].findViewById(R.id.spinnerLocalidad);
-        spinnerIntereses = root[0].findViewById(R.id.spinnerIntereses);
-
-        botonEditar= root[0].findViewById(R.id.BotonEditarUsuario);
-        botonCerrarSesion= root[0].findViewById(R.id.BotonCerrarSesion);
-        botonEliminar= root[0].findViewById(R.id.BotonEliminarCuenta);
         DbSesion dbSesion=new DbSesion(getContext());
         botonCerrarSesion.setOnClickListener(view -> dbSesion.cerrarSesion());
         botonEliminar.setOnClickListener(view->eliminarCuentaUsuario((UsuarioComun)Bocu.usuario));
-
-        botonCancelar= root[0].findViewById(R.id.buttonCancelarVistaEditarUsuario);
-        botonGuardar= root[0].findViewById(R.id.buttonGuardarVistaEditarUsuario);
-
-        botonCancelar.setVisibility(View.INVISIBLE);
-        botonGuardar.setVisibility(View.INVISIBLE);
-        botonCancelar.setEnabled(false);
-        botonGuardar.setEnabled(false);
 
         localidadesAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
             @Override
@@ -400,43 +387,44 @@ public class CuentaFragment extends Fragment {
         interesesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerIntereses.setAdapter(interesesAdapter);
 
-        botonEditar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        botonEditar.setOnClickListener(view -> {
+
+            try {
                 nombreAcceder.setEnabled(true);
                 correoElectronicoAcceder.setEnabled(true);
                 contrasenaAcceder.setEnabled(true);
                 apellidoAcceder.setEnabled(true);
                 edadAcceder.setEnabled(true);
-                spinnerLocalidad.setEnabled(true);
-                spinnerIntereses.setEnabled(true);
 
-                botonGuardar.setVisibility(View.VISIBLE);
-                botonGuardar.setEnabled(true);
-                botonCancelar.setVisibility(View.VISIBLE);
-                botonCancelar.setEnabled(true);
+                LinearLayout.LayoutParams nuevoParametroEdicion = (LinearLayout.LayoutParams) linearLayoutBotonesEdicion.getLayoutParams();
+                nuevoParametroEdicion.weight = 1.9f;
+                linearLayoutBotonesEdicion.setLayoutParams(nuevoParametroEdicion);
 
-                botonEditar.setEnabled(false);
-                botonCerrarSesion.setEnabled(false);
-                botonEliminar.setEnabled(false);
-                botonEditar.setVisibility(View.INVISIBLE);
-                botonCerrarSesion.setVisibility(View.INVISIBLE);
-                botonEliminar.setVisibility(View.INVISIBLE);
+                LinearLayout.LayoutParams nuevoParametroCuenta = (LinearLayout.LayoutParams) linearLayoutBotonesCuenta.getLayoutParams();
+                nuevoParametroCuenta.weight = 0;
+                linearLayoutBotonesCuenta.setLayoutParams(nuevoParametroCuenta);
+            }catch (Exception e){
+                Toast.makeText(getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
 
-        botonCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        botonCancelar.setOnClickListener(view -> {
 
-                View rootView = inflater.inflate(R.layout.fragment_cuenta_usuario_comun, container, false);
-                ViewGroup parent = (ViewGroup) root[0].getParent();
-                int index = parent.indexOfChild(root[0]);
-                parent.removeView(root[0]);
-                root[0] = establecerContenidoUsuarioComun(inflater, container);
-                parent.addView(root[0], index);
-            }
+            nombreAcceder.setEnabled(false);
+            correoElectronicoAcceder.setEnabled(false);
+            contrasenaAcceder.setEnabled(false);
+            apellidoAcceder.setEnabled(false);
+            edadAcceder.setEnabled(false);
+
+            LinearLayout.LayoutParams nuevoParametroEdicion = (LinearLayout.LayoutParams) linearLayoutBotonesEdicion.getLayoutParams();
+            nuevoParametroEdicion.weight = 0;
+            linearLayoutBotonesEdicion.setLayoutParams(nuevoParametroEdicion);
+
+            LinearLayout.LayoutParams nuevoParametroCuenta = (LinearLayout.LayoutParams) linearLayoutBotonesCuenta.getLayoutParams();
+            nuevoParametroCuenta.weight = 4.4f;
+            linearLayoutBotonesCuenta.setLayoutParams(nuevoParametroCuenta);
+
         });
         String correoInicial = correoElectronicoAcceder.getText().toString().trim();
 
@@ -511,42 +499,25 @@ public class CuentaFragment extends Fragment {
                     Toast.makeText(getContext(), "Los cambios se guardaron correctamente", Toast.LENGTH_SHORT).show();
 
 
-                    View rootView = inflater.inflate(R.layout.fragment_cuenta_usuario_comun, container, false);
-                    ViewGroup parent = (ViewGroup) root[0].getParent();
-                    int index = parent.indexOfChild(root[0]);
-                    parent.removeView(root[0]);
-                    root[0] = establecerContenidoUsuarioComun(inflater, container);
-                    parent.addView(root[0], index);
+                    nombreAcceder.setEnabled(false);
+                    correoElectronicoAcceder.setEnabled(false);
+                    contrasenaAcceder.setEnabled(false);
+                    apellidoAcceder.setEnabled(false);
+                    edadAcceder.setEnabled(false);
+
+                    LinearLayout.LayoutParams nuevoParametroEdicion = (LinearLayout.LayoutParams) linearLayoutBotonesEdicion.getLayoutParams();
+                    nuevoParametroEdicion.weight = 0;
+                    linearLayoutBotonesEdicion.setLayoutParams(nuevoParametroEdicion);
+
+                    LinearLayout.LayoutParams nuevoParametroCuenta = (LinearLayout.LayoutParams) linearLayoutBotonesCuenta.getLayoutParams();
+                    nuevoParametroCuenta.weight = 4.4f;
+                    linearLayoutBotonesCuenta.setLayoutParams(nuevoParametroCuenta);
+                } else {
+                    Toast.makeText(getContext(), mensajeError, Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
-
-
-        ArrayAdapter<String> localidadesAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Bocu.LOCALIDADES) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setTextColor(getResources().getColor(R.color.black));
-                return view;
-            }
-        };
-
-        localidadesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerLocalidad.setAdapter(localidadesAdapter);
-
-        ArrayAdapter<String> interesesAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Bocu.INTERESES) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setTextColor(getResources().getColor(R.color.black));
-                return view;
-            }
-        };
-        interesesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerIntereses.setAdapter(interesesAdapter);
 
         spinnerLocalidad.setSelection(((UsuarioComun)Bocu.usuario).getLocalidad());
 
@@ -555,7 +526,7 @@ public class CuentaFragment extends Fragment {
         spinnerIntereses.setEnabled(false);
         spinnerLocalidad.setEnabled(false);
 
-        return root[0];
+        return root;
 
     }
 
