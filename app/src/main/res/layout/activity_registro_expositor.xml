@@ -29,6 +29,7 @@
             android:theme="@style/TextInputEditText">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutNombre"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,6 +52,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutCorreoElectronico"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -75,11 +77,12 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutContrasena"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingVertical="15dp"
-                android:hint="Confirmar contraseña"
+                android:hint="Contraseña"
                 android:textColorHint="@color/gris_claro_hint"
                 app:boxBackgroundColor="@color/gris_claro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
@@ -99,6 +102,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutConfirmarContrasena"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -123,6 +127,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutTipoEvento"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -143,6 +148,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutLocalidad"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
