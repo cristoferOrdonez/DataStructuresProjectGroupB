@@ -23,5 +23,12 @@
 
     </style>
 
+    <style name="Theme.DataStructureProjectGroupB.ActivityTitles">
+        <item name="android:fontFamily">@font/jost_medium</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:background">@color/fondo</item>
+
+    </style>
+
 
 </resources>

@@ -27,11 +27,11 @@
             android:id="@+id/imageButtonHistorial"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:backgroundTint="@color/black"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
             android:scaleType="fitXY"
             android:background="?attr/selectableItemBackgroundBorderless"
+            app:backgroundTint="@color/azulBotones"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/historial_boton" />

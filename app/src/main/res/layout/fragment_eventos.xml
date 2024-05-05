@@ -28,7 +28,7 @@
             android:layout_marginBottom="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="fitXY"
-            app:backgroundTint="@color/black"
+            app:backgroundTint="@color/azulBotones"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/icono_agregar_eventos" />

@@ -3,13 +3,17 @@ package com.example.datastructureproject_groupb.adaptadores;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -81,7 +85,7 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
                 Evento evento = listaEventos.get(getAdapterPosition());
 
                 Activity activity = (Activity) v.getContext();
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                 LayoutInflater inflater = activity.getLayoutInflater();
                 View view = inflater.inflate(R.layout.card_layout_presionado, null);
                 TextView tituloEvento = view.findViewById(R.id.textViewTituloEventoPaginaPrincipal),
@@ -117,7 +121,16 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
 
                 builder.setView(view);
 
-                builder.show();
+                AlertDialog dialog = builder.create();
+
+                WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+                layoutParams.copyFrom(dialog.getWindow().getAttributes());
+
+                dialog.getWindow().setAttributes(layoutParams);
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                dialog.show();
 
                 if(PaginaPrincipalFragment.historialEventos.isEmpty())
                     showFadeInAnimation(PaginaPrincipalFragment.botonHistorial, 500);
