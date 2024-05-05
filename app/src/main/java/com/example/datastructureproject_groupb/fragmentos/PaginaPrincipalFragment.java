@@ -84,7 +84,7 @@ public class PaginaPrincipalFragment extends Fragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.view_evento_presionado_pagina_principal, null);
+        View view = inflater.inflate(R.layout.card_layout_presionado, null);
         TextView tituloEvento = view.findViewById(R.id.textViewTituloEventoPaginaPrincipal),
                 fechaEvento = view.findViewById(R.id.textViewFechaEventoPaginaPrincipal),
                 horarioEvento = view.findViewById(R.id.textViewHorarioEventoPaginaPrincipal),

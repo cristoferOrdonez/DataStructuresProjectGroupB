@@ -76,15 +76,16 @@
 
     <Button
         android:id="@+id/botonAccederCuenta"
+        style="@style/Theme.DataStructureProjectGroupB.Botones"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_marginHorizontal="40dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginHorizontal="40dp"
-        style="@style/Theme.DataStructureProjectGroupB.Botones"
+        android:layout_weight="1"
         android:autoSizeMaxTextSize="20sp"
         android:text="Acceder"
+        android:textColor="@color/blanco_gris"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextContrasena" />
@@ -93,13 +94,13 @@
         android:id="@+id/textViewCrearCuenta"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="40dp"
         android:layout_weight="0.5"
+        android:autoSizeTextType="uniform"
         android:fontFamily="@font/jost_regular"
         android:gravity="center"
-        android:autoSizeTextType="uniform"
-        android:layout_marginHorizontal="40dp"
         android:text="¿Aún no tienes cuenta? Registrate como ..."
-        android:textColor="@color/black" />
+        android:textColor="@color/blanco_gris" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -112,24 +113,26 @@
 
         <Button
             android:id="@+id/botonCrearCuentaUsuario"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"
-            style="@style/Theme.DataStructureProjectGroupB.Botones"
-            android:autoSizeMaxTextSize="18sp"
             android:layout_weight="1"
+            android:autoSizeMaxTextSize="18sp"
             android:text="Usuario"
+            android:textColor="@color/blanco_gris"
             android:textSize="10sp" />
 
         <Button
             android:id="@+id/botonCrearCuentaExpositor"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
             style="@style/Theme.DataStructureProjectGroupB.Botones"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
+            android:layout_weight="1"
             android:autoSizeMaxTextSize="18sp"
             android:text="Expositor"
+            android:textColor="@color/blanco_gris"
             android:textSize="10sp" />
     </LinearLayout>
 

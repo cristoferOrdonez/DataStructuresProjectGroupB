@@ -32,7 +32,7 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
     @Override
     public EventoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_eventos_pagina_principal, null, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false);
 
         return new EventoViewHolder(view);
 
@@ -49,8 +49,8 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
             holder.textViewTituloEvento.setText(evento.getNombreEvento() +  " - Virtual");
             holder.textViewLugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
         }
-        holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEventoString());
-        holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
+        holder.textViewFechaEvento.setText("" + evento.getFechaEventoString()+" • ");
+        holder.textViewHorarioEvento.setText("" + evento.getHorarioEvento());
         holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
         holder.textViewTipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
 
@@ -83,7 +83,7 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
                 Activity activity = (Activity) v.getContext();
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 LayoutInflater inflater = activity.getLayoutInflater();
-                View view = inflater.inflate(R.layout.view_evento_presionado_pagina_principal, null);
+                View view = inflater.inflate(R.layout.card_layout_presionado, null);
                 TextView tituloEvento = view.findViewById(R.id.textViewTituloEventoPaginaPrincipal),
                         fechaEvento = view.findViewById(R.id.textViewFechaEventoPaginaPrincipal),
                         horarioEvento = view.findViewById(R.id.textViewHorarioEventoPaginaPrincipal),

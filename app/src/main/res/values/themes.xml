@@ -3,7 +3,7 @@
     <style name="Base.Theme.DataStructureProjectGroupB" parent="Theme.Design.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@color/fondo</item>
 
     </style>
 
@@ -11,8 +11,8 @@
 
     <style name="TextInputEditText" parent="Theme.Material3.DayNight.NoActionBar">
 
-        <item name="colorPrimary">@color/cian_titulo_evento_pagina_principal</item>
-        <item name="android:windowBackground">@color/white</item>
+        <item name="colorPrimary">@color/fondo</item>
+        <item name="android:windowBackground">@color/fondo</item>
 
     </style>
 
@@ -25,5 +25,13 @@
         <item name="android:textAllCaps">true</item>
 
     </style>
+
+    <style name="Theme.DataStructureProjectGroupB.ActivityTitles">
+        <item name="android:fontFamily">@font/jost_medium</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:background">@color/fondo</item>
+
+    </style>
+
 
 </resources>

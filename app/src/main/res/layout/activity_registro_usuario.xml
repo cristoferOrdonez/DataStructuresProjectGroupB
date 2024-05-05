@@ -7,14 +7,18 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textAlignment="center"
-        android:layout_weight="0.5"
-        android:layout_marginVertical="20dp"
-        android:layout_marginHorizontal="45dp"
+        android:layout_height="18dp"
+        android:layout_weight="1"
         android:autoSizeTextType="uniform"
-        android:text="Registrarse como usuario"
-        android:textColor="@color/black" />
+        android:fontFamily="@font/roslindale_condensed_medium_edu"
+        android:paddingHorizontal="45dp"
+        android:paddingVertical="20dp"
+        android:text="Registro de Usuario"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:theme="@style/Theme.DataStructureProjectGroupB.ActivityTitles"
+        android:visibility="visible" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -45,6 +49,7 @@
                     android:id="@+id/textViewNombreRegistroUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="text"
                     android:maxLines="1"
                     android:textColor="@color/black" />
@@ -67,6 +72,7 @@
                     android:id="@+id/textViewApellidoRegistroUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="text"
                     android:maxLines="1"
                     android:textColor="@color/black" />
@@ -89,6 +95,7 @@
                     android:id="@+id/editTextEdadRegistroUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="number"
                     android:maxLines="1"
                     android:textColor="@color/black" />
@@ -113,6 +120,7 @@
                     android:id="@+id/textViewCorreoRegistroUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:textColor="@color/black" />
@@ -137,6 +145,7 @@
                     android:id="@+id/textViewContrasenaRegistroUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:textColor="@color/black" />
@@ -161,6 +170,7 @@
                     android:id="@+id/textViewConfirmarContrasenaRegistroUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:textColor="@color/black" />
@@ -182,6 +192,7 @@
                     android:id="@+id/spinnerInteresesRegistroUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="none"
                     android:textColor="@color/black"
                     app:dropDownBackgroundTint="@color/white" />
@@ -222,24 +233,26 @@
 
         <Button
             android:id="@+id/botonCancelarRegistroUsuario"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:autoSizeMaxTextSize="18sp"
-            android:layout_marginRight="10dp"
-            style="@style/Theme.DataStructureProjectGroupB.Botones"
-            android:layout_height="match_parent"
             android:text="Cancelar"
-            android:textSize="8sp"  />
+            android:textColor="@color/blanco_gris"
+            android:textSize="8sp" />
 
         <Button
             android:id="@+id/botonRegistratseRegistroUsuario"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:autoSizeMaxTextSize="18sp"
-            android:layout_marginLeft="10dp"
-            style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:text="Registrarse"
+            android:textColor="@color/blanco_gris"
             android:textSize="8sp" />
 
     </LinearLayout>

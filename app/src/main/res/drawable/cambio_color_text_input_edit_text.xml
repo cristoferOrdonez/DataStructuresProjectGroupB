@@ -2,5 +2,5 @@
     <!-- Focused state -->
     <item android:state_focused="true" android:color="@color/cian_titulo_evento_pagina_principal" />
     <!-- Default state -->
-    <item android:color="@android:color/black" />
+    <item android:color="@color/black" />
 </selector>

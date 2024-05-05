@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingStart="7dp">
 
     <View
         android:id="@+id/divider1"
@@ -12,70 +13,79 @@
 
     <TextView
         android:id="@+id/textViewTituloEventoPaginaPrincipal"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:fontFamily="casual"
-        android:textStyle="bold|italic"
-        android:background="@color/cian_titulo_evento_pagina_principal"
         android:layout_width="match_parent"
-        android:padding="10dp"
+        android:layout_height="42dp"
+        android:background="@color/fondo"
+        android:fontFamily="@font/roslindale_condensed_medium_edu"
+        android:padding="0dp"
+        android:paddingStart="10dp"
+        android:text="Titulo del Evento"
+        android:textColor="@color/blanco_gris"
+        android:textSize="30sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Titulo del Evento" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewFechaEventoPaginaPrincipal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jost_regular"
+            android:paddingStart="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="5dp"
+            android:text="Fecha del evento"
+            android:textColor="@color/colorTexto"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textViewHorarioEventoPaginaPrincipal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jost_regular"
+            android:paddingLeft="5dp"
+            android:paddingBottom="5dp"
+            android:text="Horario del evento"
+            android:textColor="@color/colorTexto"
+            android:textSize="15sp" />
+    </LinearLayout>
 
     <View
         android:id="@+id/divider2"
-        android:layout_width="match_parent"
+        android:layout_width="400dp"
         android:layout_height="2dp"
-        android:background="@color/black" />
-
-    <TextView
-        android:id="@+id/textViewFechaEventoPaginaPrincipal"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:fontFamily="casual"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Fecha del evento" />
-
-    <TextView
-        android:id="@+id/textViewHorarioEventoPaginaPrincipal"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:fontFamily="casual"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="Horario del evento" />
+        android:background="@color/design_default_color_background" />
 
     <TextView
         android:id="@+id/textViewLugarEventoPaginaPrincipal"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:fontFamily="casual"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/jost_regular"
         android:padding="10dp"
-        android:text="Lugar del evento" />
+        android:text="Lugar del evento"
+        android:textColor="@color/colorTexto"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/textViewCostoEventoPaginaPrincipal"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:fontFamily="casual"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/jost_regular"
         android:padding="10dp"
-        android:text="Costo del evento" />
+        android:text="Costo del evento"
+        android:textColor="@color/colorTexto"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/textViewTipoEventoPaginaPrincipal"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:fontFamily="casual"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/jost_regular"
         android:padding="10dp"
-        android:text="Tipo de evento" />
+        android:text="Tipo de evento"
+        android:textColor="@color/colorTexto"
+        android:textSize="15sp" />
 
 </LinearLayout>

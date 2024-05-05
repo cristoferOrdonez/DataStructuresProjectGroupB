@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="13dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="13dp"
+    android:layout_marginBottom="8dp"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    card_view:cardBackgroundColor="@color/fondo_secundario"
+    card_view:cardCornerRadius="23dp"
+    card_view:cardElevation="6dp"
+    card_view:contentPadding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewTituloEventoPaginaPrincipal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roslindale_condensed_medium_edu"
+            android:padding="10dp"
+            android:text="Titulo del Evento"
+            android:textColor="@color/blanco_gris"
+            android:textSize="25sp" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/textViewFechaEventoPaginaPrincipal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jost_regular"
+            android:padding="10dp"
+            android:text="Fecha del evento"
+            android:textColor="@color/colorTexto"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textViewHorarioEventoPaginaPrincipal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jost_regular"
+            android:padding="10dp"
+            android:text="Horario del evento"
+            android:textColor="@color/colorTexto"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textViewLugarEventoPaginaPrincipal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jost_regular"
+            android:padding="10dp"
+            android:text="Lugar del evento"
+            android:textColor="@color/colorTexto"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textViewCostoEventoPaginaPrincipal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jost_regular"
+            android:padding="10dp"
+            android:text="Costo del evento"
+            android:textColor="@color/colorTexto"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textViewTipoEventoPaginaPrincipal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jost_regular"
+            android:padding="10dp"
+            android:text="Tipo de evento"
+            android:textColor="@color/colorTexto"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textViewDescripcionEventoPaginaPrincipal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jost_regular"
+            android:padding="10dp"
+            android:text="Descripción"
+            android:textColor="@color/colorTexto"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/botonMostrarUbicacion"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:autoSizeMaxTextSize="14sp"
+            android:text="Mostrar ubicacion en el mapa"
+            android:textColor="@color/blanco_gris" />
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

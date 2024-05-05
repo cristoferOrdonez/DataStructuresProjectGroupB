@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <style name="BottomNavigationViewTextStyle">
+        <item name="android:fontFamily">@font/jost_medium</item>
+        <item name="android:textSize">10dp</item>
+    </style>
+</resources>

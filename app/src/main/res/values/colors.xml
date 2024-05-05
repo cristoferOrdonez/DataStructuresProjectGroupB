@@ -7,4 +7,10 @@
     <color name="gris_claro_hint">#222222</color>
     <color name="gris_claro_background_edit_text">#EAEAEA</color>
     <color name="gris_claro_boton_presionado">#8E8E8E</color>
+    <color name="fondo">#242427</color>
+    <color name="fondo_secundario">#0f0f11</color>
+    <color name="colorTexto">#939298</color>
+    <color name="blanco_gris">#e5e5e5</color>
+    <color name="azul">#004FC6</color>
+
 </resources>
