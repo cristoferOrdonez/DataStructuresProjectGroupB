@@ -4,14 +4,14 @@
     <color name="white">#FFFFFFFF</color>
     <color name="cian_titulo_evento_pagina_principal">#26ADF6</color>
     <color name="transparente">#00FFFFFF</color>
-    <color name="gris_claro_hint">#222222</color>
-    <color name="gris_claro_background_edit_text">#EAEAEA</color>
+    <color name="gris_claro_hint">#C3C3C3</color>
+    <color name="gris_oscuro_background_edit_text">#303030</color>
     <color name="gris_claro_boton_presionado">#8E8E8E</color>
     <color name="fondo">#242427</color>
     <color name="fondo_secundario">#0f0f11</color>
     <color name="colorTexto">#939298</color>
-    <color name="blanco_gris">#e5e5e5</color>
-    <color name="azulBotones">#003B95</color>
+    <color name="azul_botones">#0064FF</color>
     <color name="barraPrincipal">#20000000</color>
+    <color name="gris_oscuro_box_background_color">#e5e5e5</color>
 
 </resources>

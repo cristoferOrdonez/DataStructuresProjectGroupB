@@ -4,5 +4,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/elemento_presionado_animacion"
     android:maxLines="1"
+    android:fontFamily="@font/jost_regular"
     android:padding="10dp"
-    android:textColor="@color/black"></TextView>
+    android:textColor="@color/white"/>

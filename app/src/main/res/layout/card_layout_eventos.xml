@@ -31,7 +31,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/roslindale_condensed_medium_edu"
                 android:text="Titulo del Evento"
-                android:textColor="@color/blanco_gris"
+                android:textColor="@color/gris_oscuro_box_background_color"
                 android:textSize="24sp"
                 android:textStyle="normal" />
 

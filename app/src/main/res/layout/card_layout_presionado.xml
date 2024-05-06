@@ -26,7 +26,7 @@
             android:fontFamily="@font/roslindale_condensed_medium_edu"
             android:padding="10dp"
             android:text="Titulo del Evento"
-            android:textColor="@color/blanco_gris"
+            android:textColor="@color/gris_oscuro_box_background_color"
             android:textSize="25sp" />
 
         <View
@@ -103,7 +103,7 @@
             android:layout_margin="10dp"
             android:autoSizeMaxTextSize="14sp"
             android:text="Mostrar ubicacion en el mapa"
-            android:textColor="@color/blanco_gris" />
+            android:textColor="@color/gris_oscuro_box_background_color" />
     </LinearLayout>
 
 

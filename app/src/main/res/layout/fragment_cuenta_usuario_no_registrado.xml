@@ -29,12 +29,12 @@
             android:hint="Correo electronico"
             android:paddingVertical="15dp"
             android:textColorHint="@color/gris_claro_hint"
-            app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+            app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
             app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
             app:endIconMode="clear_text"
-            app:endIconTint="@color/black"
+            app:endIconTint="@color/white"
             app:startIconDrawable="@drawable/icono_carta_email"
-            app:startIconTint="@color/black">
+            app:startIconTint="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextCorreo"
@@ -43,7 +43,7 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:fontFamily="@font/jost_light"
-                android:textColor="@color/black" />
+                android:textColor="@color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,12 +54,12 @@
             android:hint="Contraseña"
             android:paddingVertical="15dp"
             android:textColorHint="@color/gris_claro_hint"
-            app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+            app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
             app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
             app:endIconMode="password_toggle"
-            app:endIconTint="@color/black"
+            app:endIconTint="@color/white"
             app:startIconDrawable="@drawable/icono_candado_contrasena"
-            app:startIconTint="@color/black">
+            app:startIconTint="@color/white">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextContrasena"
@@ -68,7 +68,7 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:fontFamily="@font/jost_light"
-                android:textColor="@color/black" />
+                android:textColor="@color/white" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +85,7 @@
         android:layout_weight="1"
         android:autoSizeMaxTextSize="20sp"
         android:text="Acceder"
-        android:textColor="@color/blanco_gris"
+        android:textColor="@color/gris_oscuro_box_background_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextContrasena" />
@@ -100,7 +100,7 @@
         android:fontFamily="@font/jost_regular"
         android:gravity="center"
         android:text="¿Aún no tienes cuenta? Registrate como ..."
-        android:textColor="@color/blanco_gris" />
+        android:textColor="@color/gris_oscuro_box_background_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -120,7 +120,7 @@
             android:layout_weight="1"
             android:autoSizeMaxTextSize="18sp"
             android:text="Usuario"
-            android:textColor="@color/blanco_gris"
+            android:textColor="@color/gris_oscuro_box_background_color"
             android:textSize="10sp" />
 
         <Button
@@ -132,7 +132,7 @@
             android:layout_weight="1"
             android:autoSizeMaxTextSize="18sp"
             android:text="Expositor"
-            android:textColor="@color/blanco_gris"
+            android:textColor="@color/gris_oscuro_box_background_color"
             android:textSize="10sp" />
     </LinearLayout>
 

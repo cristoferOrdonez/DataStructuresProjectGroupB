@@ -26,7 +26,7 @@
             android:padding="0dp"
             android:paddingStart="10dp"
             android:text="Titulo del Evento"
-            android:textColor="@color/blanco_gris"
+            android:textColor="@color/gris_oscuro_box_background_color"
             android:textSize="27sp" />
 
         <LinearLayout
@@ -43,7 +43,7 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="7dp"
                 android:text="Fecha del evento"
-                android:textColor="@color/blanco_gris"
+                android:textColor="@color/gris_oscuro_box_background_color"
                 android:textSize="15sp" />
 
             <TextView
@@ -55,7 +55,7 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:text="Horario del evento"
-                android:textColor="@color/blanco_gris"
+                android:textColor="@color/gris_oscuro_box_background_color"
                 android:textSize="15sp" />
         </LinearLayout>
 
