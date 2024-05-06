@@ -300,7 +300,6 @@ public class CrearCuentaUsuario extends AppCompatActivity {
     public void VerificarInformacionRegistro(View view) {
 
         boolean flag = true;
-        String mensajeError = "";
 
         if(nombreRegistroUsuario.getText().toString().trim().equals("")) {
             layoutNombre.setError("Ingrese nombres validos");

@@ -226,7 +226,6 @@ public class CrearCuentaExpositor extends AppCompatActivity {
     public void VerificarInformacionRegistroExpositor(View view) {
 
         boolean flag = true;
-        String mensajeError = "";
 
         if(nombreRegistroExpositor.getText().toString().trim().equals("")) {
             layoutNombre.setError("Ingrese nombres validos");

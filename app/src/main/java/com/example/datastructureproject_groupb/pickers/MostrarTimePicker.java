@@ -2,53 +2,34 @@ package com.example.datastructureproject_groupb.pickers;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.view.View;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.timepicker.MaterialTimePicker;
-import com.google.android.material.timepicker.TimeFormat;
-
-import java.text.MessageFormat;
 import java.util.Calendar;
-import java.util.Locale;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class MostrarTimePicker {
 
-    private Integer horaInicio, horaFinal, minutosInicio, minutosFinal;
+    private Integer[] horaMinutosDefecto;
 
     public MostrarTimePicker(Context context,
                              EditText horarioEvento,
-                             int horaInicio,
-                             int horaFinal,
-                             int minutosInicio,
-                             int minutosFinal) {
+                             Integer [] horaMinutosDefecto) {
+
+        this.horaMinutosDefecto = horaMinutosDefecto;
 
         if (horarioEvento.getText().toString().equals("")) {
 
             Calendar calendario = Calendar.getInstance();
 
-            this.horaInicio = calendario.get(Calendar.HOUR_OF_DAY);
-            this.horaFinal = calendario.get(Calendar.HOUR_OF_DAY);
-            this.minutosFinal = calendario.get(Calendar.MINUTE);
-            this.minutosInicio = calendario.get(Calendar.MINUTE);
-
-        } else {
-
-            this.horaInicio = horaInicio;
-            this.horaFinal = horaFinal;
-            this.minutosFinal = minutosFinal;
-            this.minutosInicio = minutosInicio;
+            this.horaMinutosDefecto[0] = calendario.get(Calendar.HOUR_OF_DAY);
+            this.horaMinutosDefecto[1] = calendario.get(Calendar.MINUTE);
 
         }
 
         TimePickerDialog pickerInicio = new TimePickerDialog(context, (x, y, z) -> {
 
-            this.horaInicio = y;
-
-            this.minutosInicio = z;
+            this.horaMinutosDefecto[0] = y;
+            this.horaMinutosDefecto[1] = z;
 
             String amOpm = (y > 12) ? "p.m." : "a.m.";
 
@@ -58,8 +39,8 @@ public class MostrarTimePicker {
                 horarioEvento.setText(y % 12 + ":0" + z + amOpm);
             }
 
-
-        }, horaInicio, minutosInicio, false);
+        }, this.horaMinutosDefecto[0], this.horaMinutosDefecto[1], false);
         pickerInicio.show();
     }
+
 }
