@@ -40,6 +40,7 @@ public class DbSesion extends DbArt{
         Bocu.usuario = null;
         Bocu.estadoUsuario = Bocu.SIN_REGISTRAR;
         this.getWritableDatabase().close();
+        PaginaInicio.intensionInicializacion = PaginaInicio.CUENTA;
         Intent intent = new Intent(context, PaginaInicio.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
