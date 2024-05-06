@@ -94,17 +94,17 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
 
                 Button boton = view.findViewById(R.id.botonMostrarUbicacion);
 
-                boton.setOnClickListener(i -> {
-                        Intent miIntent = new Intent(v.getContext(), MostrarUbicacionEvento.class);
-                        miIntent.putExtra("UBICACION_EVENTO", evento.getDirePlatEvento());
-                        miIntent.putExtra("NOMBRE_EVENTO", evento.getNombreEvento());
-                        v.getContext().startActivity(miIntent);
-                });
-
                 if (evento.getUbicacionEvento() != 21) {
+                    boton.setOnClickListener(i -> {
+                            Intent miIntent = new Intent(v.getContext(), MostrarUbicacionEvento.class);
+                            miIntent.putExtra("UBICACION_EVENTO", evento.getDirePlatEvento());
+                            miIntent.putExtra("NOMBRE_EVENTO", evento.getNombreEvento());
+                            v.getContext().startActivity(miIntent);
+                    });
                     tituloEvento.setText(evento.getNombreEvento() + " - Presencial");
                     lugarEvento.setText("Lugar: " + evento.getDireccionEvento());
                 } else {
+                    boton.setVisibility(View.GONE);
                     tituloEvento.setText(evento.getNombreEvento() + " - Virtual");
                     lugarEvento.setText("Plataforma: " + evento.getDirePlatEvento());
                 }
