@@ -32,6 +32,8 @@ import com.example.datastructureproject_groupb.db.DbUsuariosComunes;
 import com.example.datastructureproject_groupb.entidades.Artista;
 import com.example.datastructureproject_groupb.entidades.UsuarioComun;
 import com.example.datastructureproject_groupb.entidades.UsuarioRegistrado;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
@@ -41,8 +43,8 @@ import java.util.regex.Pattern;
 public class CuentaFragment extends Fragment {
 
     Button botonAcceder, botonCrearCuentaUsuario, botonCrearCuentaExpositor, botonEditar, botonCerrarSesion, botonEliminar, botonGuardar, botonCancelar;
-    EditText nombreAcceder, correoElectronicoAcceder, contrasenaAcceder, apellidoAcceder, edadAcceder;
-    Spinner spinnerLocalidad, spinnerIntereses;
+    TextInputEditText nombreAcceder, correoElectronicoAcceder, contrasenaAcceder, apellidoAcceder, edadAcceder;
+    MaterialAutoCompleteTextView spinnerLocalidad, spinnerIntereses;
     ArrayAdapter<String> localidadesAdapter;
     ArrayAdapter<String> interesesAdapter;
     LinearLayout linearLayoutBotonesCuenta, linearLayoutBotonesEdicion;
@@ -89,7 +91,7 @@ public class CuentaFragment extends Fragment {
         linearLayoutBotonesEdicion = root.findViewById(R.id.layoutBotonesEdicion);
 
         spinnerLocalidad = root.findViewById(R.id.spinnerLocalidad);
-        spinnerIntereses = root.findViewById(R.id.spinnerIntereses);
+        spinnerIntereses = root.findViewById(R.id.spinnerInteresesRegistroExpositor);
 
         botonEditar= root.findViewById(R.id.BotonEditarExpositor);
         botonCerrarSesion= root.findViewById(R.id.BotonCerrarSesionExpositor);
@@ -228,8 +230,8 @@ public class CuentaFragment extends Fragment {
                     String nombres = nombreAcceder.getText().toString().trim();
                     String correoElectronicoR = correoElectronicoAcceder.getText().toString();
                     String contrasenaR = contrasenaAcceder.getText().toString();
-                    String localidadSeleccionada = spinnerLocalidad.getSelectedItem().toString();
-                    String interesSeleccionado = spinnerIntereses.getSelectedItem().toString();
+                    String localidadSeleccionada = spinnerLocalidad.getText().toString();
+                    String interesSeleccionado = spinnerIntereses.getText().toString();
                     int localidad = localidadesAdapter.getPosition(localidadSeleccionada);
                     int interes = interesesAdapter.getPosition(interesSeleccionado);
 
@@ -267,9 +269,15 @@ public class CuentaFragment extends Fragment {
             }
         });
 
-        spinnerLocalidad.setSelection(((Artista)Bocu.usuario).getLocalidad());
+        String localidadSeleccionada = Bocu.LOCALIDADES[((Artista)Bocu.usuario).getLocalidad()];
+        ArrayAdapter<String> localidadesAdapter = (ArrayAdapter<String>) spinnerLocalidad.getAdapter();
+        int posicionLocalidad = localidadesAdapter.getPosition(localidadSeleccionada);
+        spinnerLocalidad.setText(localidadSeleccionada, false);
 
-        spinnerIntereses.setSelection(((Artista)Bocu.usuario).getTipoDeEvento());
+        String interesSeleccionado = Bocu.INTERESES[((Artista)Bocu.usuario).getTipoDeEvento()];
+        ArrayAdapter<String> interesesAdapter = (ArrayAdapter<String>) spinnerIntereses.getAdapter();
+        int posicionIntereses = interesesAdapter.getPosition(interesSeleccionado);
+        spinnerIntereses.setText(interesSeleccionado, false);
 
         spinnerIntereses.setEnabled(false);
         spinnerLocalidad.setEnabled(false);
@@ -480,8 +488,8 @@ public class CuentaFragment extends Fragment {
                     int edad = Integer.parseInt(edadAcceder.getText().toString());
                     String correoElectronicoR = correoElectronicoAcceder.getText().toString();
                     String contrasenaR = contrasenaAcceder.getText().toString();
-                    String localidadSeleccionada = spinnerLocalidad.getSelectedItem().toString();
-                    String interesSeleccionado = spinnerIntereses.getSelectedItem().toString();
+                    String localidadSeleccionada = spinnerLocalidad.getText().toString();
+                    String interesSeleccionado = spinnerIntereses.getText().toString();
                     int localidad = localidadesAdapter.getPosition(localidadSeleccionada);
                     int interes = interesesAdapter.getPosition(interesSeleccionado);
 
@@ -519,9 +527,15 @@ public class CuentaFragment extends Fragment {
             }
         });
 
-        spinnerLocalidad.setSelection(((UsuarioComun)Bocu.usuario).getLocalidad());
+        String localidadSeleccionada = Bocu.LOCALIDADES[((UsuarioComun)Bocu.usuario).getLocalidad()];
+        ArrayAdapter<String> localidadesAdapter = (ArrayAdapter<String>) spinnerLocalidad.getAdapter();
+        int posicionLocalidad = localidadesAdapter.getPosition(localidadSeleccionada);
+        spinnerLocalidad.setText(localidadSeleccionada, false);
 
-        spinnerIntereses.setSelection(((UsuarioComun)Bocu.usuario).getIntereses());
+        String interesSeleccionado = Bocu.INTERESES[((UsuarioComun)Bocu.usuario).getIntereses()];
+        ArrayAdapter<String> interesesAdapter = (ArrayAdapter<String>) spinnerIntereses.getAdapter();
+        int posicionIntereses = interesesAdapter.getPosition(interesSeleccionado);
+        spinnerIntereses.setText(interesSeleccionado, false);
 
         spinnerIntereses.setEnabled(false);
         spinnerLocalidad.setEnabled(false);
