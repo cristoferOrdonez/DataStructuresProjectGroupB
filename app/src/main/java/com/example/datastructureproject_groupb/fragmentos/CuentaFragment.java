@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +36,7 @@ import com.example.datastructureproject_groupb.entidades.UsuarioComun;
 import com.example.datastructureproject_groupb.entidades.UsuarioRegistrado;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
@@ -48,6 +51,8 @@ public class CuentaFragment extends Fragment {
     ArrayAdapter<String> localidadesAdapter;
     ArrayAdapter<String> interesesAdapter;
     LinearLayout linearLayoutBotonesCuenta, linearLayoutBotonesEdicion;
+    TextInputLayout layoutNombre, layoutCorreoElectronico, layoutContrasena, layoutConfirmarContrasena, layoutTipoEvento, layoutLocalidad, layoutIntereses, layoutApellido, layoutEdad;
+
 
     public CuentaFragment() {
     }
@@ -99,6 +104,118 @@ public class CuentaFragment extends Fragment {
 
         botonCancelar = root.findViewById(R.id.buttonCancelarExpositor);
         botonGuardar = root.findViewById(R.id.buttonGuardarExpositor);
+
+        layoutNombre = root.findViewById(R.id.layoutNombre);
+        layoutCorreoElectronico = root.findViewById(R.id.layoutCorreoElectronico);
+        layoutContrasena = root.findViewById(R.id.layoutContrasena);
+        layoutTipoEvento = root.findViewById(R.id.layoutIntereses);
+        layoutLocalidad = root.findViewById(R.id.layoutLocalidad);
+
+        nombreAcceder.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutNombre.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        correoElectronicoAcceder.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutCorreoElectronico.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        contrasenaAcceder.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutContrasena.setErrorEnabled(false);
+
+                if(s.toString().length() == 0)
+                    layoutContrasena.setHelperTextEnabled(false);
+                else if(s.toString().length() < 8)
+                    layoutContrasena.setHelperText("Contraseña debil");
+                else
+                    layoutContrasena.setHelperText("Contraseña fuerte");
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+
+        spinnerLocalidad.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutLocalidad.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        spinnerIntereses.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutTipoEvento.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
 
         KeyboardVisibilityEvent.setEventListener(getActivity(), isOpen -> {
             if(isOpen) {
@@ -204,7 +321,7 @@ public class CuentaFragment extends Fragment {
                 String mensajeError = "";
 
                 if(nombreAcceder.getText().toString().trim().equals("")) {
-                    mensajeError += "No ha ingresado nombres validos\n";
+                    layoutNombre.setError("Ingrese nombres validos");
                     flag = false;
                 }
 
@@ -214,15 +331,15 @@ public class CuentaFragment extends Fragment {
                 Matcher mather = pattern.matcher(correoElectronicoAcceder.getText().toString());
 
                 if(!mather.find()){
-                    mensajeError += "No ha ingresado un correo electronico valido\n";
+                    layoutCorreoElectronico.setError("Ingrese un correo electronico valido");
                     flag = false;
                 }
                 if(contrasenaAcceder.getText().toString().length() < 8){
-                    mensajeError += "Debe ingresar una contraseña de por lo menos 8 caracteres\n";
+                    layoutContrasena.setError("La contraseña debe tener por lo menos 8 caracteres.");
                     flag = false;
                 }
                 if(contrasenaAcceder.getText().toString().contains(" ")){
-                    mensajeError += "La contraseña no puede contener espacios en blanco\n";
+                    layoutContrasena.setError("La contraseña no puede contener espacios en blanco");
                     flag = false;
                 }
 
@@ -263,7 +380,6 @@ public class CuentaFragment extends Fragment {
                     spinnerLocalidad.setEnabled(false);
 
                 } else {
-                    Toast.makeText(getContext(), mensajeError, Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -333,6 +449,155 @@ public class CuentaFragment extends Fragment {
 
         botonCancelar= root.findViewById(R.id.buttonCancelarVistaEditarUsuario);
         botonGuardar= root.findViewById(R.id.buttonGuardarVistaEditarUsuario);
+
+        layoutNombre = root.findViewById(R.id.layoutNombre);
+        layoutApellido = root.findViewById(R.id.layoutApellido);
+        layoutEdad = root.findViewById(R.id.layoutEdad);
+        layoutCorreoElectronico = root.findViewById(R.id.layoutCorreoElectronico);
+        layoutContrasena = root.findViewById(R.id.layoutContrasena);
+        layoutLocalidad = root.findViewById(R.id.layoutLocalidad);
+        layoutIntereses = root.findViewById(R.id.layoutIntereses);
+        nombreAcceder.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutNombre.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        apellidoAcceder.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutApellido.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        edadAcceder.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutEdad.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        correoElectronicoAcceder.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutCorreoElectronico.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        contrasenaAcceder.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutContrasena.setErrorEnabled(false);
+
+                if(s.toString().length() == 0)
+                    layoutContrasena.setHelperTextEnabled(false);
+                else if(s.toString().length() < 8)
+                    layoutContrasena.setHelperText("Contraseña debil");
+                else
+                    layoutContrasena.setHelperText("Contraseña fuerte");
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+
+        spinnerLocalidad.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutLocalidad.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        spinnerIntereses.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutIntereses.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         KeyboardVisibilityEvent.setEventListener(getActivity(), isOpen -> {
             if(isOpen) {
@@ -445,23 +710,23 @@ public class CuentaFragment extends Fragment {
                 String mensajeError = "";
 
                 if(nombreAcceder.getText().toString().trim().equals("")) {
-                    mensajeError += "No ha ingresado nombres validos\n";
+                    layoutNombre.setError("Ingrese nombres validos");
                     flag = false;
                 }
                 if(apellidoAcceder.getText().toString().trim().equals("")) {
-                    mensajeError += "No ha ingresado apellidos validos\n";
+                    layoutApellido.setError("Ingrese apellidos validos");
                     flag = false;
                 }
                 String edadString = edadAcceder.getText().toString().trim();
                 if (edadString.isEmpty()) {
                     flag=false;
-                    mensajeError +="Ingrese una edad válida";
+                    layoutEdad.setError("Ingrese una edad valida");
                 }
 
 
 
                 if(edadAcceder.getText().toString().trim().equals("") || Integer.parseInt(edadAcceder.getText().toString().trim()) > 150) {
-                    mensajeError += "No ha ingresado una edad valida\n";
+                    layoutEdad.setError("Ingrese una edad valida");
                     flag = false;
                 }
 
@@ -470,15 +735,15 @@ public class CuentaFragment extends Fragment {
                 Matcher mather = pattern.matcher(correoElectronicoAcceder.getText().toString());
 
                 if(!mather.find()){
-                    mensajeError += "No ha ingresado un correo electronico valido\n";
+                    layoutCorreoElectronico.setError("Ingrese un correo electronico valido");
                     flag = false;
                 }
                 if(contrasenaAcceder.getText().toString().length() < 8){
-                    mensajeError += "Debe ingresar una contraseña de por lo menos 8 caracteres\n";
+                    layoutContrasena.setError("La contraseña debe tener por lo menos 8 caracteres.");
                     flag = false;
                 }
                 if(contrasenaAcceder.getText().toString().contains(" ")){
-                    mensajeError += "La contraseña no puede contener espacios en blanco\n";
+                    layoutContrasena.setError("La contraseña no puede contener espacios en blanco");
                     flag = false;
                 }
 
@@ -521,7 +786,6 @@ public class CuentaFragment extends Fragment {
                     nuevoParametroCuenta.weight = 4.4f;
                     linearLayoutBotonesCuenta.setLayoutParams(nuevoParametroCuenta);
                 } else {
-                    Toast.makeText(getContext(), mensajeError, Toast.LENGTH_SHORT).show();
                 }
 
             }
