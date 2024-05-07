@@ -129,6 +129,8 @@ public class PaginaPrincipalFragment extends Fragment {
 
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        dialog.getWindow().setDimAmount(0.9f);
+
         dialog.show();
 
     }

@@ -130,6 +130,8 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
 
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+                dialog.getWindow().setDimAmount(0.9f);
+
                 dialog.show();
 
                 if(PaginaPrincipalFragment.historialEventos.isEmpty())
