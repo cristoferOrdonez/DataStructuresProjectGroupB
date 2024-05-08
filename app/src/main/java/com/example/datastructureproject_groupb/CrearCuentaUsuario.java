@@ -2,6 +2,8 @@ package com.example.datastructureproject_groupb;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +35,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CrearCuentaUsuario extends AppCompatActivity {
-    TextInputEditText EdadRegistroUsuario,NombreRegistroUsuario, ApellidoRegistroUsuario, CorreoRegistroUsuario, ContrasenaRegistroUsuario, ConfirmarContrasenaRegistroUsuario;
+    TextInputEditText edadRegistroUsuario,nombreRegistroUsuario, apellidoRegistroUsuario, correoRegistroUsuario, contrasenaRegistroUsuario, confirmarContrasenaRegistroUsuario;
     MaterialAutoCompleteTextView spinnerLocalidadRegistroUsuario,spinnerInteresesRegistroUsuario;
     Button cancelarRegistroUsuario, registrasrseRegistroUsuario;
 
     ArrayAdapter<String> localidadesAdapter, interesesAdapter;
     private LinearLayout layoutBotones;
+
+    private TextInputLayout layoutNombre, layoutApellido, layoutEdad, layoutCorreoElectronico, layoutContrasena, layoutConfirmarContrasena, layoutLocalidad, layoutIntereses;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,31 +51,204 @@ public class CrearCuentaUsuario extends AppCompatActivity {
         layoutBotones = findViewById(R.id.layoutBotones);
 
         KeyboardVisibilityEvent.setEventListener(this, isOpen -> {
-            if(isOpen)
-                layoutBotones.setLayoutParams(new LinearLayout.LayoutParams(0, 0, 0));
-            else {
+            if(isOpen) {
 
-                LinearLayout.LayoutParams nuevoParametro = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1);
-                nuevoParametro.leftMargin = 30;
-                nuevoParametro.rightMargin = 30;
-                nuevoParametro.bottomMargin = 40;
-                nuevoParametro.topMargin = 40;
+                LinearLayout.LayoutParams nuevoParametro = (LinearLayout.LayoutParams) layoutBotones.getLayoutParams();
+                nuevoParametro.width = 0;
+                nuevoParametro.weight = 0;
+
+                layoutBotones.setLayoutParams(nuevoParametro);
+
+            } else {
+
+                LinearLayout.LayoutParams nuevoParametro = (LinearLayout.LayoutParams) layoutBotones.getLayoutParams();
+
+                nuevoParametro.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                nuevoParametro.weight = 1.9f;
 
                 layoutBotones.setLayoutParams(nuevoParametro);
 
             }
         });
 
-        NombreRegistroUsuario=findViewById(R.id.textViewNombreRegistroUsuario);
-        ApellidoRegistroUsuario=findViewById(R.id.textViewApellidoRegistroUsuario);
-        CorreoRegistroUsuario=findViewById(R.id.textViewCorreoRegistroUsuario);
-        ConfirmarContrasenaRegistroUsuario=findViewById(R.id.textViewConfirmarContrasenaRegistroUsuario);
-        ContrasenaRegistroUsuario=findViewById(R.id.textViewContrasenaRegistroUsuario);
-        EdadRegistroUsuario=findViewById(R.id.editTextEdadRegistroUsuario);
+        nombreRegistroUsuario=findViewById(R.id.textViewNombreRegistroUsuario);
+        apellidoRegistroUsuario=findViewById(R.id.textViewApellidoRegistroUsuario);
+        correoRegistroUsuario=findViewById(R.id.textViewCorreoRegistroUsuario);
+        confirmarContrasenaRegistroUsuario=findViewById(R.id.textViewConfirmarContrasenaRegistroUsuario);
+        contrasenaRegistroUsuario=findViewById(R.id.textViewContrasenaRegistroUsuario);
+        edadRegistroUsuario=findViewById(R.id.editTextEdadRegistroUsuario);
         spinnerInteresesRegistroUsuario=findViewById(R.id.spinnerInteresesRegistroUsuario);
         spinnerLocalidadRegistroUsuario=findViewById(R.id.spinnerLocalidadRegistroUsuario);
         cancelarRegistroUsuario=findViewById(R.id.botonCancelarRegistroUsuario);
         registrasrseRegistroUsuario=findViewById(R.id.botonRegistratseRegistroUsuario);
+
+        layoutNombre = findViewById(R.id.layoutNombre);
+        layoutApellido = findViewById(R.id.layoutApellido);
+        layoutEdad = findViewById(R.id.layoutEdad);
+        layoutCorreoElectronico = findViewById(R.id.layoutCorreoElectronico);
+        layoutContrasena = findViewById(R.id.layoutContrasena);
+        layoutConfirmarContrasena = findViewById(R.id.layoutConfirmarContrasena);
+        layoutLocalidad = findViewById(R.id.layoutLocalidad);
+        layoutIntereses = findViewById(R.id.layoutIntereses);
+
+        nombreRegistroUsuario.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutNombre.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        apellidoRegistroUsuario.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutApellido.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        edadRegistroUsuario.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutEdad.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        correoRegistroUsuario.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutCorreoElectronico.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        contrasenaRegistroUsuario.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutContrasena.setErrorEnabled(false);
+
+                if(s.toString().length() == 0)
+                    layoutContrasena.setHelperTextEnabled(false);
+                else if(s.toString().length() < 8)
+                    layoutContrasena.setHelperText("Contraseña debil");
+                else
+                    layoutContrasena.setHelperText("Contraseña fuerte");
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        confirmarContrasenaRegistroUsuario.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutConfirmarContrasena.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        spinnerLocalidadRegistroUsuario.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutLocalidad.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        spinnerInteresesRegistroUsuario.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutIntereses.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         localidadesAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.LOCALIDADES);
         spinnerLocalidadRegistroUsuario.setAdapter(localidadesAdapter);
@@ -123,74 +300,61 @@ public class CrearCuentaUsuario extends AppCompatActivity {
     public void VerificarInformacionRegistro(View view) {
 
         boolean flag = true;
-        String mensajeError = "";
 
-        if(NombreRegistroUsuario.getText().toString().trim().equals("")) {
-            mensajeError += "No ha ingresado nombres validos\n";
+        if(nombreRegistroUsuario.getText().toString().trim().equals("")) {
+            layoutNombre.setError("Ingrese nombres validos");
             flag = false;
         }
-        if(ApellidoRegistroUsuario.getText().toString().trim().equals("")) {
-            mensajeError += "No ha ingresado apellidos validos\n";
+        if(apellidoRegistroUsuario.getText().toString().trim().equals("")) {
+            layoutApellido.setError("Ingrese apellidos validos");
             flag = false;
         }
-        String edadString = EdadRegistroUsuario.getText().toString().trim();
-        if (edadString.isEmpty()) {
-            flag=false;
-            Toast.makeText(this, "Ingrese una edad válida", Toast.LENGTH_SHORT).show();
+
+        if(edadRegistroUsuario.getText().toString().trim().equals("") || Integer.parseInt(edadRegistroUsuario.getText().toString().trim()) > 150) {
+            layoutEdad.setError("Ingrese una edad valida");
+            flag = false;
         }
+
         if(spinnerLocalidadRegistroUsuario.getText().toString().trim().equals("") || localidadesAdapter.getPosition(spinnerLocalidadRegistroUsuario.getText().toString()) == -1) {
-            mensajeError += "Seleccione una Localidad\n";
+            layoutLocalidad.setError("Seleccione una localidad");
             flag = false;
         }
         if(spinnerInteresesRegistroUsuario.getText().toString().trim().equals("") || interesesAdapter.getPosition(spinnerInteresesRegistroUsuario.getText().toString()) == -1) {
-            mensajeError += "Seleccione un Interes\n";
-            flag = false;
-        }
-
-
-        if(EdadRegistroUsuario.getText().toString().trim().equals("") || Integer.parseInt(EdadRegistroUsuario.getText().toString().trim()) > 150) {
-            mensajeError += "No ha ingresado una edad valida\n";
+            layoutIntereses.setError("Seleccione un interes");
             flag = false;
         }
 
         Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 
-        Matcher mather = pattern.matcher(CorreoRegistroUsuario.getText().toString());
+        Matcher mather = pattern.matcher(correoRegistroUsuario.getText().toString());
 
         if(!mather.find()){
-            mensajeError += "No ha ingresado un correo electronico valido\n";
+            layoutCorreoElectronico.setError("Ingrese un correo electronico valido");
             flag = false;
         }
-        if(ContrasenaRegistroUsuario.getText().toString().length() < 8){
-            mensajeError += "Debe ingresar una contraseña de por lo menos 8 caracteres\n";
+        if(contrasenaRegistroUsuario.getText().toString().contains(" ")){
+            layoutContrasena.setError("La contraseña no puede contener espacios en blanco");
+            flag = false;
+        }else if(contrasenaRegistroUsuario.getText().toString().length() < 8){
+            layoutContrasena.setError("La contraseña debe tener por lo menos 8 caracteres.");
             flag = false;
         }
-        if(ContrasenaRegistroUsuario.getText().toString().contains(" ")){
-            mensajeError += "La contraseña no puede contener espacios en blanco\n";
-            flag = false;
-        }
-        if(!ContrasenaRegistroUsuario.getText().toString().equals(ConfirmarContrasenaRegistroUsuario.getText().toString())){
-            mensajeError += "Las contraseñas no coinciden\n";
-            flag = false;
-        }
-        if(!ContrasenaRegistroUsuario.getText().toString().equals(ConfirmarContrasenaRegistroUsuario.getText().toString())){
-            mensajeError += "Las contraseñas no coinciden\n";
+        if(!contrasenaRegistroUsuario.getText().toString().equals(confirmarContrasenaRegistroUsuario.getText().toString())){
+            layoutConfirmarContrasena.setError("Las contraseñas no coinciden");
             flag = false;
         }
 
         if(flag)
             Registrar(view);
-        else
-            Toast.makeText(this, mensajeError, Toast.LENGTH_SHORT).show();
 
     }
 
     public void Registrar(View view){
-        String nombres = this.NombreRegistroUsuario.getText().toString().trim();
-        String apellidos = this.ApellidoRegistroUsuario.getText().toString().trim();
-        int edad = Integer.parseInt(this.EdadRegistroUsuario.getText().toString());
-        String correoElectronicoR = this.CorreoRegistroUsuario.getText().toString();
-        String contrasenaR = this.ContrasenaRegistroUsuario.getText().toString();
+        String nombres = this.nombreRegistroUsuario.getText().toString().trim();
+        String apellidos = this.apellidoRegistroUsuario.getText().toString().trim();
+        int edad = Integer.parseInt(this.edadRegistroUsuario.getText().toString());
+        String correoElectronicoR = this.correoRegistroUsuario.getText().toString();
+        String contrasenaR = this.contrasenaRegistroUsuario.getText().toString();
         int localidad = localidadesAdapter.getPosition(spinnerLocalidadRegistroUsuario.getText().toString());
         int interes = interesesAdapter.getPosition(spinnerInteresesRegistroUsuario.getText().toString());
 
@@ -210,7 +374,7 @@ public class CrearCuentaUsuario extends AppCompatActivity {
 
         } else {
 
-            Toast.makeText(this, "El correo electronico ingresado ya se encuentra registrado", Toast.LENGTH_SHORT).show();
+            layoutCorreoElectronico.setError("El correo electronico ya se encuentra en uso");
 
         }
 
@@ -234,7 +398,7 @@ public class CrearCuentaUsuario extends AppCompatActivity {
 
         for(String correo : correos){
 
-            repeticion = correo.equalsIgnoreCase(CorreoRegistroUsuario.getText().toString().trim());
+            repeticion = correo.equalsIgnoreCase(correoRegistroUsuario.getText().toString().trim());
 
             if(repeticion)
                 break;

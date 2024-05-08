@@ -2,6 +2,8 @@ package com.example.datastructureproject_groupb;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import com.example.datastructureproject_groupb.db.DbSesion;
 import com.example.datastructureproject_groupb.entidades.Artista;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
@@ -31,6 +34,7 @@ public class CrearCuentaExpositor extends AppCompatActivity {
     private Button cancelarRegistroExpositor, registrasrseRegistroExpositor;
     private ArrayAdapter<String> interesesAdapter, localidadesAdapter;
     private LinearLayout layoutBotones;
+    private TextInputLayout layoutNombre, layoutCorreoElectronico, layoutContrasena, layoutConfirmarContrasena, layoutTipoEvento, layoutLocalidad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +44,19 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         layoutBotones = findViewById(R.id.layoutBotones);
 
         KeyboardVisibilityEvent.setEventListener(this, isOpen -> {
-            if(isOpen)
-                layoutBotones.setLayoutParams(new LinearLayout.LayoutParams(0, 0, 0));
-            else {
+            if(isOpen) {
 
-                LinearLayout.LayoutParams nuevoParametro = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1);
-                nuevoParametro.leftMargin = 30;
-                nuevoParametro.rightMargin = 30;
-                nuevoParametro.bottomMargin = 40;
-                nuevoParametro.topMargin = 40;
+                LinearLayout.LayoutParams nuevoParametro = (LinearLayout.LayoutParams) layoutBotones.getLayoutParams();
+                nuevoParametro.width = 0;
+                nuevoParametro.weight = 0;
+                layoutBotones.setLayoutParams(nuevoParametro);
+
+            } else {
+
+                LinearLayout.LayoutParams nuevoParametro = (LinearLayout.LayoutParams) layoutBotones.getLayoutParams();
+
+                nuevoParametro.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                nuevoParametro.weight = 1.9f;
 
                 layoutBotones.setLayoutParams(nuevoParametro);
 
@@ -63,6 +71,134 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         spinnerLocalidadRegistroUsuario=findViewById(R.id.spinnerLocalidadRegistroExpositor);
         cancelarRegistroExpositor =findViewById(R.id.botonCancelarRegistroExpositor);
         registrasrseRegistroExpositor =findViewById(R.id.botonRegistratseRegistroExpositor);
+
+        layoutNombre = findViewById(R.id.layoutNombre);
+        layoutCorreoElectronico = findViewById(R.id.layoutCorreoElectronico);
+        layoutContrasena = findViewById(R.id.layoutContrasena);
+        layoutConfirmarContrasena = findViewById(R.id.layoutConfirmarContrasena);
+        layoutTipoEvento = findViewById(R.id.layoutTipoEvento);
+        layoutLocalidad = findViewById(R.id.layoutLocalidad);
+
+        nombreRegistroExpositor.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutNombre.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        correoRegistroExpositor.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutCorreoElectronico.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        contrasenaRegistroExpositor.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutContrasena.setErrorEnabled(false);
+
+                if(s.toString().length() == 0)
+                    layoutContrasena.setHelperTextEnabled(false);
+                else if(s.toString().length() < 8)
+                    layoutContrasena.setHelperText("Contraseña debil");
+                else
+                    layoutContrasena.setHelperText("Contraseña fuerte");
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        confirmarContrasenaRegistroExpositor.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutConfirmarContrasena.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        spinnerLocalidadRegistroUsuario.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutLocalidad.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        spinnerInteresesRegistroUsuario.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutTipoEvento.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         cancelarRegistroExpositor.setOnClickListener(view -> cambiarAPaginaPrincipal());
         registrasrseRegistroExpositor.setOnClickListener(view -> registrarseComoExpositor());
@@ -90,19 +226,18 @@ public class CrearCuentaExpositor extends AppCompatActivity {
     public void VerificarInformacionRegistroExpositor(View view) {
 
         boolean flag = true;
-        String mensajeError = "";
 
         if(nombreRegistroExpositor.getText().toString().trim().equals("")) {
-            mensajeError += "No ha ingresado nombres validos\n";
+            layoutNombre.setError("Ingrese nombres validos");
             flag = false;
         }
 
         if(spinnerLocalidadRegistroUsuario.getText().toString().equals("") || localidadesAdapter.getPosition(spinnerLocalidadRegistroUsuario.getText().toString()) == -1) {
-            mensajeError += "Seleccione una Localidad\n";
+            layoutLocalidad.setError("Seleccione una localidad");
             flag = false;
         }
         if(spinnerInteresesRegistroUsuario.getText().toString().equals("") || interesesAdapter.getPosition(spinnerInteresesRegistroUsuario.getText().toString()) == -1) {
-            mensajeError += "Seleccione un Interes\n";
+            layoutTipoEvento.setError("Seleccione un tipo de evento");
             flag = false;
         }
 
@@ -111,30 +246,24 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         Matcher mather = pattern.matcher(correoRegistroExpositor.getText().toString());
 
         if(!mather.find()){
-            mensajeError += "No ha ingresado un correo electronico valido\n";
+            layoutCorreoElectronico.setError("Ingrese un correo electronico valido");
             flag = false;
         }
-        if(contrasenaRegistroExpositor.getText().toString().length() < 8){
-            mensajeError += "Debe ingresar una contraseña de por lo menos 8 caracteres\n";
-            flag = false;
-        }
+
         if(contrasenaRegistroExpositor.getText().toString().contains(" ")){
-            mensajeError += "La contraseña no puede contener espacios en blanco\n";
+            layoutContrasena.setError("La contraseña no puede contener espacios en blanco");
+            flag = false;
+        }else if(contrasenaRegistroExpositor.getText().toString().length() < 8){
+            layoutContrasena.setError("La contraseña debe tener por lo menos 8 caracteres.");
             flag = false;
         }
         if(!contrasenaRegistroExpositor.getText().toString().equals(confirmarContrasenaRegistroExpositor.getText().toString())){
-            mensajeError += "Las contraseñas no coinciden\n";
-            flag = false;
-        }
-        if(!contrasenaRegistroExpositor.getText().toString().equals(confirmarContrasenaRegistroExpositor.getText().toString())){
-            mensajeError += "Las contraseñas no coinciden\n";
+            layoutConfirmarContrasena.setError("Las contraseñas no coinciden");
             flag = false;
         }
 
         if(flag)
             RegistrarExpositor(view);
-        else
-            Toast.makeText(this, mensajeError, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -160,7 +289,7 @@ public class CrearCuentaExpositor extends AppCompatActivity {
 
         } else {
 
-            Toast.makeText(this, "El correo electronico ingresado ya se encuentra registrado", Toast.LENGTH_SHORT).show();
+            layoutCorreoElectronico.setError("El correo electronico ya se encuentra en uso");
 
         }
 

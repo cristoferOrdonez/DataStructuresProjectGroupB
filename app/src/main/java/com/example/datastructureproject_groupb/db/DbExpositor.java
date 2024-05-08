@@ -134,6 +134,7 @@ public class DbExpositor extends DbArt {
 
         if (cursorArtistas.moveToFirst()) {
             ArtistasInfo = new Artista();
+            ArtistasInfo.setNombreArtista(cursorArtistas.getString(1));
             ArtistasInfo.setCorreoElectronico(cursorArtistas.getString(2));
             ArtistasInfo.setContrasena(cursorArtistas.getString(5));
         }

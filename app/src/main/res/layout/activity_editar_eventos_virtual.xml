@@ -34,6 +34,7 @@
             android:theme="@style/TextInputEditText">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutNombreEvento"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,6 +57,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutFechaEvento"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,6 +105,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutCostoEvento"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -134,6 +137,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutHoraInicio"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -161,6 +165,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutHoraFinal"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -209,6 +214,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutDescripcionEvento"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -238,14 +244,17 @@
         android:id="@+id/layoutBotones"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginVertical="30dp"
+        android:layout_weight="1.9"
         android:orientation="horizontal">
         <Button
             android:id="@+id/botonCancelarEditarEvento"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:autoSizeMaxTextSize="18sp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginVertical="30dp"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:layout_height="match_parent"
             android:text="Cancelar"
             android:textSize="8sp"/>
@@ -255,6 +264,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:autoSizeMaxTextSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginVertical="30dp"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:text="Aceptar"
             android:textSize="8sp"/>
     </LinearLayout>

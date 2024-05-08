@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -30,6 +32,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
@@ -46,13 +49,14 @@ public class EditarEventosPresencial extends AppCompatActivity {
     Button cancelarEditarEvento, aceptarEditarEvento;
     private ArrayAdapter<String> localidadesAdapter, categoriasAdapter;
     long idEvento;
-    private int dia, mes, anio, horaInicio, horaFinal, minutosInicio, minutosFinal;
+    private Integer[] horaMinutosInicio = {-1, -1}, horaMinutosFinal = {-1, -1}, fecha;
     private GoogleMap gMap;
     private ImageButton botonAceptarUbicacion, botonCancelarUbicación;
     private ConstraintLayout layoutMap;
     private LatLng bogota, ubicacionMarker, ubicacionDefinitiva;
     Marker marker;
     private LinearLayout layoutBotones;
+    private TextInputLayout layoutNombreEvento, layoutFechaEvento, layoutUbicacionEvento, layoutCostoEvento, layoutHoraInicio, layoutHoraFinal, layoutDescripcionEvento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +66,20 @@ public class EditarEventosPresencial extends AppCompatActivity {
         layoutBotones = findViewById(R.id.layoutBotones);
 
         KeyboardVisibilityEvent.setEventListener(this, isOpen -> {
-            if(isOpen)
-                layoutBotones.setLayoutParams(new LinearLayout.LayoutParams(0, 0, 0));
-            else {
+            if(isOpen) {
 
-                LinearLayout.LayoutParams nuevoParametro = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1);
-                nuevoParametro.leftMargin = 30;
-                nuevoParametro.rightMargin = 30;
-                nuevoParametro.bottomMargin = 40;
-                nuevoParametro.topMargin = 40;
+                LinearLayout.LayoutParams nuevoParametro = (LinearLayout.LayoutParams) layoutBotones.getLayoutParams();
+                nuevoParametro.width = 0;
+                nuevoParametro.weight = 0;
+
+                layoutBotones.setLayoutParams(nuevoParametro);
+
+            } else {
+
+                LinearLayout.LayoutParams nuevoParametro = (LinearLayout.LayoutParams) layoutBotones.getLayoutParams();
+
+                nuevoParametro.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                nuevoParametro.weight = 1.9f;
 
                 layoutBotones.setLayoutParams(nuevoParametro);
 
@@ -93,9 +102,11 @@ public class EditarEventosPresencial extends AppCompatActivity {
 
         String[] fechaEventoArr = fechaEventoS.split("/");
 
-        dia = Integer.parseInt(fechaEventoArr[0]);
-        mes = Integer.parseInt(fechaEventoArr[1]) - 1;
-        anio = Integer.parseInt(fechaEventoArr[2]);
+        fecha = new Integer[3];
+
+        fecha[2] = Integer.parseInt(fechaEventoArr[0]);
+        fecha[1] = Integer.parseInt(fechaEventoArr[1]) - 1;
+        fecha[0] = Integer.parseInt(fechaEventoArr[2]);
 
         String horarioEventoS = getIntent().getStringExtra("HORARIO_EVENTO");
 
@@ -104,18 +115,18 @@ public class EditarEventosPresencial extends AppCompatActivity {
         String horaInicioS = horarioEventoArr[0], horaFinalS = horarioEventoArr[1];
 
         if(horaInicioS.charAt(horaInicioS.length() - 4) == 'p')
-            horaInicio = Integer.parseInt(horaInicioS.substring(0, horaInicioS.indexOf(':'))) + 12;
+            horaMinutosInicio[0] = Integer.parseInt(horaInicioS.substring(0, horaInicioS.indexOf(':'))) + 12;
         else
-            horaInicio = Integer.parseInt(horaInicioS.substring(0, horaInicioS.indexOf(':')));
+            horaMinutosInicio[0] = Integer.parseInt(horaInicioS.substring(0, horaInicioS.indexOf(':')));
 
         if(horaFinalS.charAt(horaFinalS.length() - 4) == 'p')
-            horaFinal = Integer.parseInt(horaFinalS.substring(0, horaFinalS.indexOf(':'))) + 12;
+            horaMinutosFinal[0] = Integer.parseInt(horaFinalS.substring(0, horaFinalS.indexOf(':'))) + 12;
         else
-            horaFinal = Integer.parseInt(horaFinalS.substring(0, horaFinalS.indexOf(':')));
+            horaMinutosFinal[0] = Integer.parseInt(horaFinalS.substring(0, horaFinalS.indexOf(':')));
 
-        minutosInicio = Integer.parseInt(horaInicioS.substring(horaInicioS.indexOf(':') + 1, horaInicioS.indexOf('.') - 1));
+        horaMinutosInicio[1] = Integer.parseInt(horaInicioS.substring(horaInicioS.indexOf(':') + 1, horaInicioS.indexOf('.') - 1));
 
-        minutosFinal = Integer.parseInt(horaFinalS.substring(horaFinalS.indexOf(':') + 1, horaFinalS.indexOf('.') - 1));
+        horaMinutosFinal[1] = Integer.parseInt(horaFinalS.substring(horaFinalS.indexOf(':') + 1, horaFinalS.indexOf('.') - 1));
 
         fechaEvento.setText(getIntent().getStringExtra("FECHA_EVENTO"));
 
@@ -155,6 +166,147 @@ public class EditarEventosPresencial extends AppCompatActivity {
         cancelarEditarEvento = findViewById(R.id.botonCancelarEditarEvento);
         aceptarEditarEvento = findViewById(R.id.botonAceptarEditarEvento);
 
+        layoutNombreEvento = findViewById(R.id.layoutNombreEvento);
+        layoutFechaEvento = findViewById(R.id.layoutFechaEvento);
+        layoutUbicacionEvento = findViewById(R.id.layoutUbicacionEvento);
+        layoutCostoEvento = findViewById(R.id.layoutCostoEvento);
+        layoutHoraInicio = findViewById(R.id.layoutHoraInicio);
+        layoutHoraFinal = findViewById(R.id.layoutHoraFinal);
+        layoutDescripcionEvento = findViewById(R.id.layoutDescripcionEvento);
+
+        nombreEvento.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutNombreEvento.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        fechaEvento.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutFechaEvento.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        ubicacionEvento.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutUbicacionEvento.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        costoEvento.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutCostoEvento.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        horaInicioEvento.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutHoraInicio.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        horaFinalEvento.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutHoraFinal.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        descripcionEvento.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                layoutDescripcionEvento.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         localidadesAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.LOCALIDADES);
         spinnerLocalidadEvento.setAdapter(localidadesAdapter);
 
@@ -184,16 +336,16 @@ public class EditarEventosPresencial extends AppCompatActivity {
         });
         fechaEvento.setOnClickListener(view -> mostrarDatePicker());
 
-        horaInicioEvento.setOnClickListener(view -> mostrarTimePicker(horaInicioEvento));
+        horaInicioEvento.setOnClickListener(view -> mostrarTimePicker(horaInicioEvento, horaMinutosInicio));
         horaInicioEvento.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus)
-                mostrarTimePicker(horaInicioEvento);
+                mostrarTimePicker(horaInicioEvento, horaMinutosInicio);
         });
 
-        horaFinalEvento.setOnClickListener(view -> mostrarTimePicker(horaFinalEvento));
+        horaFinalEvento.setOnClickListener(view -> mostrarTimePicker(horaFinalEvento, horaMinutosFinal));
         horaFinalEvento.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus)
-                mostrarTimePicker(horaFinalEvento);
+                mostrarTimePicker(horaFinalEvento, horaMinutosFinal);
         });
 
         botonAceptarUbicacion.setOnClickListener(view -> {
@@ -295,19 +447,16 @@ public class EditarEventosPresencial extends AppCompatActivity {
     }
 
 
-    private void mostrarTimePicker(EditText horarioEvento) {
+    private void mostrarTimePicker(EditText horarioEvento, Integer [] horaMinutosDefecto) {
         MostrarTimePicker timePicker = new MostrarTimePicker(
                 this,
                 horarioEvento,
-                this.horaInicio,
-                this.horaFinal,
-                this.horaInicio,
-                this.minutosFinal
+                horaMinutosDefecto
         );
     }
 
     private void mostrarDatePicker(){
-        MostrarDatePicker datePicker = new MostrarDatePicker(this, this.fechaEvento, this.dia, this.mes, this.anio);
+        MostrarDatePicker datePicker = new MostrarDatePicker(this, this.fechaEvento, this.fecha);
     }
 
     public void cambiarAEventos() {
@@ -324,55 +473,42 @@ public class EditarEventosPresencial extends AppCompatActivity {
     public void VerificarInformacionRegistro(View view) {
 
         boolean flag = true;
-        String mensajeError = "";
 
         if (nombreEvento.getText().toString().trim().equals("")) {
-            mensajeError += "No ha ingresado nombre valido\n";
+            layoutNombreEvento.setError("Ingrese un nombre valido");
             flag = false;
         }
-
         String verificarFechaEvento = this.fechaEvento.getText().toString().trim();
 
         String[] verificarTamanoFechaEvento = verificarFechaEvento.split("/");
         if (verificarFechaEvento.equals("") || verificarTamanoFechaEvento.length != 3) {
-            mensajeError += "No ha ingresado fecha valida\n";
+            layoutFechaEvento.setError("Ingrese una fecha valida");
             flag = false;
         }
         if (ubicacionEvento.getText().toString().trim().equals("")) {
-            mensajeError += "No ha ingresado una ubicación valida\n";
-            flag = false;
-        }
-        if(spinnerLocalidadEvento.getText().toString().equals("") || localidadesAdapter.getPosition(spinnerLocalidadEvento.getText().toString()) == -1) {
-            mensajeError += "Seleccione una Localidad\n";
+            layoutUbicacionEvento.setError("Ingrese una ubicación valida");
             flag = false;
         }
         String verificarCostoEvento = costoEvento.getText().toString().trim();
         if (verificarCostoEvento.equals("") || !TextUtils.isDigitsOnly(verificarCostoEvento)) {
-            mensajeError += "No ha ingresado un costo valido\n";
+            layoutCostoEvento.setError("Ingrese un costo valido");
             flag = false;
         }
         if(horaInicioEvento.getText().toString().trim().equals("")) {
-            mensajeError += "No ha ingresado hora de inicio\n";
+            layoutHoraInicio.setError("Seleccione una hora de inicio");
             flag = false;
         }
         if(horaFinalEvento.getText().toString().trim().equals("")) {
-            mensajeError += "No ha ingresado hora final\n";
-            flag = false;
-        }
-        if(spinnerCategoriaEvento.getText().toString().equals("") || categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString()) == -1) {
-            mensajeError += "Seleccione un Interes\n";
+            layoutHoraFinal.setError("Seleccione una hora de fin");
             flag = false;
         }
         if (descripcionEvento.getText().toString().trim().equals("")) {
-            mensajeError += "No ha ingresado una descripción valida\n";
+            layoutDescripcionEvento.setError("Ingrese una descripción valida");
             flag = false;
         }
 
-        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
         if(flag)
             EditarEvento(view);
-        else
-            Toast.makeText(this, mensajeError, Toast.LENGTH_SHORT).show();
     }
     public void EditarEvento(View view) {
         String nombreEvento = this.nombreEvento.getText().toString().trim();
