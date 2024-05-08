@@ -11,7 +11,8 @@
     <color name="fondo_secundario">#0F0F11</color>
     <color name="colorTexto">#939298</color>
     <color name="azul_botones">#0064FF</color>
-    <color name="barraPrincipal">#7C000000</color>
+    <color name="barraPrincipal">@color/fondo</color>
     <color name="gris_oscuro_box_background_color">#e5e5e5</color>
+    <color name="divison_barra_principal">#706F6F</color>
 
 </resources>
