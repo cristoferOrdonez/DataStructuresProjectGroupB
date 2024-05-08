@@ -46,12 +46,12 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
     public void onBindViewHolder(@NonNull EventoViewHolder holder, int position) {
         Evento evento = listaEventos.get(position);
 
-        if (evento.getLocalidadEvento() != 21) {
+        if (evento.getUbicacionEvento() != 21) {
             holder.textViewLugarEvento.setText("Lugar: " + evento.getDireccionEvento());
             holder.textViewTituloEvento.setText(evento.getNombreEvento() + " - Presencial");
         } else {
             holder.textViewTituloEvento.setText(evento.getNombreEvento() +  " - Virtual");
-            holder.textViewLugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
+            holder.textViewLugarEvento.setText("Plataforma: " + evento.getDirePlatEvento());
         }
         holder.textViewFechaEvento.setText("" + evento.getFechaEventoString()+" • ");
         holder.textViewHorarioEvento.setText("" + evento.getHorarioEvento());
@@ -98,19 +98,19 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
 
                 Button boton = view.findViewById(R.id.botonMostrarUbicacion);
 
-                boton.setOnClickListener(i -> {
-                        Intent miIntent = new Intent(v.getContext(), MostrarUbicacionEvento.class);
-                        miIntent.putExtra("UBICACION_EVENTO", evento.getUbicacionEvento());
-                        miIntent.putExtra("NOMBRE_EVENTO", evento.getNombreEvento());
-                        v.getContext().startActivity(miIntent);
-                });
-
-                if (evento.getLocalidadEvento() != 21) {
+                if (evento.getUbicacionEvento() != 21) {
+                    boton.setOnClickListener(i -> {
+                            Intent miIntent = new Intent(v.getContext(), MostrarUbicacionEvento.class);
+                            miIntent.putExtra("UBICACION_EVENTO", evento.getDirePlatEvento());
+                            miIntent.putExtra("NOMBRE_EVENTO", evento.getNombreEvento());
+                            v.getContext().startActivity(miIntent);
+                    });
                     tituloEvento.setText(evento.getNombreEvento() + " - Presencial");
                     lugarEvento.setText("Lugar: " + evento.getDireccionEvento());
                 } else {
+                    boton.setVisibility(View.GONE);
                     tituloEvento.setText(evento.getNombreEvento() + " - Virtual");
-                    lugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
+                    lugarEvento.setText("Plataforma: " + evento.getDirePlatEvento());
                 }
                 fechaEvento.setText("Fecha: " + evento.getFechaEventoString());
                 horarioEvento.setText("Horario: " + evento.getHorarioEvento());

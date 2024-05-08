@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -44,11 +43,11 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
 
         Evento evento = listaEventos.get(position);
 
-        if (evento.getLocalidadEvento() != 21) {
+        if (evento.getUbicacionEvento() != 21) {
             holder.textViewTituloEvento.setText(evento.getNombreEvento() + " - Presencial");
             holder.textViewLugarEvento.setText("Lugar: " + evento.getDireccionEvento());
         } else {
-            holder.textViewLugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
+            holder.textViewLugarEvento.setText("Plataforma: " + evento.getDirePlatEvento());
             holder.textViewTituloEvento.setText(evento.getNombreEvento() + " - Virtual");
         }
         holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEventoString());
@@ -103,12 +102,12 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
             @Override
             public void onClick(View v) {
                 Intent intent;
-                if (evento.getLocalidadEvento() != 21) {
+                if (evento.getUbicacionEvento() != 21) {
                     intent = new Intent(v.getContext(), EditarEventosPresencial.class);
-                    intent.putExtra("UBICACION_EVENTO", evento.getUbicacionEvento());
+                    intent.putExtra("UBICACION_EVENTO", evento.getDirePlatEvento());
                 } else {
                     intent = new Intent(v.getContext(), EditarEventosVirtual.class);
-                    intent.putExtra("PLATAFORMA_EVENTO", evento.getUbicacionEvento());
+                    intent.putExtra("PLATAFORMA_EVENTO", evento.getDirePlatEvento());
                 }
 
                 int position = holder.getAdapterPosition();
@@ -120,7 +119,7 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
                 intent.putExtra("COSTO_EVENTO", String.valueOf(evento.getCostoEvento()));
                 intent.putExtra("HORARIO_EVENTO", evento.getHorarioEvento());
                 intent.putExtra("DESCRIPCION_EVENTO", evento.getDescripcionEvento());
-                intent.putExtra("LOCALIDAD_EVENTO", evento.getLocalidadEvento());
+                intent.putExtra("LOCALIDAD_EVENTO", evento.getUbicacionEvento());
                 intent.putExtra("CATEGORIA_EVENTO", evento.getCategoriaEvento());
                 v.getContext().startActivity(intent);
                 ((Activity)v.getContext()).finishAffinity();

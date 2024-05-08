@@ -335,6 +335,19 @@ public class EditarEventosVirtual extends AppCompatActivity {
             layoutHoraFinal.setError("Seleccione una hora de fin");
             flag = false;
         }
+        String horarioInicio = this.horaInicioEvento.getText().toString().trim();
+        String horarioFinal = this.horaFinalEvento.getText().toString().trim();
+        if(horarioInicio.replaceAll("[^a-zA-Z]", "").equals("pm") && horarioFinal.replaceAll("[^a-zA-Z]", "").equals("am")){
+            layoutHoraInicio.setError("La hora inicial deber ser menor que la hora final");
+            flag = false;
+        } else if ((horarioInicio.replaceAll("[^a-zA-Z]", "").equals("am") && horarioFinal.replaceAll("[^a-zA-Z]", "").equals("am")) || (horarioInicio.replaceAll("[^a-zA-Z]", "").equals("pm") && horarioFinal.replaceAll("[^a-zA-Z]", "").equals("pm"))) {
+            String[] horaMinutoInicio = horarioInicio.split(":");
+            String[] horaMinutoFinal = horarioFinal.split(":");
+            if (horaMinutoInicio[0].equals(horaMinutoFinal[0]) && Integer.parseInt(horaMinutoInicio[1].replaceAll("[^\\d]", "")) >= Integer.parseInt(horaMinutoFinal[1].replaceAll("[^\\d]", ""))){
+                layoutHoraInicio.setError("La hora inicial deber ser menor que la hora final");
+                flag = false;
+            }
+        }
         if(descripcionEvento.getText().toString().trim().equals("")) {
             layoutDescripcionEvento.setError("Ingrese una descripción valida");
             flag = false;

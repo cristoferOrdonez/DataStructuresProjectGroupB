@@ -37,14 +37,13 @@ import com.google.android.material.textfield.TextInputLayout;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class EditarEventosPresencial extends AppCompatActivity {
-    TextInputEditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horaInicioEvento, horaFinalEvento, descripcionEvento;
+    TextInputEditText nombreEvento, fechaEvento, direPlatEvento, costoEvento, horaInicioEvento, horaFinalEvento, descripcionEvento;
     MaterialAutoCompleteTextView spinnerLocalidadEvento, spinnerCategoriaEvento;
     Button cancelarEditarEvento, aceptarEditarEvento;
     private ArrayAdapter<String> localidadesAdapter, categoriasAdapter;
@@ -148,8 +147,8 @@ public class EditarEventosPresencial extends AppCompatActivity {
 
         String ubicacionInit = listaDireccionInit.get(0).getAddressLine(0).split(",")[0];
 
-        ubicacionEvento = findViewById(R.id.editTextUbicacionEvento);
-        ubicacionEvento.setText(ubicacionInit);
+        direPlatEvento = findViewById(R.id.editTextUbicacionEvento);
+        direPlatEvento.setText(ubicacionInit);
         costoEvento = findViewById(R.id.editTextCostoEvento);
         costoEvento.setText(getIntent().getStringExtra("COSTO_EVENTO"));
 
@@ -212,7 +211,7 @@ public class EditarEventosPresencial extends AppCompatActivity {
             }
         });
 
-        ubicacionEvento.addTextChangedListener(new TextWatcher() {
+        direPlatEvento.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -322,8 +321,8 @@ public class EditarEventosPresencial extends AppCompatActivity {
         cancelarEditarEvento.setOnClickListener(view -> cambiarAEventos());
         aceptarEditarEvento.setOnClickListener(view -> editarEventoExpositor());
 
-        ubicacionEvento.setOnClickListener(view -> mostrarMapa());
-        ubicacionEvento.setOnFocusChangeListener((view, hasFocus) -> {
+        direPlatEvento.setOnClickListener(view -> mostrarMapa());
+        direPlatEvento.setOnFocusChangeListener((view, hasFocus) -> {
 
             if (hasFocus)
                 mostrarMapa();
@@ -365,7 +364,7 @@ public class EditarEventosPresencial extends AppCompatActivity {
 
                     String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
 
-                    ubicacionEvento.setText(ubicacion);
+                    direPlatEvento.setText(ubicacion);
                 }
                 layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
                 marker.remove();
@@ -485,7 +484,7 @@ public class EditarEventosPresencial extends AppCompatActivity {
             layoutFechaEvento.setError("Ingrese una fecha valida");
             flag = false;
         }
-        if (ubicacionEvento.getText().toString().trim().equals("")) {
+        if (direPlatEvento.getText().toString().trim().equals("")) {
             layoutUbicacionEvento.setError("Ingrese una ubicación valida");
             flag = false;
         }
@@ -502,6 +501,20 @@ public class EditarEventosPresencial extends AppCompatActivity {
             layoutHoraFinal.setError("Seleccione una hora de fin");
             flag = false;
         }
+        String horarioInicio = this.horaInicioEvento.getText().toString().trim();
+        String horarioFinal = this.horaFinalEvento.getText().toString().trim();
+        if(horarioInicio.replaceAll("[^a-zA-Z]", "").equals("pm") && horarioFinal.replaceAll("[^a-zA-Z]", "").equals("am")){
+            layoutHoraInicio.setError("La hora inicial deber ser menor que la hora final");
+            flag = false;
+        } else if ((horarioInicio.replaceAll("[^a-zA-Z]", "").equals("am") && horarioFinal.replaceAll("[^a-zA-Z]", "").equals("am")) || (horarioInicio.replaceAll("[^a-zA-Z]", "").equals("pm") && horarioFinal.replaceAll("[^a-zA-Z]", "").equals("pm"))) {
+            String[] horaMinutoInicio = horarioInicio.split(":");
+            String[] horaMinutoFinal = horarioFinal.split(":");
+            if (horaMinutoInicio[0].equals(horaMinutoFinal[0]) && Integer.parseInt(horaMinutoInicio[1].replaceAll("[^\\d]", "")) >= Integer.parseInt(horaMinutoFinal[1].replaceAll("[^\\d]", ""))){
+                layoutHoraInicio.setError("La hora inicial deber ser menor que la hora final");
+                flag = false;
+            }
+        }
+
         if (descripcionEvento.getText().toString().trim().equals("")) {
             layoutDescripcionEvento.setError("Ingrese una descripción valida");
             flag = false;

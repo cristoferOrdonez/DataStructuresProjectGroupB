@@ -1,15 +1,12 @@
 package com.example.datastructureproject_groupb.fragmentos;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,7 +19,6 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.Bocu;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StackLinkedList;
@@ -98,19 +94,19 @@ public class PaginaPrincipalFragment extends Fragment {
 
         Button boton = view.findViewById(R.id.botonMostrarUbicacion);
 
-        boton.setOnClickListener(i -> {
-            Intent miIntent = new Intent(getContext(), MostrarUbicacionEvento.class);
-            miIntent.putExtra("UBICACION_EVENTO", evento.getUbicacionEvento());
-            miIntent.putExtra("NOMBRE_EVENTO", evento.getNombreEvento());
-            startActivity(miIntent);
-        });
-
-        if (evento.getLocalidadEvento() != 21) {
+        if (evento.getUbicacionEvento() != 21) {
+            boton.setOnClickListener(i -> {
+                Intent miIntent = new Intent(getContext(), MostrarUbicacionEvento.class);
+                miIntent.putExtra("UBICACION_EVENTO", evento.getDirePlatEvento());
+                miIntent.putExtra("NOMBRE_EVENTO", evento.getNombreEvento());
+                startActivity(miIntent);
+            });
             tituloEvento.setText(evento.getNombreEvento() + " - Presencial");
             lugarEvento.setText("Lugar: " + evento.getDireccionEvento());
         } else {
+            boton.setVisibility(View.GONE);
             tituloEvento.setText(evento.getNombreEvento() + " - Virtual");
-            lugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
+            lugarEvento.setText("Plataforma: " + evento.getDirePlatEvento());
         }
         fechaEvento.setText("Fecha: " + evento.getFechaEventoString());
         horarioEvento.setText("Horario: " + evento.getHorarioEvento());

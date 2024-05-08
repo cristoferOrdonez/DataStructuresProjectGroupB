@@ -52,8 +52,8 @@ public class DbArt extends SQLiteOpenHelper {
                 "AnoEvento INTEGER NOT NULL, " + //2
                 "mesEvento INTEGER NOT NULL, " + //3
                 "diaEvento INTEGER NOT NULL, " + //4
-                "ubicacionEvento TEXT NOT NULL, " + //5
-                "localidadEvento INTEGER NOT NULL, " + //6
+                "direPlatEvento TEXT NOT NULL, " + //5 - direPlat = dirección (presencial) + plataforma (virtual)
+                "ubicacionEvento INTEGER NOT NULL, " + //6
                 "costoEvento INTEGER NOT NULL, " + //7
                 "horarioEvento TEXT NOT NULL, " + //8
                 "categoriaEvento INTEGER NOT NULL, " + //9

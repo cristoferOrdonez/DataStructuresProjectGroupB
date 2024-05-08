@@ -22,7 +22,7 @@ public class DbEventos extends DbArt {
         this.context = context;
     }
 
-    public long insertarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento, String correoAutor) {
+    public long insertarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String direPlatEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento, String correoAutor) {
         long id = 0;
         try {
             SQLiteDatabase db = getWritableDatabase();
@@ -32,7 +32,7 @@ public class DbEventos extends DbArt {
             values.put("AnoEvento", AnoEvento);
             values.put("mesEvento", mesEvento);
             values.put("diaEvento", diaEvento);
-            values.put("ubicacionEvento", ubicacionEvento);
+            values.put("direPlatEvento", direPlatEvento);
             values.put("costoEvento", costoEvento);
             values.put("horarioEvento", horarioEvento);
             values.put("descripcionEvento", descripcionEvento);
@@ -52,7 +52,7 @@ public class DbEventos extends DbArt {
     }
 
 
-    public boolean editarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String ubicacionEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento, String idEvento, String correoAutor) {
+    public boolean editarEvento(String nombreEvento, int AnoEvento, int mesEvento, int diaEvento, String direPlatEvento, int costoEvento, String horarioEvento, String descripcionEvento, int localidadEvento, int categoriaEvento, String idEvento, String correoAutor) {
         boolean correcto;
 
         DbArt dbHelper = new DbArt(context);
@@ -64,7 +64,7 @@ public class DbEventos extends DbArt {
             values.put("AnoEvento", AnoEvento);
             values.put("mesEvento", mesEvento);
             values.put("diaEvento", diaEvento);
-            values.put("ubicacionEvento", ubicacionEvento);
+            values.put("direPlatEvento", direPlatEvento);
             values.put("costoEvento", costoEvento);
             values.put("horarioEvento", horarioEvento);
             values.put("descripcionEvento", descripcionEvento);
@@ -152,11 +152,11 @@ public class DbEventos extends DbArt {
                 values.put("AnoEvento", evento.getFechaEvento().getYear());
                 values.put("mesEvento", evento.getFechaEvento().getMonth());
                 values.put("diaEvento", evento.getFechaEvento().getDate());
-                values.put("ubicacionEvento", evento.getUbicacionEvento());
+                values.put("direPlatEvento", evento.getDirePlatEvento());
                 values.put("costoEvento", evento.getCostoEvento());
                 values.put("horarioEvento", evento.getHorarioEvento());
                 values.put("descripcionEvento", evento.getDescripcionEvento());
-                values.put("localidadEvento", evento.getLocalidadEvento());
+                values.put("ubicacionEvento", evento.getUbicacionEvento());
                 values.put("categoriaEvento", evento.getCategoriaEvento());
 
                 db.insert(TABLE_EVENTOS, null, values);

@@ -318,6 +318,19 @@ public class CrearEventosVirtual extends AppCompatActivity{
             layoutHoraFinal.setError("Seleccione una hora de fin");
             flag = false;
         }
+        String horarioInicio = this.horaInicioEvento.getText().toString().trim();
+        String horarioFinal = this.horaFinalEvento.getText().toString().trim();
+        if(horarioInicio.replaceAll("[^a-zA-Z]", "").equals("pm") && horarioFinal.replaceAll("[^a-zA-Z]", "").equals("am")){
+            mensajeError += "La hora inicial deber ser menor que la hora final\n";
+            flag = false;
+        } else if ((horarioInicio.replaceAll("[^a-zA-Z]", "").equals("am") && horarioFinal.replaceAll("[^a-zA-Z]", "").equals("am")) || (horarioInicio.replaceAll("[^a-zA-Z]", "").equals("pm") && horarioFinal.replaceAll("[^a-zA-Z]", "").equals("pm"))) {
+            String[] horaMinutoInicio = horarioInicio.split(":");
+            String[] horaMinutoFinal = horarioFinal.split(":");
+            if (horaMinutoInicio[0].equals(horaMinutoFinal[0]) && Integer.parseInt(horaMinutoInicio[1].replaceAll("[^\\d]", "")) >= Integer.parseInt(horaMinutoFinal[1].replaceAll("[^\\d]", ""))){
+                mensajeError += "La hora inicial deber ser menor que la hora final\n";
+                flag = false;
+            }
+        }
         if(spinnerCategoriaEvento.getText().toString().equals("") || categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString()) == -1) {
             layoutTipoEvento.setError("Seleccione un tipo de evento");
             flag = false;

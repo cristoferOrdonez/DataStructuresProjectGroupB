@@ -44,8 +44,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-public class CrearEventosPresencial extends AppCompatActivity{
-    TextInputEditText nombreEvento, fechaEvento, ubicacionEvento, costoEvento, horaInicioEvento, horaFinalEvento, descripcionEvento;
+public class CrearEventosPresencial extends AppCompatActivity {
+    TextInputEditText nombreEvento, fechaEvento, direPlatEvento, costoEvento, horaInicioEvento, horaFinalEvento, descripcionEvento;
     MaterialAutoCompleteTextView spinnerLocalidadEvento, spinnerCategoriaEvento;
     Button cancelarCrearEvento, aceptarCrearEvento;
     private ArrayAdapter<String> categoriasAdapter, localidadesAdapter;
@@ -66,7 +66,7 @@ public class CrearEventosPresencial extends AppCompatActivity{
         layoutBotones = findViewById(R.id.layoutBotones);
 
         KeyboardVisibilityEvent.setEventListener(this, isOpen -> {
-            if(isOpen) {
+            if (isOpen) {
 
                 LinearLayout.LayoutParams nuevoParametro = (LinearLayout.LayoutParams) layoutBotones.getLayoutParams();
                 nuevoParametro.width = 0;
@@ -96,7 +96,7 @@ public class CrearEventosPresencial extends AppCompatActivity{
 
         nombreEvento = findViewById(R.id.editTextNombreEvento);
         fechaEvento = findViewById(R.id.editTextFechaEvento);
-        ubicacionEvento = findViewById(R.id.editTextUbicacionEvento);
+        direPlatEvento = findViewById(R.id.editTextUbicacionEvento);
         costoEvento = findViewById(R.id.editTextCostoEvento);
         horaInicioEvento = findViewById(R.id.editTextHoraInicioEvento);
         horaFinalEvento = findViewById(R.id.editTextHoraFinalEvento);
@@ -107,6 +107,13 @@ public class CrearEventosPresencial extends AppCompatActivity{
         cancelarCrearEvento = findViewById(R.id.botonCancelarCrearEvento);
         aceptarCrearEvento = findViewById(R.id.botonAceptarCrearEvento);
 
+        direPlatEvento.setOnClickListener(view -> mostrarMapa());
+        direPlatEvento.setOnFocusChangeListener((view, hasFocus) -> {
+
+            if (hasFocus)
+                mostrarMapa();
+
+        });
         layoutNombreEvento = findViewById(R.id.layoutNombreEvento);
         layoutFechaEvento = findViewById(R.id.layoutFechaEvento);
         layoutUbicacionEvento = findViewById(R.id.layoutUbicacionEvento);
@@ -155,7 +162,7 @@ public class CrearEventosPresencial extends AppCompatActivity{
             }
         });
 
-        ubicacionEvento.addTextChangedListener(new TextWatcher() {
+        direPlatEvento.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -288,8 +295,8 @@ public class CrearEventosPresencial extends AppCompatActivity{
             }
         });
 
-        ubicacionEvento.setOnClickListener(view -> mostrarMapa());
-        ubicacionEvento.setOnFocusChangeListener((view, hasFocus) -> {
+        direPlatEvento.setOnClickListener(view -> mostrarMapa());
+        direPlatEvento.setOnFocusChangeListener((view, hasFocus) -> {
 
             if (hasFocus)
                 mostrarMapa();
@@ -339,7 +346,7 @@ public class CrearEventosPresencial extends AppCompatActivity{
 
                     String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
 
-                    ubicacionEvento.setText(ubicacion);
+                    direPlatEvento.setText(ubicacion);
                 }
                 layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
                 marker.remove();
@@ -381,7 +388,7 @@ public class CrearEventosPresencial extends AppCompatActivity{
                     List<Address> listaDireccion = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
                     String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
 
-                    if(marker != null)
+                    if (marker != null)
                         marker.remove();
                     marker = gMap.addMarker(new MarkerOptions().position(latLng).title(ubicacion));
 
@@ -395,11 +402,11 @@ public class CrearEventosPresencial extends AppCompatActivity{
 
     }
 
-    private void mostrarMapa(){
+    private void mostrarMapa() {
 
         layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        if(ubicacionDefinitiva != null) {
+        if (ubicacionDefinitiva != null) {
             Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
             List<Address> listaDireccion = null;
@@ -416,14 +423,14 @@ public class CrearEventosPresencial extends AppCompatActivity{
 
     }
 
-    private void mostrarTimePicker(EditText horarioEvento, Integer [] horaMinutosDefecto) {
+    private void mostrarTimePicker(EditText horarioEvento, Integer[] horaMinutosDefecto) {
         MostrarTimePicker timePicker = new MostrarTimePicker(
                 this,
                 horarioEvento,
                 horaMinutosDefecto);
     }
 
-    private void mostrarDatePicker(){
+    private void mostrarDatePicker() {
         MostrarDatePicker datePicker = new MostrarDatePicker(this, this.fechaEvento, this.fecha);
     }
 
@@ -434,7 +441,7 @@ public class CrearEventosPresencial extends AppCompatActivity{
         finishAffinity();
     }
 
-    public void crearEventoExpositor(){
+    public void crearEventoExpositor() {
         VerificarInformacionRegistro(new View(this));
     }
 
@@ -442,49 +449,64 @@ public class CrearEventosPresencial extends AppCompatActivity{
 
         boolean flag = true;
 
-        if(nombreEvento.getText().toString().trim().equals("")) {
+        if (nombreEvento.getText().toString().trim().equals("")) {
             layoutNombreEvento.setError("Ingrese un nombre valido");
             flag = false;
         }
         String verificarFechaEvento = this.fechaEvento.getText().toString().trim();
         String[] verificarTamanoFechaEvento = verificarFechaEvento.split("/");
-        if(verificarFechaEvento.equals("") || verificarTamanoFechaEvento.length  != 3) {
+        if (verificarFechaEvento.equals("") || verificarTamanoFechaEvento.length != 3) {
             layoutFechaEvento.setError("Ingrese una fecha valida");
             flag = false;
         }
-        if(ubicacionEvento.getText().toString().trim().equals("")) {
+        if (direPlatEvento.getText().toString().trim().equals("")) {
             layoutUbicacionEvento.setError("Ingrese una ubicación valida");
             flag = false;
         }
-        if(spinnerLocalidadEvento.getText().toString().equals("")) {
+        if (spinnerLocalidadEvento.getText().toString().equals("")) {
             layoutLocalidadEvento.setError("Seleccione una localidad");
             flag = false;
         }
         String verificarCostoEvento = costoEvento.getText().toString().trim();
-        if(verificarCostoEvento.equals("") || !TextUtils.isDigitsOnly(verificarCostoEvento)) {
+        if (verificarCostoEvento.equals("") || !TextUtils.isDigitsOnly(verificarCostoEvento)) {
             layoutCostoEvento.setError("Ingrese un costo valido");
             flag = false;
         }
-        if(horaInicioEvento.getText().toString().trim().equals("")) {
+        if (horaInicioEvento.getText().toString().trim().equals("")) {
             layoutHoraInicio.setError("Seleccione una hora de inicio");
             flag = false;
         }
-        if(horaFinalEvento.getText().toString().trim().equals("")) {
+        if (horaFinalEvento.getText().toString().trim().equals("")) {
             layoutHoraFinal.setError("Seleccione una hora de fin");
             flag = false;
         }
-        if(spinnerCategoriaEvento.getText().toString().equals("") || categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString()) == -1) {
+        String horarioInicio = this.horaInicioEvento.getText().toString().trim();
+        String horarioFinal = this.horaFinalEvento.getText().toString().trim();
+        if (horarioInicio.replaceAll("[^a-zA-Z]", "").equals("pm") && horarioFinal.replaceAll("[^a-zA-Z]", "").equals("am")) {
+            layoutHoraInicio.setError("La hora inicial deber ser menor que la hora final");
+            flag = false;
+        } else if ((horarioInicio.replaceAll("[^a-zA-Z]", "").equals("am") && horarioFinal.replaceAll("[^a-zA-Z]", "").equals("am")) || (horarioInicio.replaceAll("[^a-zA-Z]", "").equals("pm") && horarioFinal.replaceAll("[^a-zA-Z]", "").equals("pm"))) {
+            String[] horaMinutoInicio = horarioInicio.split(":");
+            String[] horaMinutoFinal = horarioFinal.split(":");
+            if (horaMinutoInicio[0].equals(horaMinutoFinal[0]) && Integer.parseInt(horaMinutoInicio[1].replaceAll("[^\\d]", "")) >= Integer.parseInt(horaMinutoFinal[1].replaceAll("[^\\d]", ""))) {
+                layoutHoraInicio.setError("La hora inicial deber ser menor que la hora final");
+
+                flag = false;
+            }
+        }
+        if (spinnerCategoriaEvento.getText().toString().equals("") || categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString()) == -1) {
             layoutTipoEvento.setError("Seleccione un tipo de evento");
             flag = false;
         }
-        if(descripcionEvento.getText().toString().trim().equals("")) {
+        if (descripcionEvento.getText().toString().trim().equals("")) {
             layoutDescripcionEvento.setError("Ingrese una descripción valida");
             flag = false;
         }
 
-        if(flag)
+        if (flag)
             CrearEvento(view);
     }
+
     public void CrearEvento(View view) {
         String nombreEvento = this.nombreEvento.getText().toString().trim();
         String fechaEvento = this.fechaEvento.getText().toString().trim();
@@ -535,7 +557,7 @@ public class CrearEventosPresencial extends AppCompatActivity{
             Toast.makeText(this, "Evento creado con éxito", Toast.LENGTH_SHORT).show();
             cambiarAEventos();
 
-        } catch(Exception e){
+        } catch (Exception e) {
             Toast.makeText(this, "Error al crear el evento", Toast.LENGTH_SHORT).show();
         }
     }

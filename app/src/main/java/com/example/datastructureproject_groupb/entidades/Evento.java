@@ -4,8 +4,6 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 
-import com.example.datastructureproject_groupb.Bocu;
-
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Date;
@@ -36,19 +34,19 @@ public class Evento {
     private static final int SUMAPAZ = 20;
     private static final int VIRTUAL = 21;
 
-    private int localidadEvento, costoEvento, categoriaEvento;
+    private int ubicacionEvento, costoEvento, categoriaEvento;
     private long id;
-    private String nombreEvento, ubicacionEvento, horarioEvento, descripcionEvento, correoAutor;
+    private String nombreEvento, direPlatEvento, horarioEvento, descripcionEvento, correoAutor;
     private Date fechaEvento;
     private Context context;
 
-    public Evento(Context context, long id, String nombreEvento, Date fechaEvento, String ubicacionEvento, int localidadEvento, int costoEvento, String horarioEvento, int categoriaEvento, String descripcionEvento, String correoAutor){
+    public Evento(Context context, long id, String nombreEvento, Date fechaEvento, String direPlatEvento, int ubicacionEvento, int costoEvento, String horarioEvento, int categoriaEvento, String descripcionEvento, String correoAutor){
         this.context = context;
         this.id = id;
         this.nombreEvento = nombreEvento;
         this.fechaEvento = fechaEvento;
+        this.direPlatEvento = direPlatEvento;
         this.ubicacionEvento = ubicacionEvento;
-        this.localidadEvento = localidadEvento;
         this.costoEvento = costoEvento;
         this.horarioEvento = horarioEvento;
         this.categoriaEvento =categoriaEvento;
@@ -79,8 +77,8 @@ public class Evento {
         this.fechaEvento = fechaEvento;
     }
 
-    public String getUbicacionEvento() {
-        return ubicacionEvento;
+    public String getDirePlatEvento() {
+        return direPlatEvento;
     }
 
     public String getDireccionEvento(){
@@ -88,7 +86,7 @@ public class Evento {
 
         List<Address> listaDireccion = null;
         try {
-            listaDireccion = geocoder.getFromLocation(Double.parseDouble(ubicacionEvento.substring(0, ubicacionEvento.indexOf(" - "))), Double.parseDouble(ubicacionEvento.substring(ubicacionEvento.indexOf(" - ") + 3)), 1);
+            listaDireccion = geocoder.getFromLocation(Double.parseDouble(direPlatEvento.substring(0, direPlatEvento.indexOf(" - "))), Double.parseDouble(direPlatEvento.substring(direPlatEvento.indexOf(" - ") + 3)), 1);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -96,16 +94,16 @@ public class Evento {
         return listaDireccion.get(0).getAddressLine(0).split(",")[0];
     }
 
-    public void setUbicacionEvento(String ubicacionEvento) {
+    public void setDirePlatEvento(String direPlatEvento) {
+        this.direPlatEvento = direPlatEvento;
+    }
+
+    public int getUbicacionEvento() {
+        return ubicacionEvento;
+    }
+
+    public void setUbicacionEvento(int ubicacionEvento) {
         this.ubicacionEvento = ubicacionEvento;
-    }
-
-    public int getLocalidadEvento() {
-        return localidadEvento;
-    }
-
-    public void setLocalidadEvento(int localidadEvento) {
-        this.localidadEvento = localidadEvento;
     }
 
     public int getCostoEvento() {
