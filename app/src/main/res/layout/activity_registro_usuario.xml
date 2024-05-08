@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:text="Registro de Usuario"
         android:layout_width="match_parent"
         android:layout_height="18dp"
         android:layout_weight="1"
@@ -13,7 +14,6 @@
         android:fontFamily="@font/roslindale_condensed_medium_edu"
         android:paddingHorizontal="45dp"
         android:paddingVertical="20dp"
-        android:text="Registro de Usuario"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
@@ -221,6 +221,7 @@
                     android:id="@+id/spinnerLocalidadRegistroUsuario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="none"
                     android:textColor="@color/white"
                     app:dropDownBackgroundTint="@color/black" />
@@ -242,26 +243,28 @@
 
         <Button
             android:id="@+id/botonCancelarRegistroUsuario"
-            style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:autoSizeMaxTextSize="18sp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginVertical="30dp"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
+            android:layout_height="match_parent"
             android:text="Cancelar"
-            android:textColor="@color/gris_oscuro_box_background_color"
-            android:textSize="8sp" />
+            android:textSize="8sp"  />
 
         <Button
             android:id="@+id/botonRegistratseRegistroUsuario"
-            style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:autoSizeMaxTextSize="18sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginVertical="30dp"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:text="Registrarse"
-            android:textColor="@color/gris_oscuro_box_background_color"
             android:textSize="8sp" />
 
     </LinearLayout>

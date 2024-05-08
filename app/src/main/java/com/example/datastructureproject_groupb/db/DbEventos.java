@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -36,7 +37,7 @@ public class DbEventos extends DbArt {
             values.put("costoEvento", costoEvento);
             values.put("horarioEvento", horarioEvento);
             values.put("descripcionEvento", descripcionEvento);
-            values.put("localidadEvento", localidadEvento);
+            values.put("ubicacionEvento", localidadEvento);
             values.put("categoriaEvento", categoriaEvento);
             values.put("correoAutor", correoAutor);
 
@@ -68,7 +69,7 @@ public class DbEventos extends DbArt {
             values.put("costoEvento", costoEvento);
             values.put("horarioEvento", horarioEvento);
             values.put("descripcionEvento", descripcionEvento);
-            values.put("localidadEvento", localidadEvento);
+            values.put("ubicacionEvento", localidadEvento);
             values.put("categoriaEvento", categoriaEvento);
             values.put("correoAutor", correoAutor);
 

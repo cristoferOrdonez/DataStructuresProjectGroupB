@@ -8,15 +8,19 @@
     tools:context=".fragmentos.CuentaFragment">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textAlignment="center"
-        android:layout_weight="0.5"
-        android:layout_marginVertical="20dp"
-        android:layout_marginHorizontal="45dp"
-        android:autoSizeTextType="uniform"
         android:text="Tu informacion como usuario"
-        android:textColor="@color/black" />
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        android:layout_weight="1"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/roslindale_condensed_medium_edu"
+        android:paddingHorizontal="45dp"
+        android:paddingVertical="20dp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:theme="@style/Theme.DataStructureProjectGroupB.ActivityTitles"
+        android:visibility="visible" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -38,18 +42,19 @@
                 android:hint="Nombres"
                 android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black">
+                app:endIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextNombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,18 +66,19 @@
                 android:hint="Apellidos"
                 android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black">
+                app:endIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextApellido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,18 +90,19 @@
                 android:hint="Edad"
                 android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black">
+                app:endIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextEdad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="number"
                     android:maxLines="1"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,20 +114,21 @@
                 android:hint="Correo electronico"
                 android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black"
+                app:endIconTint="@color/white"
                 app:startIconDrawable="@drawable/icono_carta_email"
-                app:startIconTint="@color/black">
+                app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextCorreo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,20 +140,21 @@
                 android:hint="Contraseña"
                 android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                 app:endIconMode="password_toggle"
-                app:endIconTint="@color/black"
+                app:endIconTint="@color/white"
                 app:startIconDrawable="@drawable/icono_candado_contrasena"
-                app:startIconTint="@color/black">
+                app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextContrasena"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,17 +168,18 @@
                 android:hint="Interes"
                 android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
-                app:endIconTint="@color/black">
+                app:endIconTint="@color/white">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinnerIntereses"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="none"
-                    android:textColor="@color/black"
-                    app:dropDownBackgroundTint="@color/white" />
+                    android:textColor="@color/white"
+                    app:dropDownBackgroundTint="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -180,17 +190,18 @@
                 android:hint="Localidad"
                 android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
-                app:endIconTint="@color/black">
+                app:endIconTint="@color/white">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinnerLocalidad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="none"
-                    android:textColor="@color/black"
-                    app:dropDownBackgroundTint="@color/white" />
+                    android:textColor="@color/white"
+                    app:dropDownBackgroundTint="@color/black" />
 
 
             </com.google.android.material.textfield.TextInputLayout>

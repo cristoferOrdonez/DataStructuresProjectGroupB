@@ -17,7 +17,7 @@
 
         <item name="android:fontFamily">@font/jost_medium</item>
         <item name="android:background">@drawable/diseno_botones</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/gris_oscuro_box_background_color</item>
         <item name="android:autoSizeTextType">uniform</item>
         <item name="android:textAllCaps">true</item>
 
