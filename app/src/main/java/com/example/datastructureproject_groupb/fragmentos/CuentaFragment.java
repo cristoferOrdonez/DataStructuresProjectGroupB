@@ -415,6 +415,7 @@ public class CuentaFragment extends Fragment {
 
     }
     public void eliminarCuentaUsuario(UsuarioRegistrado usuarioRegistrado){
+        //RECORDARRRRR ELIMINAR CUENTA
         /*
         for(int i=0; i<Bocu.usuariosComunes.size();i++){
             if (Bocu.usuariosComunes.get(i)==usuarioRegistrado){

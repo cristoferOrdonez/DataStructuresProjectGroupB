@@ -6,6 +6,10 @@
     <color name="transparente">#00FFFFFF</color>
     <color name="gris_claro_hint">#C3C3C3</color>
     <color name="gris_oscuro_background_edit_text">#303030</color>
+
+    <!--ARREGLARRRRRRRRRRRRRR-->
+    <color name="gris_claro_background_edit_text">#303030</color>
+
     <color name="gris_claro_boton_presionado">#8E8E8E</color>
     <color name="fondo">#242427</color>
     <color name="fondo_secundario">#0F0F11</color>
