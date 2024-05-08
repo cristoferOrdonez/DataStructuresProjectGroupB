@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textAlignment="center"
+        android:layout_height="18dp"
         android:layout_weight="1"
-        android:background="@color/cian_titulo_evento_pagina_principal"
-        android:fontFamily="casual"
-        android:paddingVertical="20dp"
-        android:paddingHorizontal="45dp"
         android:autoSizeTextType="uniform"
+        android:fontFamily="@font/roslindale_condensed_medium_edu"
+        android:paddingHorizontal="45dp"
+        android:paddingVertical="20dp"
         android:text="Crea tu Evento"
-        android:textColor="@color/black"
-        android:textStyle="bold|italic" />
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:theme="@style/Theme.DataStructureProjectGroupB.ActivityTitles"
+        android:visibility="visible" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -29,8 +30,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="30dp"
             android:orientation="vertical"
+            android:paddingHorizontal="30dp"
             android:theme="@style/TextInputEditText">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -41,18 +42,19 @@
                 android:hint="Nombre del evento"
                 android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black">
+                app:endIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextNombreEvento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -64,21 +66,22 @@
                 android:hint="Fecha"
                 android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
-                app:startIconDrawable="@drawable/icono_calendario_fecha"
-                app:startIconTint="@color/black"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black">
+                app:endIconTint="@color/white"
+                app:startIconDrawable="@drawable/icono_calendario_fecha"
+                app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextFechaEvento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:editable="false"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="none"
                     android:maxLines="1"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,21 +93,22 @@
                 android:hint="Ubicación"
                 android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
-                app:startIconDrawable="@drawable/icono_localizacion_ubicacion"
-                app:startIconTint="@color/black"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black">
+                app:endIconTint="@color/white"
+                app:startIconDrawable="@drawable/icono_localizacion_ubicacion"
+                app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextUbicacionEvento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
                     android:editable="false"
+                    android:fontFamily="@font/jost_regular"
+                    android:inputType="none"
                     android:maxLines="1"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -116,17 +120,18 @@
                 android:hint="Localidad"
                 android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
-                app:endIconTint="@color/black">
+                app:endIconTint="@color/white">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinnerLocalidadEvento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="none"
-                    android:textColor="@color/black"
-                    app:dropDownBackgroundTint="@color/white" />
+                    android:textColor="@color/white"
+                    app:dropDownBackgroundTint="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -137,20 +142,21 @@
                 android:hint="Costo"
                 android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black"
+                app:endIconTint="@color/white"
                 app:startIconDrawable="@drawable/icono_dinero_costo"
-                app:startIconTint="@color/black" >
+                app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextCostoEvento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="number"
                     android:maxLines="1"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -165,17 +171,17 @@
                     android:id="@+id/layoutHoraInicio"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:hint="Hora inicio"
                     android:paddingVertical="15dp"
                     android:textColorHint="@color/gris_claro_hint"
-                    app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                    app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                     app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                     app:endIconMode="clear_text"
-                    app:endIconTint="@color/black"
+                    app:endIconTint="@color/white"
                     app:startIconDrawable="@drawable/icono_reloj_horario"
-                    app:startIconTint="@color/black">
+                    app:startIconTint="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextHoraInicioEvento"
@@ -183,9 +189,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:editable="false"
+                        android:fontFamily="@font/jost_regular"
                         android:inputType="none"
                         android:maxLines="1"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/white" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -193,17 +200,17 @@
                     android:id="@+id/layoutHoraFinal"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:hint="Hora final"
                     android:paddingVertical="15dp"
                     android:textColorHint="@color/gris_claro_hint"
-                    app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                    app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                     app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                     app:endIconMode="clear_text"
-                    app:endIconTint="@color/black"
+                    app:endIconTint="@color/white"
                     app:startIconDrawable="@drawable/icono_reloj_horario"
-                    app:startIconTint="@color/black">
+                    app:startIconTint="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextHoraFinalEvento"
@@ -211,9 +218,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:editable="false"
+                        android:fontFamily="@font/jost_regular"
                         android:inputType="none"
                         android:maxLines="1"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/white" />
 
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
@@ -226,17 +234,18 @@
                 android:hint="Tipo de evento"
                 android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
-                app:endIconTint="@color/black">
+                app:endIconTint="@color/white">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/spinnerCategoriaEvento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
                     android:inputType="none"
-                    android:textColor="@color/black"
-                    app:dropDownBackgroundTint="@color/white" />
+                    android:textColor="@color/white"
+                    app:dropDownBackgroundTint="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -247,19 +256,19 @@
                 android:hint="Descripción"
                 android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_claro_background_edit_text"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                 app:endIconMode="clear_text"
-                app:endIconTint="@color/black"
+                app:endIconTint="@color/white"
                 app:startIconDrawable="@drawable/icono_papel_descripcion"
-                app:startIconTint="@color/black">
+                app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editTextDescripcionEvento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -293,10 +302,10 @@
             android:id="@+id/imageButtonCancelarUbicacion"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:scaleType="fitXY"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="20dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/icono_equis_cancelar" />
@@ -307,33 +316,34 @@
         android:id="@+id/layoutBotones"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.9"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginVertical="30dp"
+        android:layout_weight="1"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/botonCancelarCrearEvento"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:autoSizeMaxTextSize="18sp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginVertical="30dp"
-            style="@style/Theme.DataStructureProjectGroupB.Botones"
-            android:layout_height="match_parent"
             android:text="Cancelar"
-            android:textSize="8sp"/>
+            android:textColor="@color/gris_oscuro_box_background_color"
+            android:textSize="8sp" />
 
         <Button
             android:id="@+id/botonAceptarCrearEvento"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:autoSizeMaxTextSize="18sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginVertical="30dp"
-            style="@style/Theme.DataStructureProjectGroupB.Botones"
             android:text="Aceptar"
-            android:textSize="8sp"/>
+            android:textColor="@color/gris_oscuro_box_background_color"
+            android:textSize="8sp" />
     </LinearLayout>
 
 </LinearLayout>

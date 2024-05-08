@@ -34,7 +34,7 @@ public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPagina
     @Override
     public AdaptadorPaginaEventos.EventoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_eventos_pagina_eventos, null, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout_eventos, parent, false);
 
         return new AdaptadorPaginaEventos.EventoViewHolder(view);
     }

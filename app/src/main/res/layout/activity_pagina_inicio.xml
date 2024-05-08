@@ -11,12 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="4dp"
-        android:background="@color/cian_titulo_evento_pagina_principal"
+        android:background="@drawable/background_barra_principal"
+        app:elevation="0dp"
+        app:itemIconTint="@drawable/cambio_color_iconos_barra_principal"
+        app:itemTextAppearanceActive="@style/BottomNavigationViewTextStyle"
+        app:itemTextAppearanceInactive="@style/BottomNavigationViewTextStyle"
+        app:itemTextColor="@drawable/cambio_color_iconos_barra_principal"
+        app:labelVisibilityMode="selected"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_principal"
-        app:labelVisibilityMode="selected" />
+        app:menu="@menu/menu_principal" >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <FrameLayout
         android:id="@+id/frameContenedor"

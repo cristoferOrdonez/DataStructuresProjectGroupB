@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="13dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="13dp"
+    android:layout_marginBottom="8dp"
+    card_view:cardBackgroundColor="@color/fondo_secundario"
+    card_view:cardCornerRadius="23dp"
+    card_view:cardElevation="6dp"
+    card_view:contentPadding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textViewTituloEventoPaginaEventos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/roslindale_condensed_medium_edu"
+                android:text="Titulo del Evento"
+                android:textColor="@color/gris_oscuro_box_background_color"
+                android:textSize="24sp"
+                android:textStyle="normal" />
+
+            <ImageButton
+                android:id="@+id/imageButtonEditarEvento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitXY"
+                card_view:srcCompat="@drawable/icono_editar_mis_eventos" />
+
+            <ImageButton
+                android:id="@+id/imageButtonEliminarEvento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="7dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitXY"
+                card_view:srcCompat="@drawable/icono_eliminar_mis_eventos" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewFechaEventoPaginaEventos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jost_regular"
+            android:padding="10dp"
+            android:text="Fecha del evento"
+            android:textColor="@color/colorTexto"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textViewHorarioEventoPaginaEventos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jost_regular"
+            android:padding="10dp"
+            android:text="Horario del evento"
+            android:textColor="@color/colorTexto"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textViewLugarEventoPaginaEventos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jost_regular"
+            android:padding="10dp"
+            android:text="Lugar del evento"
+            android:textColor="@color/colorTexto"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textViewCostoEventoPaginaEventos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jost_regular"
+            android:padding="10dp"
+            android:text="Costo del evento"
+            android:textColor="@color/colorTexto"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textViewTipoEventoPaginaEventos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/jost_regular"
+            android:padding="10dp"
+            android:text="Tipo de evento"
+            android:textColor="@color/colorTexto"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

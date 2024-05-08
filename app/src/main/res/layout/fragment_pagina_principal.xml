@@ -16,17 +16,22 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewEventosPaginaPrincipal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            android:background="@color/fondo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/imageButtonHistorial"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:backgroundTint="@color/black"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
             android:scaleType="fitXY"
             android:background="?attr/selectableItemBackgroundBorderless"
+            app:backgroundTint="@color/azul_botones"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/historial_boton" />

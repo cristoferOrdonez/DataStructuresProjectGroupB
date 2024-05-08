@@ -2,8 +2,8 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:textColor="@color/black"
-    android:padding="10dp"
     android:background="@drawable/elemento_presionado_animacion"
-    android:maxLines="1">
-</TextView>
+    android:maxLines="1"
+    android:fontFamily="@font/jost_regular"
+    android:padding="10dp"
+    android:textColor="@color/white"/>

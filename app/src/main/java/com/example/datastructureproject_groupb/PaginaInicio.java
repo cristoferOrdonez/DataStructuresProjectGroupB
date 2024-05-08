@@ -40,7 +40,7 @@ public class PaginaInicio extends AppCompatActivity{
                 menu.setSelectedItemId(R.id.menuPaginaPrincipal);
                 fragmento = PaginaPrincipalFragment.newInstance();
                 openFragment(fragmento);
-                 break;
+                break;
             case DESCUBRIR:
                 menu.setSelectedItemId(R.id.menuDescubrir);
                 fragmento = DescubrirFragment.newInstance();

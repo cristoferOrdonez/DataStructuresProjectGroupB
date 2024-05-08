@@ -3,13 +3,17 @@ package com.example.datastructureproject_groupb.adaptadores;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +36,7 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
     @Override
     public EventoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_eventos_pagina_principal, null, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false);
 
         return new EventoViewHolder(view);
 
@@ -49,8 +53,8 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
             holder.textViewTituloEvento.setText(evento.getNombreEvento() +  " - Virtual");
             holder.textViewLugarEvento.setText("Plataforma: " + evento.getUbicacionEvento());
         }
-        holder.textViewFechaEvento.setText("Fecha: " + evento.getFechaEventoString());
-        holder.textViewHorarioEvento.setText("Horario: " + evento.getHorarioEvento());
+        holder.textViewFechaEvento.setText("" + evento.getFechaEventoString()+" • ");
+        holder.textViewHorarioEvento.setText("" + evento.getHorarioEvento());
         holder.textViewCostoEvento.setText("Costo: " + evento.getCostoEventoConFormato());
         holder.textViewTipoEvento.setText("Tipo: " + Bocu.INTERESES[evento.getCategoriaEvento()]);
 
@@ -81,9 +85,9 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
                 Evento evento = listaEventos.get(getAdapterPosition());
 
                 Activity activity = (Activity) v.getContext();
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                 LayoutInflater inflater = activity.getLayoutInflater();
-                View view = inflater.inflate(R.layout.view_evento_presionado_pagina_principal, null);
+                View view = inflater.inflate(R.layout.card_layout_presionado, null);
                 TextView tituloEvento = view.findViewById(R.id.textViewTituloEventoPaginaPrincipal),
                         fechaEvento = view.findViewById(R.id.textViewFechaEventoPaginaPrincipal),
                         horarioEvento = view.findViewById(R.id.textViewHorarioEventoPaginaPrincipal),
@@ -117,7 +121,18 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
 
                 builder.setView(view);
 
-                builder.show();
+                AlertDialog dialog = builder.create();
+
+                WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+                layoutParams.copyFrom(dialog.getWindow().getAttributes());
+
+                dialog.getWindow().setAttributes(layoutParams);
+
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                dialog.getWindow().setDimAmount(0.9f);
+
+                dialog.show();
 
                 if(PaginaPrincipalFragment.historialEventos.isEmpty())
                     showFadeInAnimation(PaginaPrincipalFragment.botonHistorial, 500);
