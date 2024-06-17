@@ -1,13 +1,40 @@
 package com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos;
 
-public class MaxHeapWithArrays{
-    private int[] heap;
+import com.example.datastructureproject_groupb.entidades.Evento;
+
+public class MaxHeapCostoEventos {
+
+    private Evento[] heap;
     private int size;
 
-    public MaxHeapWithArrays(int capacity) {
-        heap = new int[capacity];
+    public MaxHeapCostoEventos(int capacity) {
+        heap = new Evento[capacity];
         size = 0;
     }
+
+    public MaxHeapCostoEventos(Evento[] arr){
+        heap = arr;
+        size = arr.length;
+
+        for(int i = (arr.length - 1) / 2; i > -1; i--)
+            heapifyDown(i);
+
+    }
+
+    public Evento[] heapSort(){
+
+        for(int i = size - 1; i > 0; i--){
+
+            swap(0, i);
+            size--;
+            heapifyDown(0);
+
+        }
+
+        return heap;
+
+    }
+
 
     public boolean isEmpty() {
         return size == 0;
@@ -17,20 +44,20 @@ public class MaxHeapWithArrays{
         return size;
     }
 
-    public void insert(int value) {
+    public void insert(Evento evento) {
         if (size == heap.length) {
             throw new IllegalStateException("Heap is full");
         }
 
-        heap[size] = value;
+        heap[size] = evento;
         size++;
         heapifyUp(size - 1);
     }
 
-    public int remove(int value) {
+    public Evento remove(Evento evento) {
         int index = -1;
         for (int i = 0; i < size; i++) {
-            if (heap[i] == value) {
+            if (heap[i] == evento) {
                 index = i;
                 break;
             }
@@ -40,26 +67,26 @@ public class MaxHeapWithArrays{
             throw new IllegalArgumentException("Value not found in the heap");
         }
 
-        int removedValue = heap[index];
+        Evento removedEvento = heap[index];
         heap[index] = heap[size - 1];
         size--;
 
         if (index < size) {
             heapifyDown(index);
-            if (heap[index] < heap[(index - 1) / 2]) {
+            if (heap[index].getCostoEvento() < heap[(index - 1) / 2].getCostoEvento()) {
                 heapifyUp(index);
             }
         }
 
-        return removedValue;
+        return removedEvento;
     }
 
-    public int extractMax() {
+    public Evento extractMax() {
         if (isEmpty()) {
             throw new IllegalStateException("Heap is empty");
         }
 
-        int max = heap[0];
+        Evento max = heap[0];
         heap[0] = heap[size - 1];
         size--;
         heapifyDown(0);
@@ -69,7 +96,7 @@ public class MaxHeapWithArrays{
 
     private void heapifyUp(int index) {
         int parentIndex = (index - 1) / 2;
-        while (index > 0 && heap[index] > heap[parentIndex]) {
+        while (index > 0 && heap[index].getCostoEvento() > heap[parentIndex].getCostoEvento()) {
             swap(index, parentIndex);
             index = parentIndex;
             parentIndex = (index - 1) / 2;
@@ -82,11 +109,11 @@ public class MaxHeapWithArrays{
             int leftChildIndex = 2 * largest + 1;
             int rightChildIndex = 2 * largest + 2;
 
-            if (leftChildIndex < size && heap[leftChildIndex] > heap[largest]) {
+            if (leftChildIndex < size && heap[leftChildIndex].getCostoEvento() > heap[largest].getCostoEvento()) {
                 largest = leftChildIndex;
             }
 
-            if (rightChildIndex < size && heap[rightChildIndex] > heap[largest]) {
+            if (rightChildIndex < size && heap[rightChildIndex].getCostoEvento() > heap[largest].getCostoEvento()) {
                 largest = rightChildIndex;
             }
 
@@ -100,12 +127,13 @@ public class MaxHeapWithArrays{
     }
 
     private void swap(int i, int j) {
-        int temp = heap[i];
+        Evento temp = heap[i];
         heap[i] = heap[j];
         heap[j] = temp;
     }
 
-    public int[] getHeap() {
+    public Evento[] getHeap() {
         return heap;
     }
+
 }
