@@ -2,6 +2,7 @@ package com.example.datastructureproject_groupb.fragmentos;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -10,6 +11,9 @@ import android.view.ViewGroup;
 
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.MaxHeapAlfabeticoEventos;
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.MaxHeapFechaEventos;
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.MinHeapFechaEventos;
+
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.MinHeapAlfabeticoEventos;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.entidades.Evento;
@@ -71,6 +75,39 @@ public class DescubrirFragment extends Fragment {
         return eventosOrdenadosZ_A;
 
 
+    }
+
+    public static  DynamicUnsortedList<Evento> OrdenarFechaReciente(DynamicUnsortedList<Evento> eventosBocu){
+
+        int size=eventosBocu.size();
+        MaxHeapFechaEventos maxHeap = new MaxHeapFechaEventos(size);
+
+        for(int i=0;i<size;i++){
+            maxHeap.insert(eventosBocu.get(i));
+        }
+
+        DynamicUnsortedList<Evento> eventosOrdenadosFechaReciente = new DynamicUnsortedList<Evento>();
+
+        for(int i=0;i<size;i++){
+            eventosOrdenadosFechaReciente.insert(maxHeap.extractMax());
+        }
+        return eventosOrdenadosFechaReciente;
+    }
+
+    public static  DynamicUnsortedList<Evento> OrdenarFechaAntigua(DynamicUnsortedList<Evento> eventosBocu){
+        int size=eventosBocu.size();
+        MinHeapFechaEventos maxHeap = new MinHeapFechaEventos(size);
+
+        for(int i=0;i<size;i++){
+            maxHeap.insert(eventosBocu.get(i));
+        }
+
+        DynamicUnsortedList<Evento> eventosOrdenadosFechaAntigua = new DynamicUnsortedList<Evento>();
+
+        for(int i=0;i<size;i++){
+            eventosOrdenadosFechaAntigua.insert(maxHeap.extractMin());
+        }
+        return eventosOrdenadosFechaAntigua;
     }
 
 }

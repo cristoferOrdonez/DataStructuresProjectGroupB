@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.datastructureproject_groupb.Bocu;
+import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StackLinkedList;
 import com.example.datastructureproject_groupb.MostrarUbicacionEvento;
 import com.example.datastructureproject_groupb.R;
@@ -62,7 +63,6 @@ public class PaginaPrincipalFragment extends Fragment {
         listaEventos = root.findViewById(R.id.recyclerViewEventosPaginaPrincipal);
 
         listaEventos.setLayoutManager(new LinearLayoutManager(getContext()));
-
         AdaptadorPaginaPrincipal adapter = new AdaptadorPaginaPrincipal(Bocu.eventos);
         listaEventos.setAdapter(adapter);
 
