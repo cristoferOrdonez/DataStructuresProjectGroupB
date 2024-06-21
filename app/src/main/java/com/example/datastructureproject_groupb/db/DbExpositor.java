@@ -4,11 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.ExpandableListAdapter;
 
 import com.example.datastructureproject_groupb.Bocu;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
-import com.example.datastructureproject_groupb.entidades.Artista;
+import com.example.datastructureproject_groupb.entidades.artista.Artista;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
 
 public class DbExpositor extends DbArt {

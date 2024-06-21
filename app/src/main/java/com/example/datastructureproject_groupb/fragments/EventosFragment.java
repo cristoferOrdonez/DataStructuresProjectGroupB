@@ -1,4 +1,4 @@
-package com.example.datastructureproject_groupb.fragmentos;
+package com.example.datastructureproject_groupb.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,8 +17,8 @@ import android.view.animation.AlphaAnimation;
 import android.widget.ImageButton;
 
 import com.example.datastructureproject_groupb.Bocu;
-import com.example.datastructureproject_groupb.CrearEventosPresencial;
-import com.example.datastructureproject_groupb.CrearEventosVirtual;
+import com.example.datastructureproject_groupb.entidades.evento.CrearEventosPresencial;
+import com.example.datastructureproject_groupb.entidades.evento.CrearEventosVirtual;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaEventos;
 

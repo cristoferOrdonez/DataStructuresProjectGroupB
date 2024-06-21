@@ -1,4 +1,4 @@
-package com.example.datastructureproject_groupb.entidades;
+package com.example.datastructureproject_groupb.entidades.info_sesion;
 
 public abstract class UsuarioRegistrado {
 

@@ -1,17 +1,16 @@
 package com.example.datastructureproject_groupb;
 
 import android.app.Application;
-import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.db.DbEventos;
 import com.example.datastructureproject_groupb.db.DbExpositor;
 import com.example.datastructureproject_groupb.db.DbSesion;
 import com.example.datastructureproject_groupb.db.DbUsuariosComunes;
-import com.example.datastructureproject_groupb.entidades.Artista;
-import com.example.datastructureproject_groupb.entidades.Evento;
-import com.example.datastructureproject_groupb.entidades.UsuarioComun;
-import com.example.datastructureproject_groupb.entidades.UsuarioRegistrado;
+import com.example.datastructureproject_groupb.entidades.artista.Artista;
+import com.example.datastructureproject_groupb.entidades.evento.Evento;
+import com.example.datastructureproject_groupb.entidades.info_sesion.UsuarioComun;
+import com.example.datastructureproject_groupb.entidades.info_sesion.UsuarioRegistrado;
 
 public class Bocu extends Application {
 
@@ -24,7 +23,8 @@ public class Bocu extends Application {
     public static DynamicUnsortedList<UsuarioComun> usuariosComunes;
     public static UsuarioRegistrado usuario;
     public static int estadoUsuario = SIN_REGISTRAR;
-    public static final String [] LOCALIDADES = new String[]{"Usaquén", "Chapinero", "Santa Fe", "San Cristóbal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibón", "Engativá", "Suba", "Barrios Unidos", "Teusaquillo", "Los Mártires", "Antonio Nariño", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolívar", "Sumapaz"   };
+    public static String[] filtrosEventos = new String[]{};
+    public static final String [] LOCALIDADES = new String[]{"Usaquén", "Chapinero", "Santa Fe", "San Cristóbal", "Usme", "Tunjuelito", "Bosa", "Kennedy", "Fontibón", "Engativá", "Suba", "Barrios Unidos", "Teusaquillo", "Los Mártires", "Antonio Nariño", "Puente Aranda", "La Candelaria", "Rafael Uribe Uribe", "Ciudad Bolívar", "Sumapaz"};
 
     public static final String [] INTERESES = new String[]{"Musica", "Talleres"};
     public static final String [] PLATAFORMAS = new String[]{"Discord", "Meet", "Skype", "Teems", "Zoom"};

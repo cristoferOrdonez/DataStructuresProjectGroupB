@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".fragments.CuentaFragment">
+    tools:context=".fragments.DescubrirFragment">
 
     <TextView
-        android:text="Tu informacion como expositor"
         android:layout_width="match_parent"
         android:layout_height="18dp"
         android:layout_weight="1"
@@ -16,6 +16,7 @@
         android:fontFamily="@font/roslindale_condensed_medium_edu"
         android:paddingHorizontal="45dp"
         android:paddingVertical="20dp"
+        android:text="Descubrir"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="24sp"
@@ -36,12 +37,12 @@
             android:theme="@style/TextInputEditText">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutNombre"
+                android:id="@+id/layoutNombreEvento"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Posible nombre del evento"
                 android:paddingVertical="15dp"
-                android:hint="Nombre organización"
                 android:textColorHint="@color/gris_claro_hint"
                 app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
@@ -49,105 +50,57 @@
                 app:endIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextNombre"
+                    android:id="@+id/editTextNombreEvento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/jost_regular"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:textColor="@color/white"  />
+                    android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutCorreoElectronico"
+                android:id="@+id/layoutFechaEvento"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Fecha"
                 android:paddingVertical="15dp"
-                android:hint="Correo electronico"
                 android:textColorHint="@color/gris_claro_hint"
                 app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/white"
-                app:startIconDrawable="@drawable/icono_carta_email"
+                app:startIconDrawable="@drawable/icono_calendario_fecha"
                 app:startIconTint="@color/white">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextCorreo"
+                    android:id="@+id/editTextFechaEvento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/jost_regular"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:textColor="@color/white" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutContrasena"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="15dp"
-                android:hint="Contraseña"
-                android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
-                app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
-                app:endIconMode="password_toggle"
-                app:endIconTint="@color/white"
-                app:startIconDrawable="@drawable/icono_candado_contrasena"
-                app:startIconTint="@color/white">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextContrasena"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/jost_regular"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:textColor="@color/white" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutIntereses"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="15dp"
-                android:hint="Tipo de evento"
-                android:textColorHint="@color/gris_claro_hint"
-                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
-                app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
-                app:endIconTint="@color/white">
-
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/spinnerInteresesRegistroExpositor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:editable="false"
                     android:fontFamily="@font/jost_regular"
                     android:inputType="none"
-                    android:textColor="@color/white"
-                    app:dropDownBackgroundTint="@color/black" />
+                    android:maxLines="1"
+                    android:textColor="@color/white" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutLocalidad"
+                android:id="@+id/layoutLocalidadEvento"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="15dp"
                 android:hint="Localidad"
+                android:paddingVertical="15dp"
                 android:textColorHint="@color/gris_claro_hint"
                 app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
                 app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
                 app:endIconTint="@color/white">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/spinnerLocalidad"
+                    android:id="@+id/spinnerLocalidadEvento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/jost_regular"
@@ -156,89 +109,111 @@
                     app:dropDownBackgroundTint="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <LinearLayout
+                android:id="@+id/layoutCostoEvento"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutCostoMinimo"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:hint="Costo mínimo"
+                    android:paddingVertical="15dp"
+                    android:textColorHint="@color/gris_claro_hint"
+                    app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
+                    app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/white"
+                    app:startIconDrawable="@drawable/icono_dinero_costo"
+                    app:startIconTint="@color/white">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextCostoMinimo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="@font/jost_regular"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textColor="@color/white" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutCostoMaximo"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:hint="Costo máximo"
+                    android:paddingVertical="15dp"
+                    android:textColorHint="@color/gris_claro_hint"
+                    app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
+                    app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/white"
+                    app:startIconDrawable="@drawable/icono_dinero_costo"
+                    app:startIconTint="@color/white">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextCostoMaximo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:fontFamily="@font/jost_regular"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textColor="@color/white" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutTipoEvento"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Tipo de evento"
+                android:paddingVertical="15dp"
+                android:textColorHint="@color/gris_claro_hint"
+                app:boxBackgroundColor="@color/gris_oscuro_background_edit_text"
+                app:boxStrokeColor="@drawable/cambio_color_text_input_edit_text"
+                app:endIconTint="@color/white">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/spinnerCategoriaEvento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/jost_regular"
+                    android:inputType="none"
+                    android:textColor="@color/white"
+                    app:dropDownBackgroundTint="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/layoutBotonesCuenta"
+        android:id="@+id/layoutBotones"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4.4"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/BotonEditarExpositor"
-            style="@style/Theme.DataStructureProjectGroupB.Botones"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:autoSizeMaxTextSize="18sp"
-            android:text="Editar"
-            android:textSize="8sp" />
-
-        <Button
-            android:id="@+id/BotonCerrarSesionExpositor"
-            style="@style/Theme.DataStructureProjectGroupB.Botones"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="40dp"
-            android:layout_marginVertical="10dp"
-            android:layout_weight="1"
-            android:autoSizeMaxTextSize="18sp"
-            android:text="Cerrar Sesion"
-            android:textSize="8sp" />
-
-        <Button
-            android:id="@+id/BotonEliminarCuentaExpositor"
-            style="@style/Theme.DataStructureProjectGroupB.Botones"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="30dp"
-            android:layout_weight="1"
-            android:autoSizeMaxTextSize="18sp"
-            android:text="Eliminar Cuenta"
-            android:textSize="8sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layoutBotonesEdicion"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0"
+        android:layout_weight="1.9"
         android:orientation="horizontal">
-
         <Button
-            android:id="@+id/buttonCancelarExpositor"
-            style="@style/Theme.DataStructureProjectGroupB.Botones"
+            android:id="@+id/botonAplicarFiltros"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginVertical="30dp"
+            android:layout_weight="1"
+            android:autoSizeMaxTextSize="18sp"
             android:layout_marginLeft="40dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:autoSizeMaxTextSize="18sp"
-            android:text="Cancelar"
-            android:textSize="8sp" />
-
-        <Button
-            android:id="@+id/buttonGuardarExpositor"
-            style="@style/Theme.DataStructureProjectGroupB.Botones"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="30dp"
-            android:layout_marginLeft="10dp"
             android:layout_marginRight="40dp"
-            android:layout_weight="1"
-            android:autoSizeMaxTextSize="18sp"
-            android:text="Guardar"
-            android:textSize="8sp" />
-
+            android:layout_marginVertical="30dp"
+            style="@style/Theme.DataStructureProjectGroupB.Botones"
+            android:text="Aplicar filtros"
+            android:textSize="8sp"/>
     </LinearLayout>
-
 </LinearLayout>

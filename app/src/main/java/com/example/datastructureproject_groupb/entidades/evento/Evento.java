@@ -1,4 +1,4 @@
-package com.example.datastructureproject_groupb.entidades;
+package com.example.datastructureproject_groupb.entidades.evento;
 
 import android.content.Context;
 import android.location.Address;

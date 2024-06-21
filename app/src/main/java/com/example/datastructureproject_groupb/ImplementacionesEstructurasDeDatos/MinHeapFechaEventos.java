@@ -1,6 +1,7 @@
 package com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos;
 
-import com.example.datastructureproject_groupb.entidades.Evento;
+
+import com.example.datastructureproject_groupb.entidades.evento.Evento;
 
 public class MinHeapFechaEventos {
     private Evento[] heap;

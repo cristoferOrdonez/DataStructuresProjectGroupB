@@ -1,8 +1,6 @@
-package com.example.datastructureproject_groupb;
+package com.example.datastructureproject_groupb.entidades.evento;
 
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -12,55 +10,41 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.example.datastructureproject_groupb.Bocu;
+import com.example.datastructureproject_groupb.entidades.pagina_inicio.PaginaInicio;
+import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.db.DbEventos;
-import com.example.datastructureproject_groupb.entidades.Evento;
 import com.example.datastructureproject_groupb.pickers.MostrarDatePicker;
 import com.example.datastructureproject_groupb.pickers.MostrarTimePicker;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
-import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
-public class EditarEventosPresencial extends AppCompatActivity {
-    TextInputEditText nombreEvento, fechaEvento, direPlatEvento, costoEvento, horaInicioEvento, horaFinalEvento, descripcionEvento;
-    MaterialAutoCompleteTextView spinnerLocalidadEvento, spinnerCategoriaEvento;
+public class EditarEventosVirtual extends AppCompatActivity {
+    TextInputEditText nombreEvento, fechaEvento, costoEvento, horaInicioEvento, horaFinalEvento, descripcionEvento;
+    MaterialAutoCompleteTextView spinnerCategoriaEvento, spinnerPlataformaEvento;
     Button cancelarEditarEvento, aceptarEditarEvento;
-    private ArrayAdapter<String> localidadesAdapter, categoriasAdapter;
     long idEvento;
+    private ArrayAdapter<String> categoriasAdapter, plataformasAdapter;
     private Integer[] horaMinutosInicio = {-1, -1}, horaMinutosFinal = {-1, -1}, fecha;
-    private GoogleMap gMap;
-    private ImageButton botonAceptarUbicacion, botonCancelarUbicación;
-    private ConstraintLayout layoutMap;
-    private LatLng bogota, ubicacionMarker, ubicacionDefinitiva;
-    Marker marker;
     private LinearLayout layoutBotones;
-    private TextInputLayout layoutNombreEvento, layoutFechaEvento, layoutUbicacionEvento, layoutCostoEvento, layoutHoraInicio, layoutHoraFinal, layoutDescripcionEvento;
+    private TextInputLayout layoutNombreEvento, layoutFechaEvento, layoutCostoEvento, layoutHoraInicio, layoutHoraFinal, layoutDescripcionEvento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editar_eventos_presencial);
+        setContentView(R.layout.activity_editar_eventos_virtual);
 
         layoutBotones = findViewById(R.id.layoutBotones);
 
@@ -84,14 +68,6 @@ public class EditarEventosPresencial extends AppCompatActivity {
 
             }
         });
-
-        marker = null;
-        ubicacionMarker = null;
-        ubicacionDefinitiva = null;
-        bogota = new LatLng(4.709870584581264, -74.07212528110854);
-        layoutMap = findViewById(R.id.linearLayoutMap);
-        botonAceptarUbicacion = findViewById(R.id.imageButtonAceptarUbicacion);
-        botonCancelarUbicación = findViewById(R.id.imageButtonCancelarUbicacion);
 
         nombreEvento = findViewById(R.id.editTextNombreEvento);
         nombreEvento.setText(getIntent().getStringExtra("NOMBRE_EVENTO"));
@@ -129,26 +105,6 @@ public class EditarEventosPresencial extends AppCompatActivity {
 
         fechaEvento.setText(getIntent().getStringExtra("FECHA_EVENTO"));
 
-        String[] ubicacionEventoArr = getIntent().getStringExtra("UBICACION_EVENTO").split(" - ");
-
-        double latitud = Double.parseDouble(ubicacionEventoArr[0]), longitud = Double.parseDouble(ubicacionEventoArr[1]);
-
-        ubicacionMarker = new LatLng(latitud, longitud);
-        ubicacionDefinitiva = new LatLng(latitud, longitud);
-
-        Geocoder geocoderInit = new Geocoder(this, Locale.getDefault());
-
-        List<Address> listaDireccionInit = null;
-        try {
-            listaDireccionInit = geocoderInit.getFromLocation(latitud, longitud, 1);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        String ubicacionInit = listaDireccionInit.get(0).getAddressLine(0).split(",")[0];
-
-        direPlatEvento = findViewById(R.id.editTextUbicacionEvento);
-        direPlatEvento.setText(ubicacionInit);
         costoEvento = findViewById(R.id.editTextCostoEvento);
         costoEvento.setText(getIntent().getStringExtra("COSTO_EVENTO"));
 
@@ -159,7 +115,7 @@ public class EditarEventosPresencial extends AppCompatActivity {
 
         descripcionEvento = findViewById(R.id.editTextDescripcionEvento);
         descripcionEvento.setText(getIntent().getStringExtra("DESCRIPCION_EVENTO"));
-        spinnerLocalidadEvento = findViewById(R.id.spinnerLocalidadEvento);
+        spinnerPlataformaEvento = findViewById(R.id.spinnerPlataformaEvento);
         spinnerCategoriaEvento = findViewById(R.id.spinnerCategoriaEvento);
 
         cancelarEditarEvento = findViewById(R.id.botonCancelarEditarEvento);
@@ -167,7 +123,6 @@ public class EditarEventosPresencial extends AppCompatActivity {
 
         layoutNombreEvento = findViewById(R.id.layoutNombreEvento);
         layoutFechaEvento = findViewById(R.id.layoutFechaEvento);
-        layoutUbicacionEvento = findViewById(R.id.layoutUbicacionEvento);
         layoutCostoEvento = findViewById(R.id.layoutCostoEvento);
         layoutHoraInicio = findViewById(R.id.layoutHoraInicio);
         layoutHoraFinal = findViewById(R.id.layoutHoraFinal);
@@ -177,18 +132,18 @@ public class EditarEventosPresencial extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 layoutNombreEvento.setErrorEnabled(false);
 
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
 
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
             }
         });
 
@@ -196,75 +151,39 @@ public class EditarEventosPresencial extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 layoutFechaEvento.setErrorEnabled(false);
 
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        direPlatEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutUbicacionEvento.setErrorEnabled(false);
-
+                // No es necesario
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                // No es necesario
             }
         });
 
-        costoEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutCostoEvento.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        formatoCostoDinero(costoEvento);
 
         horaInicioEvento.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 layoutHoraInicio.setErrorEnabled(false);
 
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
 
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
             }
         });
 
@@ -272,18 +191,18 @@ public class EditarEventosPresencial extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 layoutHoraFinal.setErrorEnabled(false);
 
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
 
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
             }
         });
 
@@ -291,43 +210,35 @@ public class EditarEventosPresencial extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 layoutDescripcionEvento.setErrorEnabled(false);
 
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
 
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
             }
         });
 
-        localidadesAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.LOCALIDADES);
-        spinnerLocalidadEvento.setAdapter(localidadesAdapter);
+        plataformasAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.PLATAFORMAS);
+        spinnerPlataformaEvento.setAdapter(plataformasAdapter);
 
         categoriasAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.INTERESES);
         spinnerCategoriaEvento.setAdapter(categoriasAdapter);
 
-        spinnerLocalidadEvento.setText(Bocu.LOCALIDADES[getIntent().getIntExtra("LOCALIDAD_EVENTO", -1)], false);
-
+        spinnerPlataformaEvento.setText(Bocu.PLATAFORMAS[
+                obtenerIndice(Bocu.PLATAFORMAS, (getIntent().getStringExtra("PLATAFORMA_EVENTO")))], false);
 
         spinnerCategoriaEvento.setText(Bocu.INTERESES[getIntent().getIntExtra("CATEGORIA_EVENTO", -1)], false);
 
 
         cancelarEditarEvento.setOnClickListener(view -> cambiarAEventos());
         aceptarEditarEvento.setOnClickListener(view -> editarEventoExpositor());
-
-        direPlatEvento.setOnClickListener(view -> mostrarMapa());
-        direPlatEvento.setOnFocusChangeListener((view, hasFocus) -> {
-
-            if (hasFocus)
-                mostrarMapa();
-
-        });
 
         fechaEvento.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus)
@@ -347,114 +258,26 @@ public class EditarEventosPresencial extends AppCompatActivity {
                 mostrarTimePicker(horaFinalEvento, horaMinutosFinal);
         });
 
-        botonAceptarUbicacion.setOnClickListener(view -> {
-            if (marker != null) {
-                ubicacionDefinitiva = ubicacionMarker;
-
-                if (ubicacionDefinitiva != null) {
-
-                    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
-                    List<Address> listaDireccion = null;
-                    try {
-                        listaDireccion = geocoder.getFromLocation(ubicacionDefinitiva.latitude, ubicacionDefinitiva.longitude, 1);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
-                    String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
-
-                    direPlatEvento.setText(ubicacion);
-                }
-                layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
-                marker.remove();
-            } else {
-                Toast.makeText(this, "Seleccione una ubicación", Toast.LENGTH_SHORT).show();
-            }
-
-        });
-
-        botonCancelarUbicación.setOnClickListener(view -> {
-
-            layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
-            if (marker != null) {
-                marker.remove();
-            }
-
-        });
-
-        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapaEditarEventos);
-
-        supportMapFragment.getMapAsync(googleMap -> {
-
-            gMap = googleMap;
-
-            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bogota, 10.0f));
-            gMap.getUiSettings().setZoomControlsEnabled(true);
-            LatLngBounds bogotaBounds = new LatLngBounds(
-                    new LatLng(4.4625, -74.2346),
-                    new LatLng(4.8159, -73.9875)
-            );
-
-            Geocoder geocoderAlt = new Geocoder(this, Locale.getDefault());
-
-            gMap.setMinZoomPreference(10.0f);
-            gMap.setLatLngBoundsForCameraTarget(bogotaBounds);
-            gMap.setOnMapClickListener(latLng -> {
-
-                ubicacionMarker = latLng;
-
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                try {
-
-                    List<Address> listaDireccion = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
-                    String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
-
-                    if(marker != null)
-                        marker.remove();
-                    marker = gMap.addMarker(new MarkerOptions().position(latLng).title(ubicacion));
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            });
-
-        });
-
     }
-
-    private void mostrarMapa(){
-
-        layoutMap.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-        if(ubicacionDefinitiva != null) {
-            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
-            List<Address> listaDireccion = null;
-            try {
-                listaDireccion = geocoder.getFromLocation(ubicacionDefinitiva.latitude, ubicacionDefinitiva.longitude, 1);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            String ubicacion = listaDireccion.get(0).getAddressLine(0).split(",")[0];
-
-            marker = gMap.addMarker(new MarkerOptions().position(ubicacionDefinitiva).title(ubicacion));
-
-        }
-
-    }
-
 
     private void mostrarTimePicker(EditText horarioEvento, Integer [] horaMinutosDefecto) {
         MostrarTimePicker timePicker = new MostrarTimePicker(
                 this,
                 horarioEvento,
-                horaMinutosDefecto
-        );
+                horaMinutosDefecto);
+    }
+
+    public static int obtenerIndice(String[] arregloPlataformas, String plataforma) {
+        for (int i = 0; i < arregloPlataformas.length; i++) {
+            if (arregloPlataformas[i].equals(plataforma)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private void mostrarDatePicker(){
+
         MostrarDatePicker datePicker = new MostrarDatePicker(this, this.fechaEvento, this.fecha);
     }
 
@@ -473,23 +296,20 @@ public class EditarEventosPresencial extends AppCompatActivity {
 
         boolean flag = true;
 
-        if (nombreEvento.getText().toString().trim().equals("")) {
+        if(nombreEvento.getText().toString().trim().equals("")) {
             layoutNombreEvento.setError("Ingrese un nombre valido");
             flag = false;
         }
+
         String verificarFechaEvento = this.fechaEvento.getText().toString().trim();
 
         String[] verificarTamanoFechaEvento = verificarFechaEvento.split("/");
-        if (verificarFechaEvento.equals("") || verificarTamanoFechaEvento.length != 3) {
+        if(verificarFechaEvento.equals("") || verificarTamanoFechaEvento.length  != 3) {
             layoutFechaEvento.setError("Ingrese una fecha valida");
             flag = false;
         }
-        if (direPlatEvento.getText().toString().trim().equals("")) {
-            layoutUbicacionEvento.setError("Ingrese una ubicación valida");
-            flag = false;
-        }
         String verificarCostoEvento = costoEvento.getText().toString().trim();
-        if (verificarCostoEvento.equals("") || !TextUtils.isDigitsOnly(verificarCostoEvento)) {
+        if(verificarCostoEvento.equals("")) {
             layoutCostoEvento.setError("Ingrese un costo valido");
             flag = false;
         }
@@ -514,15 +334,16 @@ public class EditarEventosPresencial extends AppCompatActivity {
                 flag = false;
             }
         }
-
-        if (descripcionEvento.getText().toString().trim().equals("")) {
+        if(descripcionEvento.getText().toString().trim().equals("")) {
             layoutDescripcionEvento.setError("Ingrese una descripción valida");
             flag = false;
         }
 
         if(flag)
             EditarEvento(view);
+
     }
+
     public void EditarEvento(View view) {
         String nombreEvento = this.nombreEvento.getText().toString().trim();
         String fechaEvento = this.fechaEvento.getText().toString().trim();
@@ -532,11 +353,13 @@ public class EditarEventosPresencial extends AppCompatActivity {
         int mesEvento = Integer.parseInt(partesFecha[1]);
         int AnoEvento = Integer.parseInt(partesFecha[2]);
 
-        String ubicacionEvento = ubicacionDefinitiva.latitude + " - " + ubicacionDefinitiva.longitude;
-        int costoEvento = Integer.parseInt(this.costoEvento.getText().toString());
+        String plataformaEvento = spinnerPlataformaEvento.getText().toString();
+        int costoEvento = Integer.parseInt(this.costoEvento.getText().toString().replaceAll("[^\\d,]", ""));
         String horarioEvento = this.horaInicioEvento.getText().toString() + " - " + this.horaFinalEvento.getText().toString();
         String descripcionEvento = this.descripcionEvento.getText().toString();
-        int localidad = localidadesAdapter.getPosition(spinnerLocalidadEvento.getText().toString());
+
+        // El 21 hace referencia a VIRTUAL
+        int modalidad = 21;
         int categoria = categoriasAdapter.getPosition(spinnerCategoriaEvento.getText().toString());
 
         int position = getIntent().getIntExtra("POSITION", -1);
@@ -549,8 +372,8 @@ public class EditarEventosPresencial extends AppCompatActivity {
                     idEvento,
                     nombreEvento,
                     new Date(AnoEvento, mesEvento, diaEvento),
-                    ubicacionEvento,
-                    localidad,
+                    plataformaEvento,
+                    modalidad,
                     costoEvento,
                     horarioEvento,
                     categoria,
@@ -564,11 +387,11 @@ public class EditarEventosPresencial extends AppCompatActivity {
                     AnoEvento,
                     mesEvento,
                     diaEvento,
-                    ubicacionEvento,
+                    plataformaEvento,
                     costoEvento,
                     horarioEvento,
                     descripcionEvento,
-                    localidad,
+                    modalidad,
                     categoria,
                     String.valueOf(idEvento),
                     Bocu.usuario.getCorreoElectronico());
@@ -579,6 +402,55 @@ public class EditarEventosPresencial extends AppCompatActivity {
         } catch(Exception e){
             Toast.makeText(this, "Error al editar el evento", Toast.LENGTH_SHORT).show();
         }
+    }
 
+    private void formatoCostoDinero (TextInputEditText textInputCosto){
+        textInputCosto.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                layoutCostoEvento.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String input = s.toString();
+
+                String digitsOnly = input.replaceAll("[^\\d]", "");
+                String formattedCost = formatearCosto(digitsOnly);
+
+                if (!textInputCosto.getText().toString().equals(formattedCost)) {
+                    textInputCosto.removeTextChangedListener(this);
+
+                    textInputCosto.setText(formattedCost);
+                    textInputCosto.setSelection(formattedCost.length());
+
+                    textInputCosto.addTextChangedListener(this);
+                }
+            }
+
+            private String formatearCosto(String input) {
+                try {
+                    if (input.isEmpty()) {
+                        return "";
+                    }
+                    double costo = Double.parseDouble(input);
+
+                    // Formatear el número como una moneda sin el símbolo de moneda
+                    NumberFormat formatoMoneda = NumberFormat.getNumberInstance(new Locale("es", "CO"));
+                    formatoMoneda.setMinimumFractionDigits(0); // Elima decimales
+
+                    return formatoMoneda.format(costo);
+                } catch (NumberFormatException e) {
+                    return "";
+                }
+            }
+        });
     }
 }

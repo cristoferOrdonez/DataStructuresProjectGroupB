@@ -1,10 +1,11 @@
-package com.example.datastructureproject_groupb;
+package com.example.datastructureproject_groupb.entidades.evento;
 
 import android.os.Bundle;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.datastructureproject_groupb.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;

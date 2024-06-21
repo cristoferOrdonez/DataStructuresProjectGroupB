@@ -1,18 +1,19 @@
-package com.example.datastructureproject_groupb;
+package com.example.datastructureproject_groupb.entidades.pagina_inicio;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.datastructureproject_groupb.fragmentos.CuentaFragment;
-import com.example.datastructureproject_groupb.fragmentos.DescubrirFragment;
-import com.example.datastructureproject_groupb.fragmentos.EventosFragment;
-import com.example.datastructureproject_groupb.fragmentos.PaginaPrincipalFragment;
+import com.example.datastructureproject_groupb.Bocu;
+import com.example.datastructureproject_groupb.R;
+import com.example.datastructureproject_groupb.fragments.CuentaFragment;
+import com.example.datastructureproject_groupb.fragments.DescubrirFragment;
+import com.example.datastructureproject_groupb.fragments.EventosFragment;
+import com.example.datastructureproject_groupb.fragments.PaginaPrincipalFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class PaginaInicio extends AppCompatActivity{

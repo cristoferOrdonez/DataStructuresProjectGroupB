@@ -1,4 +1,4 @@
-package com.example.datastructureproject_groupb;
+package com.example.datastructureproject_groupb.entidades.artista;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -15,10 +14,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.datastructureproject_groupb.Bocu;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
+import com.example.datastructureproject_groupb.entidades.pagina_inicio.PaginaInicio;
+import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.db.DbExpositor;
 import com.example.datastructureproject_groupb.db.DbSesion;
-import com.example.datastructureproject_groupb.entidades.Artista;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;

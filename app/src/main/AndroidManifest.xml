@@ -14,7 +14,7 @@
         android:theme="@style/Theme.DataStructureProjectGroupB"
         tools:targetApi="31" >
         <activity
-            android:name=".MostrarUbicacionEvento"
+            android:name=".entidades.evento.MostrarUbicacionEvento"
             android:exported="false" />
 
         <meta-data
@@ -22,33 +22,33 @@
             android:value="AIzaSyDRtVkJ0bb8UmOkLyA0ADTC9deVaTQi5RU" />
 
         <activity
-            android:name=".CrearEventosPresencial"
+            android:name=".entidades.evento.CrearEventosPresencial"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CrearEventosVirtual"
+            android:name=".entidades.evento.CrearEventosVirtual"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EditarEventosPresencial"
+            android:name=".entidades.evento.EditarEventosPresencial"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EditarEventosVirtual"
+            android:name=".entidades.evento.EditarEventosVirtual"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CrearCuentaUsuario"
+            android:name=".entidades.info_sesion.CrearCuentaUsuario"
             android:exported="false"
             android:label="@string/title_activity_crear_cuenta_usuario"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.DataStructureProjectGroupB" />
         <activity
-            android:name=".CrearCuentaExpositor"
+            android:name=".entidades.artista.CrearCuentaExpositor"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".PaginaInicio"
+            android:name=".entidades.pagina_inicio.PaginaInicio"
             android:exported="true"
             android:screenOrientation="portrait" >
             <intent-filter>

@@ -1,4 +1,4 @@
-package com.example.datastructureproject_groupb.fragmentos;
+package com.example.datastructureproject_groupb.fragments;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -21,15 +21,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.datastructureproject_groupb.Bocu;
-import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.StackLinkedList;
-import com.example.datastructureproject_groupb.MostrarUbicacionEvento;
+import com.example.datastructureproject_groupb.entidades.evento.MostrarUbicacionEvento;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.adaptadores.AdaptadorPaginaPrincipal;
-import com.example.datastructureproject_groupb.entidades.Evento;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.example.datastructureproject_groupb.entidades.evento.Evento;
 
 public class PaginaPrincipalFragment extends Fragment {
 

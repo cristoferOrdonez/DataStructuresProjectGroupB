@@ -1,6 +1,6 @@
 package com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos;
 
-import com.example.datastructureproject_groupb.entidades.Evento;
+import com.example.datastructureproject_groupb.entidades.evento.Evento;
 
 import java.util.HashMap;
 import java.util.Map;

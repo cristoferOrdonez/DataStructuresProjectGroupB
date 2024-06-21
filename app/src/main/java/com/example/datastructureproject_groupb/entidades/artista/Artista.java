@@ -1,6 +1,8 @@
-package com.example.datastructureproject_groupb.entidades;
+package com.example.datastructureproject_groupb.entidades.artista;
 
-public class Artista extends UsuarioRegistrado{
+import com.example.datastructureproject_groupb.entidades.info_sesion.UsuarioRegistrado;
+
+public class Artista extends UsuarioRegistrado {
 
     private String nombreArtista;
     private int tipoDeEvento;

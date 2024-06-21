@@ -10,8 +10,7 @@ import androidx.annotation.Nullable;
 import com.example.datastructureproject_groupb.Bocu;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
-import com.example.datastructureproject_groupb.entidades.Artista;
-import com.example.datastructureproject_groupb.entidades.UsuarioComun;
+import com.example.datastructureproject_groupb.entidades.info_sesion.UsuarioComun;
 
 public class DbUsuariosComunes extends DbArt {
 

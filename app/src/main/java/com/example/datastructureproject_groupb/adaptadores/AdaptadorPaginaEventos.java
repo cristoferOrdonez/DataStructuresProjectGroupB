@@ -14,12 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.datastructureproject_groupb.Bocu;
-import com.example.datastructureproject_groupb.EditarEventosPresencial;
-import com.example.datastructureproject_groupb.EditarEventosVirtual;
+import com.example.datastructureproject_groupb.entidades.evento.EditarEventosPresencial;
+import com.example.datastructureproject_groupb.entidades.evento.EditarEventosVirtual;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.db.DbEventos;
-import com.example.datastructureproject_groupb.entidades.Evento;
+import com.example.datastructureproject_groupb.entidades.evento.Evento;
 
 public class AdaptadorPaginaEventos extends RecyclerView.Adapter<AdaptadorPaginaEventos.EventoViewHolder>{
 

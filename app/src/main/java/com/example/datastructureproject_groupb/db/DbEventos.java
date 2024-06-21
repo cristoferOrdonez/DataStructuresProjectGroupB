@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.example.datastructureproject_groupb.Bocu;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
-import com.example.datastructureproject_groupb.entidades.Evento;
+import com.example.datastructureproject_groupb.entidades.evento.Evento;
 
 import java.util.Date;
 
@@ -166,7 +166,6 @@ public class DbEventos extends DbArt {
             }
 
         }
-
         db.close();
 
     }

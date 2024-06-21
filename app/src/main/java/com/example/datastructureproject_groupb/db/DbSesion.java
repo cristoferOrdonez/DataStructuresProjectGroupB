@@ -1,23 +1,17 @@
 package com.example.datastructureproject_groupb.db;
 
-import static java.security.AccessController.getContext;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 
 import com.example.datastructureproject_groupb.Bocu;
-import com.example.datastructureproject_groupb.PaginaInicio;
-import com.example.datastructureproject_groupb.entidades.Artista;
-import com.example.datastructureproject_groupb.entidades.InfoSesion;
-import com.example.datastructureproject_groupb.entidades.UsuarioComun;
-import com.example.datastructureproject_groupb.entidades.UsuarioRegistrado;
-import com.example.datastructureproject_groupb.fragmentos.CuentaFragment;
+import com.example.datastructureproject_groupb.entidades.pagina_inicio.PaginaInicio;
+import com.example.datastructureproject_groupb.entidades.artista.Artista;
+import com.example.datastructureproject_groupb.entidades.info_sesion.InfoSesion;
+import com.example.datastructureproject_groupb.entidades.info_sesion.UsuarioRegistrado;
+import com.example.datastructureproject_groupb.fragments.CuentaFragment;
 
 public class DbSesion extends DbArt{
     Context context;

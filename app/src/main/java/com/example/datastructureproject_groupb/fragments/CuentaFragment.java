@@ -1,8 +1,5 @@
-package com.example.datastructureproject_groupb.fragmentos;
+package com.example.datastructureproject_groupb.fragments;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,25 +14,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.datastructureproject_groupb.Bocu;
-import com.example.datastructureproject_groupb.CrearCuentaExpositor;
-import com.example.datastructureproject_groupb.CrearCuentaUsuario;
+import com.example.datastructureproject_groupb.entidades.artista.CrearCuentaExpositor;
+import com.example.datastructureproject_groupb.entidades.info_sesion.CrearCuentaUsuario;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.DynamicUnsortedList;
 import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDatos.LinkedList;
-import com.example.datastructureproject_groupb.PaginaInicio;
+import com.example.datastructureproject_groupb.entidades.pagina_inicio.PaginaInicio;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.db.DbExpositor;
 import com.example.datastructureproject_groupb.db.DbSesion;
 import com.example.datastructureproject_groupb.db.DbUsuariosComunes;
-import com.example.datastructureproject_groupb.entidades.Artista;
-import com.example.datastructureproject_groupb.entidades.UsuarioComun;
-import com.example.datastructureproject_groupb.entidades.UsuarioRegistrado;
+import com.example.datastructureproject_groupb.entidades.artista.Artista;
+import com.example.datastructureproject_groupb.entidades.info_sesion.UsuarioComun;
+import com.example.datastructureproject_groupb.entidades.info_sesion.UsuarioRegistrado;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -310,7 +305,6 @@ public class CuentaFragment extends Fragment {
             contrasenaAcceder.setEnabled(false);
             spinnerIntereses.setEnabled(false);
             spinnerLocalidad.setEnabled(false);
-
         });
         String correoInicial = correoElectronicoAcceder.getText().toString().trim();
 
