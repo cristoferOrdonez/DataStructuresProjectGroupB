@@ -125,157 +125,17 @@ public class CrearEventosPresencial extends AppCompatActivity {
         layoutTipoEvento = findViewById(R.id.layoutTipoEvento);
         layoutDescripcionEvento = findViewById(R.id.layoutDescripcionEvento);
 
-        nombreEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                layoutNombreEvento.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // No es necesario
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // No es necesario
-            }
-        });
-
-        fechaEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                layoutFechaEvento.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // No es necesario
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // No es necesario
-            }
-        });
-
-        direPlatEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                layoutUbicacionEvento.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // No es necesario
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // No es necesario
-            }
-        });
-
-        spinnerLocalidadEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                layoutLocalidadEvento.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // No es necesario
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // No es necesario
-            }
-        });
+        // Deshabilita el setErrorEnable después de un intento de filtrado fallido
+        deshabilitarSetError(nombreEvento, layoutNombreEvento);
+        deshabilitarSetError(fechaEvento, layoutFechaEvento);
+        deshabilitarSetError(direPlatEvento, layoutUbicacionEvento);
+        deshabilitarSetError(spinnerLocalidadEvento, layoutLocalidadEvento);
+        deshabilitarSetError(horaInicioEvento, layoutHoraInicio);
+        deshabilitarSetError(horaFinalEvento, layoutHoraFinal);
+        deshabilitarSetError(spinnerCategoriaEvento, layoutTipoEvento);
+        deshabilitarSetError(descripcionEvento, layoutDescripcionEvento);
 
         formatoCostoDinero(costoEvento);
-
-        horaInicioEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                layoutHoraInicio.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // No es necesario
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // No es necesario
-            }
-        });
-
-        horaFinalEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                layoutHoraFinal.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // No es necesario
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // No es necesario
-            }
-        });
-
-        spinnerCategoriaEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                layoutTipoEvento.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // No es necesario
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // No es necesario
-            }
-        });
-
-        descripcionEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                layoutDescripcionEvento.setErrorEnabled(false);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // No es necesario
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // No es necesario
-            }
-        });
 
         direPlatEvento.setOnClickListener(view -> mostrarMapa());
         direPlatEvento.setOnFocusChangeListener((view, hasFocus) -> {
@@ -591,6 +451,48 @@ public class CrearEventosPresencial extends AppCompatActivity {
                 } catch (NumberFormatException e) {
                     return "";
                 }
+            }
+        });
+    }
+
+    private void deshabilitarSetError (TextInputEditText textInputEditText, TextInputLayout textInputLayout){
+        textInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                textInputLayout.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
+            }
+        });
+    }
+
+    private void deshabilitarSetError (MaterialAutoCompleteTextView materialAutoCompleteTextView, TextInputLayout textInputLayout){
+        materialAutoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                textInputLayout.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
             }
         });
     }

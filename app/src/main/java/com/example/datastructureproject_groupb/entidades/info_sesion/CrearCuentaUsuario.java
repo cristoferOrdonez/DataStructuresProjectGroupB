@@ -87,92 +87,25 @@ public class CrearCuentaUsuario extends AppCompatActivity {
         layoutLocalidad = findViewById(R.id.layoutLocalidad);
         layoutIntereses = findViewById(R.id.layoutIntereses);
 
-        nombreRegistroUsuario.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutNombre.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        apellidoRegistroUsuario.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutApellido.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        edadRegistroUsuario.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutEdad.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        correoRegistroUsuario.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutCorreoElectronico.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        // Deshabilita el setErrorEnable después de un intento de filtrado fallido
+        deshabilitarSetError(nombreRegistroUsuario, layoutNombre);
+        deshabilitarSetError(apellidoRegistroUsuario, layoutApellido);
+        deshabilitarSetError(edadRegistroUsuario, layoutEdad);
+        deshabilitarSetError(correoRegistroUsuario, layoutCorreoElectronico);
+        deshabilitarSetError(confirmarContrasenaRegistroUsuario, layoutConfirmarContrasena);
+        deshabilitarSetError(spinnerLocalidadRegistroUsuario, layoutLocalidad);
+        deshabilitarSetError(spinnerInteresesRegistroUsuario, layoutIntereses);
 
         contrasenaRegistroUsuario.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+                layoutContrasena.setErrorEnabled(false);
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutContrasena.setErrorEnabled(false);
 
                 if(s.toString().length() == 0)
                     layoutContrasena.setHelperTextEnabled(false);
@@ -180,63 +113,6 @@ public class CrearCuentaUsuario extends AppCompatActivity {
                     layoutContrasena.setHelperText("Contraseña debil");
                 else
                     layoutContrasena.setHelperText("Contraseña fuerte");
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        confirmarContrasenaRegistroUsuario.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutConfirmarContrasena.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        spinnerLocalidadRegistroUsuario.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutLocalidad.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        spinnerInteresesRegistroUsuario.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutIntereses.setErrorEnabled(false);
 
             }
 
@@ -405,9 +281,6 @@ public class CrearCuentaUsuario extends AppCompatActivity {
 
     }
 
-
-
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
 
@@ -419,5 +292,47 @@ public class CrearCuentaUsuario extends AppCompatActivity {
 
         return super.onKeyDown(keyCode, event);
 
+    }
+
+    private void deshabilitarSetError (TextInputEditText textInputEditText, TextInputLayout textInputLayout){
+        textInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                textInputLayout.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
+            }
+        });
+    }
+
+    private void deshabilitarSetError (MaterialAutoCompleteTextView materialAutoCompleteTextView, TextInputLayout textInputLayout){
+        materialAutoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                textInputLayout.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
+            }
+        });
     }
 }

@@ -80,54 +80,23 @@ public class CrearCuentaExpositor extends AppCompatActivity {
         layoutTipoEvento = findViewById(R.id.layoutTipoEvento);
         layoutLocalidad = findViewById(R.id.layoutLocalidad);
 
-        nombreRegistroExpositor.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutNombre.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        correoRegistroExpositor.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutCorreoElectronico.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        // Deshabilita el setErrorEnable después de un intento de filtrado fallido
+        deshabilitarSetError(nombreRegistroExpositor, layoutNombre);
+        deshabilitarSetError(correoRegistroExpositor, layoutCorreoElectronico);
+        deshabilitarSetError(confirmarContrasenaRegistroExpositor, layoutConfirmarContrasena);
+        deshabilitarSetError(spinnerLocalidadRegistroUsuario, layoutLocalidad);
+        deshabilitarSetError(spinnerInteresesRegistroUsuario, layoutTipoEvento);
 
         contrasenaRegistroExpositor.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+                layoutContrasena.setErrorEnabled(false);
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutContrasena.setErrorEnabled(false);
 
                 if(s.toString().length() == 0)
                     layoutContrasena.setHelperTextEnabled(false);
@@ -144,67 +113,8 @@ public class CrearCuentaExpositor extends AppCompatActivity {
             }
         });
 
-        confirmarContrasenaRegistroExpositor.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutConfirmarContrasena.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        spinnerLocalidadRegistroUsuario.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutLocalidad.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        spinnerInteresesRegistroUsuario.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutTipoEvento.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
         cancelarRegistroExpositor.setOnClickListener(view -> cambiarAPaginaPrincipal());
         registrasrseRegistroExpositor.setOnClickListener(view -> registrarseComoExpositor());
-
-
 
         localidadesAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.LOCALIDADES);
         spinnerLocalidadRegistroUsuario.setAdapter(localidadesAdapter);
@@ -325,8 +235,6 @@ public class CrearCuentaExpositor extends AppCompatActivity {
 
     }
 
-
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
 
@@ -338,5 +246,47 @@ public class CrearCuentaExpositor extends AppCompatActivity {
 
         return super.onKeyDown(keyCode, event);
 
+    }
+
+    private void deshabilitarSetError (TextInputEditText textInputEditText, TextInputLayout textInputLayout){
+        textInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                textInputLayout.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
+            }
+        });
+    }
+
+    private void deshabilitarSetError (MaterialAutoCompleteTextView materialAutoCompleteTextView, TextInputLayout textInputLayout){
+        materialAutoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                textInputLayout.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
+            }
+        });
     }
 }

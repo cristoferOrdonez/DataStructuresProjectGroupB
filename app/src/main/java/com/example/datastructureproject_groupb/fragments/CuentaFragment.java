@@ -108,54 +108,22 @@ public class CuentaFragment extends Fragment {
         layoutTipoEvento = root.findViewById(R.id.layoutIntereses);
         layoutLocalidad = root.findViewById(R.id.layoutLocalidad);
 
-        nombreAcceder.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutNombre.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        correoElectronicoAcceder.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutCorreoElectronico.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        // Deshabilita el setErrorEnable después de un intento de filtrado fallido
+        deshabilitarSetError(nombreAcceder, layoutNombre);
+        deshabilitarSetError(correoElectronicoAcceder, layoutCorreoElectronico);
+        deshabilitarSetError(spinnerLocalidad, layoutLocalidad);
+        deshabilitarSetError(spinnerIntereses, layoutIntereses);
 
         contrasenaAcceder.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+                layoutContrasena.setErrorEnabled(false);
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutContrasena.setErrorEnabled(false);
 
                 if(s.toString().length() == 0)
                     layoutContrasena.setHelperTextEnabled(false);
@@ -171,48 +139,6 @@ public class CuentaFragment extends Fragment {
 
             }
         });
-
-
-
-        spinnerLocalidad.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutLocalidad.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        spinnerIntereses.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutTipoEvento.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-
 
         KeyboardVisibilityEvent.setEventListener(getActivity(), isOpen -> {
             if(isOpen) {
@@ -306,8 +232,8 @@ public class CuentaFragment extends Fragment {
             spinnerIntereses.setEnabled(false);
             spinnerLocalidad.setEnabled(false);
         });
-        String correoInicial = correoElectronicoAcceder.getText().toString().trim();
 
+        String correoInicial = correoElectronicoAcceder.getText().toString().trim();
 
         botonGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -454,92 +380,25 @@ public class CuentaFragment extends Fragment {
         layoutContrasena = root.findViewById(R.id.layoutContrasena);
         layoutLocalidad = root.findViewById(R.id.layoutLocalidad);
         layoutIntereses = root.findViewById(R.id.layoutIntereses);
-        nombreAcceder.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutNombre.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        apellidoAcceder.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutApellido.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        edadAcceder.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutEdad.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        correoElectronicoAcceder.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutCorreoElectronico.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        // Deshabilita el setErrorEnable después de un intento de filtrado fallido
+        deshabilitarSetError(nombreAcceder, layoutNombre);
+        deshabilitarSetError(apellidoAcceder, layoutApellido);
+        deshabilitarSetError(edadAcceder, layoutEdad);
+        deshabilitarSetError(correoElectronicoAcceder, layoutCorreoElectronico);
+        deshabilitarSetError(spinnerLocalidad, layoutLocalidad);
+        deshabilitarSetError(spinnerIntereses, layoutIntereses);
 
         contrasenaAcceder.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+                layoutContrasena.setErrorEnabled(false);
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutContrasena.setErrorEnabled(false);
 
                 if(s.toString().length() == 0)
                     layoutContrasena.setHelperTextEnabled(false);
@@ -547,46 +406,6 @@ public class CuentaFragment extends Fragment {
                     layoutContrasena.setHelperText("Contraseña debil");
                 else
                     layoutContrasena.setHelperText("Contraseña fuerte");
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-
-
-        spinnerLocalidad.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutLocalidad.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        spinnerIntereses.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutIntereses.setErrorEnabled(false);
 
             }
 
@@ -1012,6 +831,45 @@ public class CuentaFragment extends Fragment {
             }
 
     }
+    private void deshabilitarSetError (TextInputEditText textInputEditText, TextInputLayout textInputLayout){
+        textInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+                textInputLayout.setErrorEnabled(false);
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
+            }
+        });
+    }
+
+    private void deshabilitarSetError (MaterialAutoCompleteTextView materialAutoCompleteTextView, TextInputLayout textInputLayout){
+        materialAutoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                textInputLayout.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
+            }
+        });
+    }
 }

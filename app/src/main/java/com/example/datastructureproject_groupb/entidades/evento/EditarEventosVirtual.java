@@ -106,7 +106,8 @@ public class EditarEventosVirtual extends AppCompatActivity {
         fechaEvento.setText(getIntent().getStringExtra("FECHA_EVENTO"));
 
         costoEvento = findViewById(R.id.editTextCostoEvento);
-        costoEvento.setText(getIntent().getStringExtra("COSTO_EVENTO"));
+        String costoEventoS = formatearCosto(getIntent().getStringExtra("COSTO_EVENTO"));
+        costoEvento.setText(costoEventoS);
 
         horaInicioEvento = findViewById(R.id.editTextHoraInicioEvento);
         horaInicioEvento.setText(horaInicioS);
@@ -128,102 +129,14 @@ public class EditarEventosVirtual extends AppCompatActivity {
         layoutHoraFinal = findViewById(R.id.layoutHoraFinal);
         layoutDescripcionEvento = findViewById(R.id.layoutDescripcionEvento);
 
-        nombreEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                layoutNombreEvento.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // No es necesario
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // No es necesario
-            }
-        });
-
-        fechaEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                layoutFechaEvento.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // No es necesario
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // No es necesario
-            }
-        });
+        // Deshabilita el setErrorEnable después de un intento de filtrado fallido
+        deshabilitarSetError(nombreEvento, layoutNombreEvento);
+        deshabilitarSetError(fechaEvento, layoutFechaEvento);
+        deshabilitarSetError(horaInicioEvento, layoutHoraInicio);
+        deshabilitarSetError(horaFinalEvento, layoutHoraFinal);
+        deshabilitarSetError(descripcionEvento, layoutDescripcionEvento);
 
         formatoCostoDinero(costoEvento);
-
-        horaInicioEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                layoutHoraInicio.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // No es necesario
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // No es necesario
-            }
-        });
-
-        horaFinalEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                layoutHoraFinal.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // No es necesario
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // No es necesario
-            }
-        });
-
-        descripcionEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                layoutDescripcionEvento.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // No es necesario
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // No es necesario
-            }
-        });
 
         plataformasAdapter = new ArrayAdapter<>(this, R.layout.list_item_dropdown_menu, Bocu.PLATAFORMAS);
         spinnerPlataformaEvento.setAdapter(plataformasAdapter);
@@ -434,22 +347,64 @@ public class EditarEventosVirtual extends AppCompatActivity {
                     textInputCosto.addTextChangedListener(this);
                 }
             }
+        });
+    }
 
-            private String formatearCosto(String input) {
-                try {
-                    if (input.isEmpty()) {
-                        return "";
-                    }
-                    double costo = Double.parseDouble(input);
+    private String formatearCosto(String input) {
+        try {
+            if (input.isEmpty()) {
+                return "";
+            }
+            double costo = Double.parseDouble(input);
 
-                    // Formatear el número como una moneda sin el símbolo de moneda
-                    NumberFormat formatoMoneda = NumberFormat.getNumberInstance(new Locale("es", "CO"));
-                    formatoMoneda.setMinimumFractionDigits(0); // Elima decimales
+            // Formatear el número como una moneda sin el símbolo de moneda
+            NumberFormat formatoMoneda = NumberFormat.getNumberInstance(new Locale("es", "CO"));
+            formatoMoneda.setMinimumFractionDigits(0); // Elima decimales
 
-                    return formatoMoneda.format(costo);
-                } catch (NumberFormatException e) {
-                    return "";
-                }
+            return formatoMoneda.format(costo);
+        } catch (NumberFormatException e) {
+            return "";
+        }
+    }
+
+    private void deshabilitarSetError (TextInputEditText textInputEditText, TextInputLayout textInputLayout){
+        textInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                textInputLayout.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
+            }
+        });
+    }
+
+    private void deshabilitarSetError (MaterialAutoCompleteTextView materialAutoCompleteTextView, TextInputLayout textInputLayout){
+        materialAutoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                textInputLayout.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
             }
         });
     }

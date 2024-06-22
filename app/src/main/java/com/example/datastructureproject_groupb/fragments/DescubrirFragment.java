@@ -44,7 +44,7 @@ public class DescubrirFragment extends Fragment {
     Button botonAceptarFiltros, botonIniciarFiltros;
     private ArrayAdapter<String> categoriasAdapter, costoAdapter, localidadesAdapter;
     private LinearLayout layoutBoton, layoutCostoEvento;
-    private TextInputLayout layoutNombreEvento, layoutFechaEvento, layoutLocalidadEvento, layoutTipoEvento;
+    private TextInputLayout layoutNombreEvento, layoutFechaEvento, layoutCostoMinimoEvento, layoutCostoMaximoEvento, layoutLocalidadEvento, layoutTipoEvento;
     RecyclerView listaEventos;
 
     public DescubrirFragment() {
@@ -86,6 +86,8 @@ public class DescubrirFragment extends Fragment {
         layoutLocalidadEvento = root.findViewById(R.id.layoutLocalidadEvento);
         layoutCostoEvento = root.findViewById(R.id.layoutCostoEvento);
         layoutTipoEvento = root.findViewById(R.id.layoutTipoEvento);
+        layoutCostoMinimoEvento = root.findViewById(R.id.layoutCostoMinimo);
+        layoutCostoMaximoEvento = root.findViewById(R.id.layoutCostoMaximo);
         layoutBoton = root.findViewById(R.id.layoutBotones);
 
         nombreEvento = root.findViewById(R.id.editTextNombreEvento);
@@ -98,62 +100,6 @@ public class DescubrirFragment extends Fragment {
 
         botonAceptarFiltros = root.findViewById(R.id.botonAplicarFiltros);
 
-        fechaEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutFechaEvento.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        spinnerLocalidadEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutLocalidadEvento.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        spinnerCategoriaEvento.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                layoutTipoEvento.setErrorEnabled(false);
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
         fechaEvento.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus)
                 mostrarDatePicker();
@@ -165,6 +111,14 @@ public class DescubrirFragment extends Fragment {
 
         categoriasAdapter = new ArrayAdapter<>(getContext(), R.layout.list_item_dropdown_menu, Bocu.INTERESES);
         spinnerCategoriaEvento.setAdapter(categoriasAdapter);
+
+        // Deshabilita el setErrorEnable después de un intento de filtrado fallido
+        deshabilitarSetError(nombreEvento, layoutNombreEvento);
+        deshabilitarSetError(fechaEvento, layoutFechaEvento);
+        deshabilitarSetError(costoMinimoEvento, layoutCostoMinimoEvento);
+        deshabilitarSetError(costoMaximoEvento, layoutCostoMaximoEvento);
+        deshabilitarSetError(spinnerLocalidadEvento, layoutLocalidadEvento);
+        deshabilitarSetError(spinnerCategoriaEvento, layoutTipoEvento);
 
         formatoCostoDinero(costoMinimoEvento);
         formatoCostoDinero(costoMaximoEvento);
@@ -320,6 +274,48 @@ public class DescubrirFragment extends Fragment {
         });
     }
 
+    private void deshabilitarSetError (TextInputEditText textInputEditText, TextInputLayout textInputLayout){
+        textInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                textInputLayout.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
+            }
+        });
+    }
+
+    private void deshabilitarSetError (MaterialAutoCompleteTextView materialAutoCompleteTextView, TextInputLayout textInputLayout){
+        materialAutoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                textInputLayout.setErrorEnabled(false);
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No es necesario
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No es necesario
+            }
+        });
+    }
+
     public static DynamicUnsortedList<Evento> OrdenarFechaReciente(DynamicUnsortedList<Evento> eventosBocu) {
 
         int size = eventosBocu.size();
@@ -374,5 +370,4 @@ public class DescubrirFragment extends Fragment {
             return eventos;
         }
     }
-
 }
