@@ -2,15 +2,19 @@ package com.example.datastructureproject_groupb.entidades.info_sesion;
 
 public class UsuarioComun extends UsuarioRegistrado{
 
-    private String nombres, apellidos;
+    private String nombres;
+    private String apellidos;
+
+    private String favoritos;
     private int edad, intereses;
 
-    public UsuarioComun(long id, String nombres, String apellidos, int edad, String correoElectronico, String contrasena, int localidad, int intereses) {
+    public UsuarioComun(long id, String nombres, String apellidos, int edad, String correoElectronico, String contrasena, int localidad, int intereses, String favoritos) {
         super(id, correoElectronico, contrasena, localidad);
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.edad = edad;
         this.intereses= intereses;
+        this.favoritos = favoritos;
     }
 
     public String getNombres() {
@@ -43,6 +47,14 @@ public class UsuarioComun extends UsuarioRegistrado{
 
     public void setIntereses(int intereses) {
         this.intereses = intereses;
+    }
+
+    public String getFavoritos() {
+        return favoritos;
+    }
+
+    public void setFavoritos(String favoritos) {
+        this.favoritos = favoritos;
     }
 
 }

@@ -229,8 +229,9 @@ public class CrearCuentaUsuario extends AppCompatActivity {
         String contrasenaR = this.contrasenaRegistroUsuario.getText().toString();
         int localidad = localidadesAdapter.getPosition(spinnerLocalidadRegistroUsuario.getText().toString());
         int interes = interesesAdapter.getPosition(spinnerInteresesRegistroUsuario.getText().toString());
+        String favoritos = "";
 
-        UsuarioComun usuarioComun = new UsuarioComun(Bocu.usuariosComunes.size(), nombres, apellidos, edad, correoElectronicoR.toLowerCase(), contrasenaR, localidad, interes);
+        UsuarioComun usuarioComun = new UsuarioComun(Bocu.usuariosComunes.size(), nombres, apellidos, edad, correoElectronicoR.toLowerCase(), contrasenaR, localidad, interes,favoritos);
 
 
         if(!verificarRepeticion()){
