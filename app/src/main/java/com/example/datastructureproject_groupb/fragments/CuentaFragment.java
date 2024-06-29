@@ -107,6 +107,7 @@ public class CuentaFragment extends Fragment {
         layoutContrasena = root.findViewById(R.id.layoutContrasena);
         layoutTipoEvento = root.findViewById(R.id.layoutIntereses);
         layoutLocalidad = root.findViewById(R.id.layoutLocalidad);
+        layoutIntereses = root.findViewById(R.id.layoutIntereses);
 
         // Deshabilita el setErrorEnable después de un intento de filtrado fallido
         deshabilitarSetError(nombreAcceder, layoutNombre);
