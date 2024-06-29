@@ -17,7 +17,7 @@ public class Bocu extends Application {
     public final static int SIN_REGISTRAR = 0;
     public final static int USUARIO_COMUN = 1;
     public final static int ARTISTA = 2;
-    public static DynamicUnsortedList<Evento> eventos, eventosExpositor;
+    public static DynamicUnsortedList<Evento> eventos, eventosExpositor, eventosFavoritos;
     public static DynamicUnsortedList<Integer> posicionesEventosExpositor;
     public static DynamicUnsortedList<Artista> expositores;
     public static DynamicUnsortedList<UsuarioComun> usuariosComunes;

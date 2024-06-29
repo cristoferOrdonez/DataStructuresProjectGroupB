@@ -14,5 +14,6 @@
     <color name="barraPrincipal">@color/fondo</color>
     <color name="gris_oscuro_box_background_color">#e5e5e5</color>
     <color name="divison_barra_principal">#706F6F</color>
+    <color name="color_rojo_favorito">#FF4848</color>
 
 </resources>

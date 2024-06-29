@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,11 +24,13 @@ import com.example.datastructureproject_groupb.ImplementacionesEstructurasDeDato
 import com.example.datastructureproject_groupb.entidades.evento.MostrarUbicacionEvento;
 import com.example.datastructureproject_groupb.R;
 import com.example.datastructureproject_groupb.entidades.evento.Evento;
+import com.example.datastructureproject_groupb.entidades.info_sesion.UsuarioComun;
 import com.example.datastructureproject_groupb.fragments.PaginaPrincipalFragment;
 
 public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPaginaPrincipal.EventoViewHolder> {
 
     DynamicUnsortedList<Evento> listaEventos;
+    private boolean favorito;
 
     public AdaptadorPaginaPrincipal(DynamicUnsortedList<Evento> listaEventos) {
         this.listaEventos = listaEventos;
@@ -96,6 +100,25 @@ public class AdaptadorPaginaPrincipal extends RecyclerView.Adapter<AdaptadorPagi
                         descripcionEvento = view.findViewById(R.id.textViewDescripcionEventoPaginaPrincipal);
 
                 Button boton = view.findViewById(R.id.botonMostrarUbicacion);
+
+                ImageButton botonFavorito = view.findViewById(R.id.botonFavorito);
+
+                if(Bocu.usuario instanceof UsuarioComun) {
+
+                    favorito = false;
+
+                    botonFavorito.setOnClickListener(i -> {
+                        if (favorito)
+                            botonFavorito.setImageResource(R.drawable.icono_no_favorito_boton);
+                        else
+                            botonFavorito.setImageResource(R.drawable.icono_favorito_boton);
+
+                        favorito = !favorito;
+                    });
+
+                } else
+
+                    botonFavorito.setLayoutParams(new LinearLayout.LayoutParams(0,0));
 
                 if (evento.getUbicacionEvento() != 21) {
                     boton.setOnClickListener(i -> {
